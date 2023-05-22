@@ -1,2 +1,4 @@
-package com.distribuidas.recetas.servicios.interfaces;public interface RecetaService {
+package com.distribuidas.recetas.servicios.interfaces;
+
+public interface RecetaService {
 }
