@@ -14,16 +14,16 @@ public class Utilizado {
     @Column(name = "idUtilizado")
     private Integer idUtilizado;
     @Basic
-    @Column(name = "idReceta", insertable=false, updatable=false)
+    @Column(name = "idReceta", insertable = false, updatable = false)
     private Integer idReceta;
     @Basic
-    @Column(name = "idIngrediente", insertable=false, updatable=false)
+    @Column(name = "idIngrediente", insertable = false, updatable = false)
     private Integer idIngrediente;
     @Basic
     @Column(name = "cantidad")
     private Integer cantidad;
     @Basic
-    @Column(name = "idUnidad", insertable=false, updatable=false)
+    @Column(name = "idUnidad", insertable = false, updatable = false)
     private Integer idUnidad;
     @Basic
     @Column(name = "observaciones")
@@ -58,6 +58,7 @@ public class Utilizado {
 
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = idUtilizado != null ? idUtilizado.hashCode() : 0;

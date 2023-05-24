@@ -14,10 +14,10 @@ public class Favorito {
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "id_usuario", insertable=false, updatable=false)
+    @Column(name = "id_usuario", insertable = false, updatable = false)
     private Integer idUsuario;
     @Basic
-    @Column(name = "id_receta", insertable=false, updatable=false)
+    @Column(name = "id_receta", insertable = false, updatable = false)
     private Integer idReceta;
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "idUsuario", nullable = false)
@@ -39,6 +39,7 @@ public class Favorito {
 
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;

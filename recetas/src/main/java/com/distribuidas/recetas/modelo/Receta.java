@@ -16,7 +16,7 @@ public class Receta {
     @Column(name = "idReceta")
     private Integer idReceta;
     @Basic
-    @Column(name = "idUsuario", insertable=false, updatable=false)
+    @Column(name = "idUsuario", insertable = false, updatable = false)
     private Integer idUsuario;
     @Basic
     @Column(name = "nombre")
@@ -34,7 +34,7 @@ public class Receta {
     @Column(name = "cantidadPersonas")
     private Integer cantidadPersonas;
     @Basic
-    @Column(name = "idTipo", insertable=false, updatable=false)
+    @Column(name = "idTipo", insertable = false, updatable = false)
     private Integer idTipo;
     @OneToMany(mappedBy = "recetasByIdReceta")
     private Collection<Calificacion> calificacionesByIdReceta;

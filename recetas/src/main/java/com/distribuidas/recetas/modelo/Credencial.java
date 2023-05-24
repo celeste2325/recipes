@@ -13,7 +13,7 @@ public class Credencial {
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "idUsuario", insertable=false, updatable=false)
+    @Column(name = "idUsuario", insertable = false, updatable = false)
     private Integer idUsuario;
     @Basic
     @Column(name = "contrasenia")
@@ -40,6 +40,7 @@ public class Credencial {
 
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;

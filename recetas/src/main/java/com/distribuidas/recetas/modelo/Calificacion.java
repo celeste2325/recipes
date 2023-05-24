@@ -13,10 +13,10 @@ public class Calificacion {
     @Column(name = "idCalificacion")
     private Integer idCalificacion;
     @Basic
-    @Column(name = "idusuario", insertable=false, updatable=false)
+    @Column(name = "idusuario", insertable = false, updatable = false)
     private Integer idusuario;
     @Basic
-    @Column(name = "idReceta", insertable=false, updatable=false)
+    @Column(name = "idReceta", insertable = false, updatable = false)
     private Integer idReceta;
     @Basic
     @Column(name = "calificacion")
@@ -47,6 +47,7 @@ public class Calificacion {
 
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = idCalificacion != null ? idCalificacion.hashCode() : 0;

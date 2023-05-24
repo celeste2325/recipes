@@ -20,6 +20,7 @@ public class Tipo {
     private String descripcion;
     @OneToMany(mappedBy = "tiposByIdTipo")
     private Collection<Receta> recetasByIdTipo;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

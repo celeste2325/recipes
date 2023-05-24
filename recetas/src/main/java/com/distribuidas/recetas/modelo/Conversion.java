@@ -13,10 +13,10 @@ public class Conversion {
     @Column(name = "idConversion")
     private Integer idConversion;
     @Basic
-    @Column(name = "idUnidadOrigen", insertable=false, updatable=false)
+    @Column(name = "idUnidadOrigen", insertable = false, updatable = false)
     private Integer idUnidadOrigen;
     @Basic
-    @Column(name = "idUnidadDestino", insertable=false, updatable=false)
+    @Column(name = "idUnidadDestino", insertable = false, updatable = false)
     private Integer idUnidadDestino;
     @Basic
     @Column(name = "factorConversiones")
@@ -45,6 +45,7 @@ public class Conversion {
 
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = idConversion != null ? idConversion.hashCode() : 0;

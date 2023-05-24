@@ -16,7 +16,7 @@ public class Paso {
     @Column(name = "idPaso")
     private Integer idPaso;
     @Basic
-    @Column(name = "idReceta", insertable=false, updatable=false)
+    @Column(name = "idReceta", insertable = false, updatable = false)
     private Integer idReceta;
     @Basic
     @Column(name = "nroPaso")

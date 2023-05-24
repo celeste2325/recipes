@@ -34,6 +34,7 @@ public class Ingrediente {
 
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = idIngrediente != null ? idIngrediente.hashCode() : 0;

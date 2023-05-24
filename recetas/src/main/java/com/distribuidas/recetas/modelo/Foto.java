@@ -14,7 +14,7 @@ public class Foto {
     @Column(name = "idfoto")
     private Integer idfoto;
     @Basic
-    @Column(name = "idReceta", insertable=false, updatable=false)
+    @Column(name = "idReceta", insertable = false, updatable = false)
     private Integer idReceta;
     @Basic
     @Column(name = "urlFoto")

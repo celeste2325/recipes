@@ -59,6 +59,7 @@ public class Usuario {
 
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = idUsuario != null ? idUsuario.hashCode() : 0;

@@ -13,7 +13,7 @@ public class Multimedia {
     @Column(name = "idContenido")
     private Integer idContenido;
     @Basic
-    @Column(name = "idPaso", insertable=false, updatable=false)
+    @Column(name = "idPaso", insertable = false, updatable = false)
     private Integer idPaso;
     @Basic
     @Column(name = "tipo_contenido")
