@@ -7,6 +7,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
+@Table(name = "Multimedia")
 public class Multimedia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

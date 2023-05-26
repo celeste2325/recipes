@@ -6,10 +6,11 @@ import lombok.Setter;
 
 import java.util.Collection;
 
+
 @Entity
 @Setter
 @Getter
-@Table(name = "usuarios", schema = "dbo", catalog = "recetas")
+@Table(name = "usuarios")
 public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -71,4 +72,6 @@ public class Usuario {
         result = 31 * result + (tipoUsuario != null ? tipoUsuario.hashCode() : 0);
         return result;
     }
+    
+    
 }

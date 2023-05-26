@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-@Table(name = "favoritos", schema = "dbo", catalog = "recetas")
+@Table(name = "favoritos")
 public class Favorito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
