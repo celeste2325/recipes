@@ -1,55 +1,55 @@
 package com.distribuidas.recetas.servicios.implementaciones;
 
-import java.util.Optional;
-
+import com.distribuidas.recetas.modelo.Credencial;
+import com.distribuidas.recetas.repositorios.CredencialRepository;
+import com.distribuidas.recetas.servicios.interfaces.CredencialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.distribuidas.recetas.modelo.Credencial;
-import com.distribuidas.recetas.repositorios.CredencialRepository;
+import java.util.Optional;
 
 
 @Service
-public class CredencialServiceImpl {
-	
-	CredencialRepository credencialRepository;
-	
-	@Autowired
-	CredencialServiceImpl(CredencialRepository credencialRepository){
-		this.credencialRepository=credencialRepository;
-	}
+public class CredencialServiceImpl implements CredencialService {
 
-	@Transactional(readOnly = true)
-	public Iterable<Credencial> findAll() {
-		return credencialRepository.findAll();
-	}
+    CredencialRepository credencialRepository;
 
-	
-	@Transactional(readOnly = true)
-	public Optional<Credencial> findById(int id) {
-		return credencialRepository.findById(id);
-	}
+    @Autowired
+    CredencialServiceImpl(CredencialRepository credencialRepository) {
+        this.credencialRepository = credencialRepository;
+    }
 
-	public Optional<Credencial> findByidUsuario(int idusuario) {
-		return credencialRepository.findByidUsuario(idusuario);
-	}
+    @Transactional(readOnly = true)
+    public Iterable<Credencial> findAll() {
+        return credencialRepository.findAll();
+    }
 
-	@Transactional
-	public void save(Credencial credencial) {
-		credencialRepository.save(credencial);
-	}
 
-	@Transactional
-	public void deleteById(int id) {
-		credencialRepository.deleteById(id);
-		
-	}
-	
-	@Transactional
-	public void deleteByidUsuario(int id) {
-	Optional<Credencial> cred = findById(id);
-	credencialRepository.deleteById(cred.get().getId());
-	
-}
+    @Transactional(readOnly = true)
+    public Optional<Credencial> findById(int id) {
+        return credencialRepository.findById(id);
+    }
+
+    public Optional<Credencial> findByidUsuario(int idusuario) {
+        return credencialRepository.findByidUsuario(idusuario);
+    }
+
+    @Transactional
+    public void save(Credencial credencial) {
+        credencialRepository.save(credencial);
+    }
+
+    @Transactional
+    public void deleteById(int id) {
+        credencialRepository.deleteById(id);
+
+    }
+
+    @Transactional
+    public void deleteByidUsuario(int id) {
+        Optional<Credencial> cred = findById(id);
+        credencialRepository.deleteById(cred.get().getId());
+
+    }
 }
