@@ -14,7 +14,7 @@ public class Credencial {
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "idUsuario", insertable = false, updatable = false)
+    @Column(name = "idUsuario")
     private Integer idUsuario;
     @Basic
     @Column(name = "contrasenia")
@@ -23,7 +23,7 @@ public class Credencial {
     @Column(name = "codigo_verificacion")
     private String codigoVerificacion;
     @ManyToOne
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
+    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
     private Usuario usuariosByIdUsuario;
 
     @Override

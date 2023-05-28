@@ -32,11 +32,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Optional<Usuario> findByNickname(String nickname) {
-        return Optional.empty();
-    }
-
-    public Optional<Usuario> findByEmail(String nickname) {
-        return usuarioRepository.findByNickname(nickname);
+    	return usuarioRepository.findByNickname(nickname);
     }
 
     @Transactional
@@ -49,6 +45,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(id);
 
     }
+
+	@Override
+	public Optional<Usuario> findByMail(String email) {
+        return usuarioRepository.findByMail(email);
+
+	}
 
 
 }

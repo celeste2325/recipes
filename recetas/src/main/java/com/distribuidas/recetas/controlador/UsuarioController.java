@@ -1,18 +1,18 @@
 package com.distribuidas.recetas.controlador;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
 import com.distribuidas.recetas.servicios.interfaces.CredencialService;
+
 import com.distribuidas.recetas.servicios.interfaces.UsuarioService;
+
+
+
 import com.distribuidas.recetas.modelo.Credencial;
 import com.distribuidas.recetas.modelo.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
+
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 	
@@ -32,20 +33,44 @@ public class UsuarioController {
 		this.credencialService=credencialServ;
 		
 	}
+	
+	////////////////////////////////////
+	
+	//	METODO OK
+		
+	////////////////////////////////////
 
 	//Crear un usuario
 	@PostMapping("/alta")
-	public ResponseEntity<?> create(@RequestBody Usuario usuario, @RequestBody Credencial credencial){
+	public ResponseEntity<?> create(@RequestBody Usuario usuario){
 		usuarioService.save(usuario);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	
+	////////////////////////////////////
+	
+	//	METODO OK
+		
+	////////////////////////////////////
+	
+	//Crear credencial
+	@PostMapping("/altacred")
+	public ResponseEntity<?> createCred(@RequestBody Credencial credencial){
 		credencialService.save(credencial);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
+	////////////////////////////////////
+	
+	//	METODO OK
+		
+	////////////////////////////////////
 		
 	//Login
 	@GetMapping(path="/login",params={"alias","contrasenia"})
 	public ResponseEntity<?> login(@RequestParam String alias, @RequestParam String contrasenia){
 		Optional<Usuario> usuario=usuarioService.findByNickname(alias);
+        System.out.println(usuario.get().getNombre());
 		Optional<Credencial> credencial=credencialService.findByidUsuario(usuario.get().getIdUsuario());
 		if(credencial.get().getContrasenia()!=null && credencial.get().getContrasenia().equals(contrasenia)){
 			return ResponseEntity.ok(usuario.get().getNickname() + "/1");
@@ -53,33 +78,54 @@ public class UsuarioController {
 		return ResponseEntity.ok(" /0");
 	}
 
+	////////////////////////////////////
+	
+	//	METODO OK
+		
+	////////////////////////////////////
 
 	//Valida si existe el email
 	@GetMapping(path="/validarEmail",params= {"email"})
 	public ResponseEntity<?> validarEmail(@RequestParam String email) {
-		Optional<Usuario> usuario = usuarioService.findByEmail(email);
+		Optional<Usuario> usuario = usuarioService.findByMail(email);
+
 		if (usuario.isPresent()) {
-				if(usuario.get().getHabilitado()=="si") {
-					return ResponseEntity.ok(usuario.get().getMail()+"/0/El email ya esta en uso y habilitad");
-				}else {
-					return ResponseEntity.ok(usuario.get().getMail()+"/0/El usuario no completó si registro");
-				}
+	        System.out.println(usuario.get().getHabilitado());
+				if(usuario.get().getHabilitado().equals("si"))
+					return ResponseEntity.ok(usuario.get().getMail()+"El email ya esta en uso y habilitado");
+				else 
+					return ResponseEntity.ok(usuario.get().getMail()+"El usuario no completó su registro");
+
+				
 		}
-		return ResponseEntity.ok(usuario.get().getMail()+"/1");
+		return ResponseEntity.ok("El email no existe");
 	}
+	
+	////////////////////////////////////
+	
+	//	METODO OK
 		
+	////////////////////////////////////
+	
 	//Valida si existe el Alias
 	@GetMapping(path="/validarAlias",params= {"nickname"})
 	public ResponseEntity<?> validarAlias(@RequestParam String nickname) {
 		Optional<Usuario> usuario = usuarioService.findByNickname(nickname);
 		if (usuario.isPresent()) {
-				return ResponseEntity.ok(usuario.get().getNickname()+"/0/El alias ya esta en uso.");
+				return ResponseEntity.ok(usuario.get().getNickname()+"El alias ya esta en uso.");
 		}
-		return ResponseEntity.ok(usuario.get().getNickname()+"/0/El alias esta libre.");
+		return ResponseEntity.ok("El alias esta libre.");
 	}
 	
+	////////////////////////////////////
+	
+	//	METODO OK ------------ ESTE METODO SE RESUELVE DESDE EL FRONT
+		
+	////////////////////////////////////
+	
+/*	
 	//Valida contraseña
-	@GetMapping(path="/validarContrasenia",params= {"Contrasenia1","Contrasenia2"})
+	@GetMapping(path="/validarContrasenia",params= {"pwd1","pwd2"})
 	public ResponseEntity<?> validarAlias(@RequestParam String pwd1, @RequestParam String pwd2) {
 
 		if (pwd1.equals(pwd2)) {
@@ -88,10 +134,13 @@ public class UsuarioController {
 			return ResponseEntity.ok("/0 /Contraseñas no coinciden.");
 		}
 	}
+*/
+	
+	
 	
 	//Cambio de contraseña
-	@GetMapping(path="/cambiarContrasenia",params= {"idusuario","Contrasenia1","Contrasenia2"})
-	public ResponseEntity<?> validarAlias(@RequestParam Integer id, @RequestParam String pwd1, @RequestParam String pwd2) {
+	@GetMapping(path="/cambiarContrasenia",params= {"id","pwd1","pwd2"})
+	public ResponseEntity<?> cambiarContrasenia(@RequestParam Integer id, @RequestParam String pwd1, @RequestParam String pwd2) {
 
 		if (pwd1.equals(pwd2)) {
 			Optional<Credencial> cred = credencialService.findByidUsuario(id);
@@ -114,7 +163,11 @@ public class UsuarioController {
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 	
-	
+	////////////////////////////////////
+		
+	//	METODO OK
+		
+	////////////////////////////////////
 
 	//Leer un usuario
 	@GetMapping(path="/buscar",params= {"id"})
@@ -173,6 +226,12 @@ public class UsuarioController {
 		return ResponseEntity.ok().build();
 	}
 
+	////////////////////////////////////
+	
+	//	METODO OK
+		
+	////////////////////////////////////
+	
 	//traer todas las personas
 	@GetMapping("/buscarTodos")
 	public List<Usuario> readAll(){
@@ -180,6 +239,12 @@ public class UsuarioController {
 				.stream(usuarioService.findAll().spliterator(), false)
 				.collect(Collectors.toList());
 		return usuarios;
-	} 
+	}
+	
+	
+	// RECUPERAR CONTRASEÑA CON OTP
+	
+	
+	//REGISTRO SI ES ALUMNO
 }
 

@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
 	
 	 Optional<Usuario> findByNickname(String nickname);
+	 
+	 Optional<Usuario> findByMail(String email);
 }

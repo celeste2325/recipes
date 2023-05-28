@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+/*@Mapper(componentModel = "spring")
 public interface RecetaMapper {
     Receta mapToEntity(RecetaDto recetaDto);
 
@@ -15,3 +15,4 @@ public interface RecetaMapper {
 
     List<RecetaResponseDto> mapLisToDto(List<Receta> recetaList);
 }
+*/
