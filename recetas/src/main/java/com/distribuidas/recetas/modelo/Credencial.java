@@ -1,6 +1,14 @@
 package com.distribuidas.recetas.modelo;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,45 +17,51 @@ import lombok.Setter;
 @Getter
 @Table(name = "credenciales")
 public class Credencial {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private Integer id;
-    @Basic
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
-    @Basic
-    @Column(name = "contrasenia")
-    private String contrasenia;
-    @Basic
-    @Column(name = "codigo_verificacion")
-    private String codigoVerificacion;
-    @ManyToOne
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
-    private Usuario usuariosByIdUsuario;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@Column(name = "id")
+	private Integer id;
+	@Basic
+	@Column(name = "idUsuario")
+	private Integer idUsuario;
+	@Basic
+	@Column(name = "contrasenia")
+	private String contrasenia;
+	@Basic
+	@Column(name = "codigo_verificacion")
+	private String codigoVerificacion;
+	@ManyToOne
+	@JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
+	private Usuario usuariosByIdUsuario;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        Credencial that = (Credencial) o;
+		Credencial that = (Credencial) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (idUsuario != null ? !idUsuario.equals(that.idUsuario) : that.idUsuario != null) return false;
-        if (contrasenia != null ? !contrasenia.equals(that.contrasenia) : that.contrasenia != null) return false;
-        if (codigoVerificacion != null ? !codigoVerificacion.equals(that.codigoVerificacion) : that.codigoVerificacion != null)
-            return false;
+		if (id != null ? !id.equals(that.id) : that.id != null)
+			return false;
+		if (idUsuario != null ? !idUsuario.equals(that.idUsuario) : that.idUsuario != null)
+			return false;
+		if (contrasenia != null ? !contrasenia.equals(that.contrasenia) : that.contrasenia != null)
+			return false;
+		if (codigoVerificacion != null ? !codigoVerificacion.equals(that.codigoVerificacion)
+				: that.codigoVerificacion != null)
+			return false;
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (idUsuario != null ? idUsuario.hashCode() : 0);
-        result = 31 * result + (contrasenia != null ? contrasenia.hashCode() : 0);
-        result = 31 * result + (codigoVerificacion != null ? codigoVerificacion.hashCode() : 0);
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (idUsuario != null ? idUsuario.hashCode() : 0);
+		result = 31 * result + (contrasenia != null ? contrasenia.hashCode() : 0);
+		result = 31 * result + (codigoVerificacion != null ? codigoVerificacion.hashCode() : 0);
+		return result;
+	}
 }
