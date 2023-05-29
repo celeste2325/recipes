@@ -7,6 +7,7 @@ import com.distribuidas.recetas.modelo.Utilizado;
 import lombok.Data;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
 public class RecetaResponseDto {
@@ -15,10 +16,10 @@ public class RecetaResponseDto {
     private String descripcion;
     private Integer porciones;
     private Integer cantidadPersonas;
-    private Collection<Foto> fotosByIdReceta;
-    private Collection<Paso> pasosByIdReceta;
     private Integer idUsuario;
-    private String nombreUsuario;
+    private String nickname;
     private Tipo tiposByIdTipo;
-    private Collection<Utilizado> utilizadosByIdReceta;
+    private Collection<Foto> fotosByIdReceta;
+    private List<Paso> pasosByIdReceta;
+    private List<Utilizado> utilizadosByIdReceta;
 }
