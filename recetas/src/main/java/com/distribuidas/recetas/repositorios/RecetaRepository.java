@@ -13,16 +13,10 @@ public interface RecetaRepository extends JpaRepository<Receta, Integer> {
 
     List<Receta> findByIdTipo(Integer idTipo);
 
-    @Query(value = "SELECT * FROM recetas \n" +
-            "inner join utilizados u \n" +
-            "    on recetas.idReceta = u.idReceta\n" +
-            "WHERE U.idIngrediente = ?1", nativeQuery = true)
-    List<Receta> recetasPorIngrediente(Integer idUsuario);
+    @Query(value = "SELECT r FROM Receta r inner join Utilizado u on r.idReceta = u.idReceta WHERE u.idIngrediente = ?1")
+    List<Receta> recetasPorIngrediente(Integer idIngrediente);
 
-    @Query(value = "SELECT * FROM recetas r\n" +
-            "    left join utilizados u\n" +
-            "        on r.idReceta = u.idReceta\n" +
-            "    where idIngrediente = ?1", nativeQuery = true)
+    @Query(value = "SELECT r FROM Receta r  inner join Utilizado u on r.idReceta = u.idReceta where u.idIngrediente <> ?1")
     List<Receta> recetasSinIngredientes(Integer idIngrediente);
 
     List<Receta> findByIdUsuario(Integer idUsuario);
