@@ -1,4 +1,4 @@
-package com.distribuidas.recetas.modelo;
+package com.distribuidas.recetas.modelo.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

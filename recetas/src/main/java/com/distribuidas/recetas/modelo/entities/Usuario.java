@@ -1,23 +1,11 @@
-package com.distribuidas.recetas.modelo;
+package com.distribuidas.recetas.modelo.entities;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Collection;
 
 
 @Entity
@@ -47,23 +35,23 @@ public class Usuario {
     @Basic
     @Column(name = "tipo_usuario")
     private String tipoUsuario;
-	//@JsonIgnore
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuariosByIdusuario")
     private Collection<Calificacion> calificacionesByIdUsuario;
-	//@JsonIgnore
+    //@JsonIgnore
     //@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-	//@JoinColumn(name="idUsuario")
-	//@JsonIgnore
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "usuariosByIdUsuario")
+    //@JoinColumn(name="idUsuario")
+    //@JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "usuariosByIdUsuario")
     private Collection<Credencial> credencialesByIdUsuario;
-	//@JsonIgnore
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "usuariosByIdUsuario")
+    //@JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "usuariosByIdUsuario")
     private Collection<Favorito> favoritosByIdUsuario;
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "usuariosByIdUsuario")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "usuariosByIdUsuario")
     private Collection<Receta> recetasByIdUsuario;
 
     @Override
@@ -95,6 +83,6 @@ public class Usuario {
         result = 31 * result + (tipoUsuario != null ? tipoUsuario.hashCode() : 0);
         return result;
     }
-    
-    
+
+
 }

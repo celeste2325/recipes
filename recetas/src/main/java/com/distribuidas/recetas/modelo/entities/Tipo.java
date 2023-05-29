@@ -1,4 +1,4 @@
-package com.distribuidas.recetas.modelo;
+package com.distribuidas.recetas.modelo.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
