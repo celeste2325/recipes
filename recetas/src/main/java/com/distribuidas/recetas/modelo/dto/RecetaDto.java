@@ -1,6 +1,6 @@
 package com.distribuidas.recetas.modelo.dto;
 
-import com.distribuidas.recetas.modelo.*;
+import com.distribuidas.recetas.modelo.entities.*;
 import lombok.Data;
 
 import java.util.Collection;

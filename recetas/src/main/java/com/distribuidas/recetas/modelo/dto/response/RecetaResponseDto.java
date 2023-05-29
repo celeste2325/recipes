@@ -1,9 +1,9 @@
 package com.distribuidas.recetas.modelo.dto.response;
 
-import com.distribuidas.recetas.modelo.Foto;
-import com.distribuidas.recetas.modelo.Paso;
-import com.distribuidas.recetas.modelo.Tipo;
-import com.distribuidas.recetas.modelo.Utilizado;
+import com.distribuidas.recetas.modelo.entities.Foto;
+import com.distribuidas.recetas.modelo.entities.Paso;
+import com.distribuidas.recetas.modelo.entities.Tipo;
+import com.distribuidas.recetas.modelo.entities.Utilizado;
 import lombok.Data;
 
 import java.util.Collection;

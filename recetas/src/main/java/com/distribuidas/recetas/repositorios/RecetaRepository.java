@@ -1,6 +1,6 @@
 package com.distribuidas.recetas.repositorios;
 
-import com.distribuidas.recetas.modelo.Receta;
+import com.distribuidas.recetas.modelo.entities.Receta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

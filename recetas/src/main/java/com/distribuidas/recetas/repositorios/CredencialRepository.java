@@ -1,12 +1,11 @@
 package com.distribuidas.recetas.repositorios;
 
-import java.util.Optional;
-
+import com.distribuidas.recetas.modelo.entities.Credencial;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.distribuidas.recetas.modelo.Credencial;
+import java.util.Optional;
 
 public interface CredencialRepository extends JpaRepository<Credencial, Integer> {
 
-	Optional<Credencial> findByidUsuario(int idusuario);
+    Optional<Credencial> findByidUsuario(int idusuario);
 }

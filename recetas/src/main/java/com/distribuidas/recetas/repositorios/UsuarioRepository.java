@@ -1,14 +1,13 @@
 package com.distribuidas.recetas.repositorios;
 
-import java.util.Optional;
-
+import com.distribuidas.recetas.modelo.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.distribuidas.recetas.modelo.Usuario;
+import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-	Optional<Usuario> findByNickname(String nickname);
+    Optional<Usuario> findByNickname(String nickname);
 
-	Optional<Usuario> findByMail(String email);
+    Optional<Usuario> findByMail(String email);
 }

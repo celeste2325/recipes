@@ -2,7 +2,7 @@ package com.distribuidas.recetas.servicios.interfaces;
 
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
-import com.distribuidas.recetas.modelo.Receta;
+import com.distribuidas.recetas.modelo.entities.Receta;
 
 import java.util.List;
 

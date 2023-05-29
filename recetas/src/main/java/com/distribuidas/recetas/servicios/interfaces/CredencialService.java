@@ -1,21 +1,21 @@
 package com.distribuidas.recetas.servicios.interfaces;
 
-import java.util.Optional;
+import com.distribuidas.recetas.modelo.entities.Credencial;
 
-import com.distribuidas.recetas.modelo.Credencial;
+import java.util.Optional;
 
 public interface CredencialService {
 
-	public Iterable<Credencial> findAll();
+    public Iterable<Credencial> findAll();
 
-	public Optional<Credencial> findById(int id);
+    public Optional<Credencial> findById(int id);
 
-	public Optional<Credencial> findByidUsuario(int idusuario);
+    public Optional<Credencial> findByidUsuario(int idusuario);
 
-	public void save(Credencial credencial);
+    public void save(Credencial credencial);
 
-	public void deleteById(int id);
+    public void deleteById(int id);
 
-	public void deleteByidUsuario(int id);
+    public void deleteByidUsuario(int id);
 
 }

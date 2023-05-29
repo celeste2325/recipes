@@ -2,7 +2,7 @@ package com.distribuidas.recetas.servicios.implementaciones;
 
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
-import com.distribuidas.recetas.modelo.Receta;
+import com.distribuidas.recetas.modelo.entities.Receta;
 import com.distribuidas.recetas.repositorios.RecetaRepository;
 import com.distribuidas.recetas.servicios.interfaces.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;

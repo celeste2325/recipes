@@ -1,21 +1,21 @@
 package com.distribuidas.recetas.servicios.interfaces;
 
-import java.util.Optional;
+import com.distribuidas.recetas.modelo.entities.Usuario;
 
-import com.distribuidas.recetas.modelo.Usuario;
+import java.util.Optional;
 
 public interface UsuarioService {
 
-	public Iterable<Usuario> findAll();
+    public Iterable<Usuario> findAll();
 
-	public Optional<Usuario> findById(int id);
+    public Optional<Usuario> findById(int id);
 
-	public Optional<Usuario> findByNickname(String nickname);
+    public Optional<Usuario> findByNickname(String nickname);
 
-	public Optional<Usuario> findByMail(String email);
+    public Optional<Usuario> findByMail(String email);
 
-	public void save(Usuario usuario);
+    public void save(Usuario usuario);
 
-	public void deleteById(int id);
+    public void deleteById(int id);
 
 }
