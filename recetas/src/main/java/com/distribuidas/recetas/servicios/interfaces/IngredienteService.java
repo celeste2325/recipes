@@ -1,13 +1,15 @@
 package com.distribuidas.recetas.servicios.interfaces;
 
-import com.distribuidas.recetas.modelo.Ingrediente;
+import com.distribuidas.recetas.excepciones.ElIngredienteYaExisteException;
+import com.distribuidas.recetas.modelo.entities.Ingrediente;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface IngredienteService {
 
+    Ingrediente salvarIngrediente(Ingrediente newIngrediente) throws ElIngredienteYaExisteException;
+
+    List<Ingrediente> listarIngredientes();
 }
