@@ -1,5 +1,7 @@
 package com.distribuidas.recetas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +32,8 @@ public class Utilizado {
     private String observaciones;
     @ManyToOne
     @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
+    @JsonBackReference(value = "receta-utilizados")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Receta recetasByIdReceta;
     @ManyToOne
     @JoinColumn(name = "idIngrediente", referencedColumnName = "idIngrediente")

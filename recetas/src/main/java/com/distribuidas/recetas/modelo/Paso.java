@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class Paso {
     private Collection<Multimedia> multimediaByIdPaso;
     @ManyToOne
     @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
+    @JsonBackReference(value = "receta-pasos")
     private Receta recetasByIdReceta;
 
     @Override

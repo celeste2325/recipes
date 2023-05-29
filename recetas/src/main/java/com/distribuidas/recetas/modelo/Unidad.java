@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Unidad {
     @OneToMany(mappedBy = "unidadesByIdUnidadDestino")
     private Collection<Conversion> conversionesByIdUnidad_0;
     @OneToMany(mappedBy = "unidadesByIdUnidad")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Utilizado> utilizadosByIdUnidad;
 
     @Override

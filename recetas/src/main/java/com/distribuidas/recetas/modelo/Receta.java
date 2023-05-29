@@ -1,10 +1,13 @@
 package com.distribuidas.recetas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Setter
@@ -40,18 +43,24 @@ public class Receta {
     private Collection<Calificacion> calificacionesByIdReceta;
     @OneToMany(mappedBy = "recetasByIdReceta")
     private Collection<Favorito> favoritosByIdReceta;
-    @OneToMany(mappedBy = "recetasByIdReceta")
+    @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Foto> fotosByIdReceta;
-    @OneToMany(mappedBy = "recetasByIdReceta")
-    private Collection<Paso> pasosByIdReceta;
+    @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Paso> pasosByIdReceta;
     @ManyToOne
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
+    @JsonBackReference(value = "receta-usuario")
     private Usuario usuariosByIdUsuario;
     @ManyToOne
     @JoinColumn(name = "idTipo", referencedColumnName = "idTipo")
+    @JsonBackReference(value = "receta-tipo")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Tipo tiposByIdTipo;
-    @OneToMany(mappedBy = "recetasByIdReceta")
-    private Collection<Utilizado> utilizadosByIdReceta;
+    @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Utilizado> utilizadosByIdReceta;
 
     @Override
     public boolean equals(Object o) {
@@ -84,5 +93,20 @@ public class Receta {
         result = 31 * result + (cantidadPersonas != null ? cantidadPersonas.hashCode() : 0);
         result = 31 * result + (idTipo != null ? idTipo.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Receta{" +
+                "idReceta=" + idReceta +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", porciones=" + porciones +
+                ", cantidadPersonas=" + cantidadPersonas +
+                ", fotosByIdReceta=" + fotosByIdReceta +
+                ", pasosByIdReceta=" + pasosByIdReceta +
+                ", tiposByIdTipo=" + tiposByIdTipo +
+                ", utilizadosByIdReceta=" + utilizadosByIdReceta +
+                '}';
     }
 }

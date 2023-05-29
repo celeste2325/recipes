@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class Foto {
     private String extension;
     @ManyToOne
     @JoinColumn(name = "idReceta", referencedColumnName = "idReceta", nullable = false)
+    @JsonBackReference(value = "receta-foto")
     private Receta recetasByIdReceta;
 
     @Override

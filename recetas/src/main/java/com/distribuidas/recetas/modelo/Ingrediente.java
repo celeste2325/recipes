@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class Ingrediente {
     @Column(name = "nombre")
     private String nombre;
     @OneToMany(mappedBy = "ingredientesByIdIngrediente")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Utilizado> utilizadosByIdIngrediente;
 
     @Override

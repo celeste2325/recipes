@@ -1,5 +1,7 @@
 package com.distribuidas.recetas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +21,8 @@ public class Tipo {
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(mappedBy = "tiposByIdTipo")
+    @JsonManagedReference(value = "receta-tipo")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Receta> recetasByIdTipo;
 
     @Override
