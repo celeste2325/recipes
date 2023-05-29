@@ -4,6 +4,7 @@ import com.distribuidas.recetas.modelo.*;
 import lombok.Data;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
 public class RecetaDto {
@@ -15,8 +16,9 @@ public class RecetaDto {
     private Collection<Calificacion> calificacionesByIdReceta;
     private Collection<Favorito> favoritosByIdReceta;
     private Collection<Foto> fotosByIdReceta;
-    private Collection<Paso> pasosByIdReceta;
+    private List<Paso> pasosByIdReceta;
     private Usuario usuariosByIdUsuario;
     private Tipo tiposByIdTipo;
-    private Collection<Utilizado> utilizadosByIdReceta;
+    private List<Utilizado> utilizadosByIdReceta;
+
 }

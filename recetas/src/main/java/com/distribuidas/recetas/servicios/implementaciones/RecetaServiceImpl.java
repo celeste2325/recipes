@@ -50,8 +50,11 @@ public class RecetaServiceImpl implements RecetaService {
     @Override
     public void eliminarReceta(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException {
         Optional<Receta> receta = this.recetaRepository.findById(id);
-        receta.ifPresent(value -> this.recetaRepository.delete(value));
-        throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
+        if (receta.isPresent()) {
+            this.recetaRepository.delete(receta.get());
+        } else {
+            throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
+        }
     }
 
     @Override
@@ -73,7 +76,7 @@ public class RecetaServiceImpl implements RecetaService {
         } else if (!idUsuario.equals(0)) {
             return this.recetaRepository.findByIdUsuario(idUsuario);
         } else if (!idIngrediente.equals(0)) {
-            return this.recetaRepository.recetasPorIngrediente(idUsuario);
+            return this.recetaRepository.recetasPorIngrediente(idIngrediente);
         }
         return null;
     }
