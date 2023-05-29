@@ -1,13 +1,16 @@
 package com.distribuidas.recetas.servicios.interfaces;
 
-import com.distribuidas.recetas.modelo.Paso;
+import com.distribuidas.recetas.modelo.entities.Multimedia;
+import com.distribuidas.recetas.modelo.entities.Paso;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface PasoService {
 
+    Paso cargarMultimediasPaso(Collection<Multimedia> multimediaByIdPaso);
+
+    List<Paso> buscaTodosLosPasosDeUnaReceta(Integer idReceta);
 }
