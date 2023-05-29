@@ -255,7 +255,21 @@ public class UsuarioController {
 		return usuarios;
 	}
 
-	// RECUPERAR CONTRASEÑA CON OTP
 
 	// REGISTRO SI ES ALUMNO
+	
+	@GetMapping(path = "/validarAlumno", params = { "email" })
+	public ResponseEntity<?> validarAlumno(@RequestParam String email) {
+		Optional<Usuario> usuario = usuarioService.findByMail(email);
+
+		if (usuario.isPresent() && usuario.get().getTipoUsuario().equals("Alumno")) {
+			System.out.println(usuario.get().getTipoUsuario());
+			return ResponseEntity.ok("Es Alumno");
+		} else {
+			return ResponseEntity.ok("No es Alumno o el Email no existe");
+
+		}
+	}
+
+	// RECUPERAR CONTRASEÑA CON OTP
 }
