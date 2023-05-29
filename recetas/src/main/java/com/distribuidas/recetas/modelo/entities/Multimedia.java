@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.modelo.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Multimedia {
     private String urlContenido;
     @ManyToOne
     @JoinColumn(name = "idPaso", referencedColumnName = "idPaso", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Paso pasosByIdPaso;
 
     @Override
