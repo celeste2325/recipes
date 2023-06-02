@@ -43,6 +43,8 @@ public class Usuario {
     //@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     //@JoinColumn(name="idUsuario")
     //@JsonIgnore
+    // this should be only one ? one to one relation ?
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuariosByIdUsuario")
     private Collection<Credencial> credencialesByIdUsuario;
