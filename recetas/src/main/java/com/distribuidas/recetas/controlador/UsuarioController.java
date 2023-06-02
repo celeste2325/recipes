@@ -30,6 +30,14 @@ public class UsuarioController {
 
     }
 
+    @GetMapping("busquedaParcial/{nombreParcialUsuario}")
+    public List<Usuario> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialUsuario) {
+        if (nombreParcialUsuario.length() >= 3) {
+            return this.usuarioService.devolverUsuariosPorBusquedaParcialNombre(nombreParcialUsuario);
+        }
+        return null;//agregar excepcion
+    }
+
     ////////////////////////////////////
 
     // METODO OK

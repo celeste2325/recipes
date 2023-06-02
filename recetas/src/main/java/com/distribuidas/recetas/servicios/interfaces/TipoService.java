@@ -9,4 +9,6 @@ import java.util.List;
 public interface TipoService {
 
     List<Tipo> devolverTiposPlatos();
+
+    List<Tipo> devolverPlatosPorBusquedaParcialTipoDePlato(String nombreParcialTipoPlato);
 }

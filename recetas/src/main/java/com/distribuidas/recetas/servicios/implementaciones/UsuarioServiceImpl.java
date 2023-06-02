@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -43,6 +45,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void deleteById(int id) {
         usuarioRepository.deleteById(id);
 
+    }
+
+    @Override
+    public List<Usuario> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario) {
+        if (!Objects.equals(nombreParcialUsuario, "")) {
+            return this.usuarioRepository.findByNombreLikeIgnoreCase("%" + nombreParcialUsuario + "%");
+        }
+        return null;
     }
 
     @Override

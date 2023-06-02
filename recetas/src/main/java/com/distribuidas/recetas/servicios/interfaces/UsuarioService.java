@@ -2,6 +2,7 @@ package com.distribuidas.recetas.servicios.interfaces;
 
 import com.distribuidas.recetas.modelo.entities.Usuario;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioService {
@@ -18,4 +19,5 @@ public interface UsuarioService {
 
     public void deleteById(int id);
 
+    List<Usuario> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario);
 }

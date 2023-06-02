@@ -17,7 +17,6 @@ public class IngredienteController {
 
     private final IngredienteService ingredienteService;
 
-    //TODO OK, ok error
     @PostMapping
     public ResponseEntity<?> crearIngrediente(@RequestBody Ingrediente newIngrediente) {
         try {
@@ -27,9 +26,16 @@ public class IngredienteController {
         }
     }
 
-    //TODO OK
     @GetMapping()
     public List<Ingrediente> devuelveIngredientes() {
         return this.ingredienteService.listarIngredientes();
+    }
+
+    @GetMapping("busquedaParcial/{nombreParcialIngrediente}")
+    public List<Ingrediente> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialIngrediente) {
+        if (nombreParcialIngrediente.length() >= 3) {
+            return this.ingredienteService.devolverIngredientesPorBusquedaParcial(nombreParcialIngrediente);
+        }
+        return null;
     }
 }

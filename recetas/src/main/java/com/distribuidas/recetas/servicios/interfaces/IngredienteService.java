@@ -12,4 +12,6 @@ public interface IngredienteService {
     Ingrediente salvarIngrediente(Ingrediente newIngrediente) throws ElIngredienteYaExisteException;
 
     List<Ingrediente> listarIngredientes();
+
+    List<Ingrediente> devolverIngredientesPorBusquedaParcial(String nombreParcialIngrediente);
 }
