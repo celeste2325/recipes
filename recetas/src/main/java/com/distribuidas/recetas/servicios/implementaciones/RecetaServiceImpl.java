@@ -2,16 +2,18 @@ package com.distribuidas.recetas.servicios.implementaciones;
 
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
+import com.distribuidas.recetas.modelo.entities.FechaReceta;
 import com.distribuidas.recetas.modelo.entities.Receta;
 import com.distribuidas.recetas.repositorios.RecetaRepository;
 import com.distribuidas.recetas.servicios.interfaces.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class RecetaServiceImpl implements RecetaService {
@@ -21,6 +23,10 @@ public class RecetaServiceImpl implements RecetaService {
     @Override
     public Receta altaReceta(Receta newReceta) throws YaExisteUnaRecetaConMismoNombreYUsuarioException {
         if (recetaExistentePorUsuario(newReceta.getNombre(), newReceta.getUsuariosByIdUsuario().getIdUsuario()) == null) {
+            FechaReceta fechaReceta = new FechaReceta();
+            fechaReceta.setFechaCreacion(LocalDateTime.now());
+            newReceta.setFechaRecetaByIdReceta(fechaReceta);
+            fechaReceta.setRecetaByIdReceta(newReceta);
             return this.recetaRepository.save(newReceta);
         }
         throw new YaExisteUnaRecetaConMismoNombreYUsuarioException("Estimado/a, ya creo una receta con mismo nombre");
@@ -32,7 +38,7 @@ public class RecetaServiceImpl implements RecetaService {
         if (recetaAModificar.isPresent()) {
             //TODO ELIMINAR COMENTARIOS
             //edita los demas campos
-            //TODO se puede cambiar el nombre?
+            recetaAModificar.get().setNombre(newReceta.getNombre());
             recetaAModificar.get().setDescripcion(newReceta.getDescripcion());
             recetaAModificar.get().setFotosByIdReceta(newReceta.getFotosByIdReceta());
             recetaAModificar.get().setPorciones(newReceta.getPorciones());
@@ -46,7 +52,7 @@ public class RecetaServiceImpl implements RecetaService {
         throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
     }
 
-    //TODO esperar respuesta si la eliminacion es logica o fisica
+    //TODO crear un reemplazar q llame a este metodo pero antes conserve las calificaciones para cargar a la nueva receta
     @Override
     public void eliminarReceta(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException {
         Optional<Receta> receta = this.recetaRepository.findById(id);
@@ -68,13 +74,29 @@ public class RecetaServiceImpl implements RecetaService {
     }
 
     @Override
+    public List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta) {
+        return this.recetaRepository.findByNombreOrderByNombreUser(nombreReceta);
+    }
+
+    @Override
+    public List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta) {
+        return this.recetaRepository.findByNombreOrderByAntiguedad(nombreReceta);
+    }
+
+    @Override
     public List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario) {
         if (!Objects.equals(nombreReceta, "")) {
-            return this.recetaRepository.findByNombre(nombreReceta).stream().sorted().collect(Collectors.toList());
+            return this.recetaRepository.findByNombre(nombreReceta);
         } else if (!idTipo.equals(0)) {
-            return this.recetaRepository.findByIdTipo(idTipo);
+            List<Receta> recetasPorTipoDePlato = this.recetaRepository.findByIdTipo(idTipo);
+            recetasPorTipoDePlato.sort(Comparator.comparing((Receta receta) -> receta.getNombre().toLowerCase()));
+            return recetasPorTipoDePlato;
+
         } else if (!idUsuario.equals(0)) {
-            return this.recetaRepository.findByIdUsuario(idUsuario);
+            List<Receta> byIdUsuario = this.recetaRepository.findByIdUsuario(idUsuario);
+            byIdUsuario.sort(Comparator.comparing((Receta receta) -> receta.getNombre().toLowerCase()));
+            return byIdUsuario;
+
         } else if (!idIngrediente.equals(0)) {
             return this.recetaRepository.recetasPorIngrediente(idIngrediente);
         }
@@ -94,4 +116,18 @@ public class RecetaServiceImpl implements RecetaService {
     public List<Receta> devolverRecetasSinIngrediente(Integer idIngrediente) {
         return this.recetaRepository.recetasSinIngredientes(idIngrediente);
     }
+
+    @Override
+    public List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta) {
+        if (!Objects.equals(nombreReceta, "")) {
+            return recetaRepository.findByNombreLikeIgnoreCase("%" + nombreReceta + "%");
+        }
+        return null;
+    }
+
+    @Override
+    public List<Receta> devuelve3RecetasInicioApp(Integer idUsuario) {
+        return this.recetaRepository.recetasPorUsuarioOrdenadasPorFecha(idUsuario);
+    }
+
 }

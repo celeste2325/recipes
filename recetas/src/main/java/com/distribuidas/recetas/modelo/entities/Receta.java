@@ -62,6 +62,10 @@ public class Receta {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Utilizado> utilizadosByIdReceta;
 
+    @OneToOne(mappedBy = "recetaByIdReceta", cascade = CascadeType.ALL)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private FechaReceta fechaRecetaByIdReceta;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

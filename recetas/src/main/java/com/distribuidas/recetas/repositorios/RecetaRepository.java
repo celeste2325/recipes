@@ -20,4 +20,15 @@ public interface RecetaRepository extends JpaRepository<Receta, Integer> {
     List<Receta> recetasSinIngredientes(Integer idIngrediente);
 
     List<Receta> findByIdUsuario(Integer idUsuario);
+
+    List<Receta> findByNombreLikeIgnoreCase(String s);
+
+    @Query(value = "SELECT r FROM Receta r  inner join Usuario u on r.idUsuario = u.idUsuario where r.nombre = ?1 order by u.nombre")
+    List<Receta> findByNombreOrderByNombreUser(String nombreReceta);
+
+    @Query(value = "SELECT top 3 r.* FROM recetas r inner join usuarios u on r.idUsuario = u.idUsuario inner join fechasReceta f on r.idReceta = f.idReceta where r.idUsuario = ?1 order by f.fechaCreacion desc ", nativeQuery = true)
+    List<Receta> recetasPorUsuarioOrdenadasPorFecha(Integer idUsuario);
+
+    @Query(value = "SELECT r FROM Receta r  inner join FechaReceta f on r.idReceta = f.idReceta where r.nombre = ?1 order by f.fechaCreacion")
+    List<Receta> findByNombreOrderByAntiguedad(String nombreReceta);
 }

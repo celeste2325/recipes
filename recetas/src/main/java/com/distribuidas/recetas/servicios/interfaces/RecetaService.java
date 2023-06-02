@@ -22,4 +22,13 @@ public interface RecetaService {
     Receta devolverRecetaPorId(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException;
 
     List<Receta> devolverRecetasSinIngrediente(Integer idIngrediente);
+
+    List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta);
+
+    List<Receta> devuelve3RecetasInicioApp(Integer idUsuario);
+
+    List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta);
+
+    List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta);
+
 }

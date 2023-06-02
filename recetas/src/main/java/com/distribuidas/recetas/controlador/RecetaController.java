@@ -22,7 +22,6 @@ public class RecetaController {
     private final RecetaService recetaService;
     private final RecetaMapper recetaMapper;
 
-    //TODO OK EL ERROR; OK EL SAVE
     @PostMapping()
     public ResponseEntity<?> crearReceta(@RequestBody Receta newReceta) {
         try {
@@ -32,7 +31,6 @@ public class RecetaController {
         }
     }
 
-    //TODO OK EL ERROR; OK update --> evaluar si quiero q devuelva la info de los ingredients, unidades.
     @PutMapping("/{id}")
     public ResponseEntity<?> editarReceta(@PathVariable Integer id, @RequestBody RecetaDto newReceta) {
         try {
@@ -43,7 +41,6 @@ public class RecetaController {
         }
     }
 
-    //TODO OK EL ERROR; OK delete
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarReceta(@PathVariable Integer id) {
         try {
@@ -54,13 +51,27 @@ public class RecetaController {
         }
     }
 
-    //TODO OK
+    @GetMapping("/inicioApp/{idUsuario}")
+    public ResponseEntity<?> devolverRecetasInicio(@PathVariable Integer idUsuario) {
+        return new ResponseEntity<>(this.recetaService.devuelve3RecetasInicioApp(idUsuario), HttpStatus.OK);
+    }
+
+    @GetMapping("ordenNombreUsuario/{nombreReceta}")
+    public ResponseEntity<?> busquedaRecetaPorNombreOrdenadaPorNombreUsuario(@PathVariable String nombreReceta) {
+        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(
+                this.recetaService.recetasPorNombreOrdenNombreUsuario(nombreReceta)), HttpStatus.OK);
+    }
+
+    @GetMapping("ordenAntiguedad/{nombreReceta}")
+    public ResponseEntity<?> busquedaRecetaPorNombreOrdenadaPorAntiguedad(@PathVariable String nombreReceta) {
+        return new ResponseEntity<>(this.recetaService.busquedaRecetaPorNombreOrdenadaPorAntiguedad(nombreReceta), HttpStatus.OK);
+    }
+
     @GetMapping()
     public ResponseEntity<List<RecetaResponseDto>> devolverRecetas() {
         return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetas()), HttpStatus.OK);
     }
 
-    //TODO OK
     @GetMapping("/{idUsuario}/{nombreReceta}")
     public ResponseEntity<?> recetaExistentePorUsuario(@PathVariable Integer idUsuario, @PathVariable String nombreReceta) {
         Receta receta = this.recetaService.recetaExistentePorUsuario(nombreReceta, idUsuario);
@@ -70,8 +81,7 @@ public class RecetaController {
         return new ResponseEntity<>(this.recetaMapper.mapResponseDto(receta), HttpStatus.BAD_REQUEST);
     }
 
-    //TODO OK EL ERROR; OK
-    @GetMapping("/{id}")
+    @GetMapping("busquedaPorId/{id}")
     public ResponseEntity<?> buscarRecetaPorId(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(this.recetaMapper.mapResponseDto(this.recetaService.devolverRecetaPorId(id)), HttpStatus.OK);
@@ -80,7 +90,6 @@ public class RecetaController {
         }
     }
 
-    //TODO OK idIngrediente,nombreReceta,idTipo,idUsuario ;
     @GetMapping("/request-param")
     public ResponseEntity<List<RecetaResponseDto>> devolverRecetasbyParamQuery(@RequestParam(defaultValue = "") String nombreReceta,
                                                                                @RequestParam(defaultValue = "0") Integer idTipo,
@@ -90,16 +99,21 @@ public class RecetaController {
                 HttpStatus.OK);
     }
 
-    //TODO OK ;
     @GetMapping("sinIngrediente/{idIngrediente}")
     public ResponseEntity<?> devolverRecetasSinIngrediente(@PathVariable Integer idIngrediente) {
         return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasSinIngrediente(idIngrediente)), HttpStatus.OK);
 
-        //TODO AGREGAR REEMPLAZAR --> reemplazar es eliminar y despues el post
-        //TODO agregar la forma de ordenamiento de cada uno de los filtros
-        //TODO probar todos los endpoints --> falta con los ordenamientos
-        //TODO probar de agregar comentarios y calificacion a receta y luego reemplazar
-
     }
 
+    @GetMapping("busquedaParcial/{nombreParcialReceta}")
+    public List<Receta> devuelveRecetasPorBusquedaParcial(@PathVariable String nombreParcialReceta) {
+        if (nombreParcialReceta.length() >= 3) {
+            return this.recetaService.devolverRecetasPorBusquedaParcialNombre(nombreParcialReceta);
+        }
+        return null;
+    }
+
+    //TODO AGREGAR REEMPLAZAR --> que antes de eliminar la receta se conserven las calificaciones para guardar en la nueva receta a crear. luego el delete
+    //TODO probar de agregar comentarios y calificacion a receta y luego reemplazar
+    // TODO hacer la carga de las calificaciones
 }
