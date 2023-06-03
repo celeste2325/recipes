@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -37,12 +38,9 @@ public class FechaReceta {
 
         FechaReceta that = (FechaReceta) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (idReceta != null ? !idReceta.equals(that.idReceta) : that.idReceta != null) return false;
-        if (fechaCreacion != null ? !fechaCreacion.equals(that.fechaCreacion) : that.fechaCreacion != null)
-            return false;
-
-        return true;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(idReceta, that.idReceta)) return false;
+        return Objects.equals(fechaCreacion, that.fechaCreacion);
     }
 
     @Override

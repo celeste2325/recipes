@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -35,12 +37,10 @@ public class Foto {
 
         Foto foto = (Foto) o;
 
-        if (idfoto != null ? !idfoto.equals(foto.idfoto) : foto.idfoto != null) return false;
-        if (idReceta != null ? !idReceta.equals(foto.idReceta) : foto.idReceta != null) return false;
-        if (urlFoto != null ? !urlFoto.equals(foto.urlFoto) : foto.urlFoto != null) return false;
-        if (extension != null ? !extension.equals(foto.extension) : foto.extension != null) return false;
-
-        return true;
+        if (!Objects.equals(idfoto, foto.idfoto)) return false;
+        if (!Objects.equals(idReceta, foto.idReceta)) return false;
+        if (!Objects.equals(urlFoto, foto.urlFoto)) return false;
+        return Objects.equals(extension, foto.extension);
     }
 
     @Override

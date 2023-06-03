@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Objects;
 
 
 @Entity
@@ -43,6 +44,8 @@ public class Usuario {
     //@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     //@JoinColumn(name="idUsuario")
     //@JsonIgnore
+    // this should be only one ? one to one relation ?
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuariosByIdUsuario")
     private Collection<Credencial> credencialesByIdUsuario;
@@ -61,15 +64,13 @@ public class Usuario {
 
         Usuario usuario = (Usuario) o;
 
-        if (idUsuario != null ? !idUsuario.equals(usuario.idUsuario) : usuario.idUsuario != null) return false;
-        if (mail != null ? !mail.equals(usuario.mail) : usuario.mail != null) return false;
-        if (nickname != null ? !nickname.equals(usuario.nickname) : usuario.nickname != null) return false;
-        if (habilitado != null ? !habilitado.equals(usuario.habilitado) : usuario.habilitado != null) return false;
-        if (nombre != null ? !nombre.equals(usuario.nombre) : usuario.nombre != null) return false;
-        if (avatar != null ? !avatar.equals(usuario.avatar) : usuario.avatar != null) return false;
-        if (tipoUsuario != null ? !tipoUsuario.equals(usuario.tipoUsuario) : usuario.tipoUsuario != null) return false;
-
-        return true;
+        if (!Objects.equals(idUsuario, usuario.idUsuario)) return false;
+        if (!Objects.equals(mail, usuario.mail)) return false;
+        if (!Objects.equals(nickname, usuario.nickname)) return false;
+        if (!Objects.equals(habilitado, usuario.habilitado)) return false;
+        if (!Objects.equals(nombre, usuario.nombre)) return false;
+        if (!Objects.equals(avatar, usuario.avatar)) return false;
+        return Objects.equals(tipoUsuario, usuario.tipoUsuario);
     }
 
     @Override

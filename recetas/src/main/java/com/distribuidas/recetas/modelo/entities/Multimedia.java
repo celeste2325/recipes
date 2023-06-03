@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -38,14 +40,12 @@ public class Multimedia {
 
         Multimedia that = (Multimedia) o;
 
-        if (idContenido != null ? !idContenido.equals(that.idContenido) : that.idContenido != null) return false;
-        if (idPaso != null ? !idPaso.equals(that.idPaso) : that.idPaso != null) return false;
-        if (tipoContenido != null ? !tipoContenido.equals(that.tipoContenido) : that.tipoContenido != null)
+        if (!Objects.equals(idContenido, that.idContenido)) return false;
+        if (!Objects.equals(idPaso, that.idPaso)) return false;
+        if (!Objects.equals(tipoContenido, that.tipoContenido))
             return false;
-        if (extension != null ? !extension.equals(that.extension) : that.extension != null) return false;
-        if (urlContenido != null ? !urlContenido.equals(that.urlContenido) : that.urlContenido != null) return false;
-
-        return true;
+        if (!Objects.equals(extension, that.extension)) return false;
+        return Objects.equals(urlContenido, that.urlContenido);
     }
 
     @Override

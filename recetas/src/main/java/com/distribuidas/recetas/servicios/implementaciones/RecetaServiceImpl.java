@@ -72,7 +72,8 @@ public class RecetaServiceImpl implements RecetaService {
     public Receta recetaExistentePorUsuario(String nombreReceta, Integer idUsuario) {
         return this.recetaRepository.findByNombreAndIdUsuario(nombreReceta, idUsuario);
     }
-
+    //TODO va ser modificador por el refactor
+    // @RequestHeader("usuari_id")String usuariID  fecha <-poner donde haga falta
     @Override
     public List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta) {
         return this.recetaRepository.findByNombreOrderByNombreUser(nombreReceta);
@@ -83,6 +84,8 @@ public class RecetaServiceImpl implements RecetaService {
         return this.recetaRepository.findByNombreOrderByAntiguedad(nombreReceta);
     }
 
+
+    //TODO va ser modificador por el refactor
     @Override
     public List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario) {
         if (!Objects.equals(nombreReceta, "")) {

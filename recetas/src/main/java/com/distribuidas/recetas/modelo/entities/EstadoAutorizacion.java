@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -30,12 +32,10 @@ public class EstadoAutorizacion {
 
         EstadoAutorizacion that = (EstadoAutorizacion) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (idEntidad != null ? !idEntidad.equals(that.idEntidad) : that.idEntidad != null) return false;
-        if (tipoEstado != null ? !tipoEstado.equals(that.tipoEstado) : that.tipoEstado != null) return false;
-        if (tipoEntidad != null ? !tipoEntidad.equals(that.tipoEntidad) : that.tipoEntidad != null) return false;
-
-        return true;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(idEntidad, that.idEntidad)) return false;
+        if (!Objects.equals(tipoEstado, that.tipoEstado)) return false;
+        return Objects.equals(tipoEntidad, that.tipoEntidad);
     }
 
     @Override

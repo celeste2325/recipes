@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Setter
@@ -73,17 +74,15 @@ public class Receta {
 
         Receta receta = (Receta) o;
 
-        if (idReceta != null ? !idReceta.equals(receta.idReceta) : receta.idReceta != null) return false;
-        if (idUsuario != null ? !idUsuario.equals(receta.idUsuario) : receta.idUsuario != null) return false;
-        if (nombre != null ? !nombre.equals(receta.nombre) : receta.nombre != null) return false;
-        if (descripcion != null ? !descripcion.equals(receta.descripcion) : receta.descripcion != null) return false;
-        if (foto != null ? !foto.equals(receta.foto) : receta.foto != null) return false;
-        if (porciones != null ? !porciones.equals(receta.porciones) : receta.porciones != null) return false;
-        if (cantidadPersonas != null ? !cantidadPersonas.equals(receta.cantidadPersonas) : receta.cantidadPersonas != null)
+        if (!Objects.equals(idReceta, receta.idReceta)) return false;
+        if (!Objects.equals(idUsuario, receta.idUsuario)) return false;
+        if (!Objects.equals(nombre, receta.nombre)) return false;
+        if (!Objects.equals(descripcion, receta.descripcion)) return false;
+        if (!Objects.equals(foto, receta.foto)) return false;
+        if (!Objects.equals(porciones, receta.porciones)) return false;
+        if (!Objects.equals(cantidadPersonas, receta.cantidadPersonas))
             return false;
-        if (idTipo != null ? !idTipo.equals(receta.idTipo) : receta.idTipo != null) return false;
-
-        return true;
+        return Objects.equals(idTipo, receta.idTipo);
     }
 
     @Override

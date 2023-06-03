@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -39,14 +41,12 @@ public class Calificacion {
 
         Calificacion that = (Calificacion) o;
 
-        if (idCalificacion != null ? !idCalificacion.equals(that.idCalificacion) : that.idCalificacion != null)
+        if (!Objects.equals(idCalificacion, that.idCalificacion))
             return false;
-        if (idusuario != null ? !idusuario.equals(that.idusuario) : that.idusuario != null) return false;
-        if (idReceta != null ? !idReceta.equals(that.idReceta) : that.idReceta != null) return false;
-        if (calificacion != null ? !calificacion.equals(that.calificacion) : that.calificacion != null) return false;
-        if (comentarios != null ? !comentarios.equals(that.comentarios) : that.comentarios != null) return false;
-
-        return true;
+        if (!Objects.equals(idusuario, that.idusuario)) return false;
+        if (!Objects.equals(idReceta, that.idReceta)) return false;
+        if (!Objects.equals(calificacion, that.calificacion)) return false;
+        return Objects.equals(comentarios, that.comentarios);
     }
 
     @Override

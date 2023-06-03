@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -33,11 +35,9 @@ public class Favorito {
 
         Favorito favorito = (Favorito) o;
 
-        if (id != null ? !id.equals(favorito.id) : favorito.id != null) return false;
-        if (idUsuario != null ? !idUsuario.equals(favorito.idUsuario) : favorito.idUsuario != null) return false;
-        if (idReceta != null ? !idReceta.equals(favorito.idReceta) : favorito.idReceta != null) return false;
-
-        return true;
+        if (!Objects.equals(id, favorito.id)) return false;
+        if (!Objects.equals(idUsuario, favorito.idUsuario)) return false;
+        return Objects.equals(idReceta, favorito.idReceta);
     }
 
     @Override

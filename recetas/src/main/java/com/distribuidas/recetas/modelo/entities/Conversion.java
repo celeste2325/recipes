@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -36,15 +38,12 @@ public class Conversion {
 
         Conversion that = (Conversion) o;
 
-        if (idConversion != null ? !idConversion.equals(that.idConversion) : that.idConversion != null) return false;
-        if (idUnidadOrigen != null ? !idUnidadOrigen.equals(that.idUnidadOrigen) : that.idUnidadOrigen != null)
+        if (!Objects.equals(idConversion, that.idConversion)) return false;
+        if (!Objects.equals(idUnidadOrigen, that.idUnidadOrigen))
             return false;
-        if (idUnidadDestino != null ? !idUnidadDestino.equals(that.idUnidadDestino) : that.idUnidadDestino != null)
+        if (!Objects.equals(idUnidadDestino, that.idUnidadDestino))
             return false;
-        if (factorConversiones != null ? !factorConversiones.equals(that.factorConversiones) : that.factorConversiones != null)
-            return false;
-
-        return true;
+        return Objects.equals(factorConversiones, that.factorConversiones);
     }
 
     @Override
