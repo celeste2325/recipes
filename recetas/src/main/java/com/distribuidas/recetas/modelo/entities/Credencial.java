@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -35,17 +37,13 @@ public class Credencial {
 
         Credencial that = (Credencial) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null)
+        if (!Objects.equals(id, that.id))
             return false;
-        if (idUsuario != null ? !idUsuario.equals(that.idUsuario) : that.idUsuario != null)
+        if (!Objects.equals(idUsuario, that.idUsuario))
             return false;
-        if (contrasenia != null ? !contrasenia.equals(that.contrasenia) : that.contrasenia != null)
+        if (!Objects.equals(contrasenia, that.contrasenia))
             return false;
-        if (codigoVerificacion != null ? !codigoVerificacion.equals(that.codigoVerificacion)
-                : that.codigoVerificacion != null)
-            return false;
-
-        return true;
+        return Objects.equals(codigoVerificacion, that.codigoVerificacion);
     }
 
     @Override

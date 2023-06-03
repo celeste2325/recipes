@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.controlador;
 
+import com.distribuidas.recetas.email.EmailClient;
 import com.distribuidas.recetas.modelo.entities.Credencial;
 import com.distribuidas.recetas.modelo.entities.Usuario;
 import com.distribuidas.recetas.servicios.interfaces.CredencialService;
@@ -20,13 +21,15 @@ import java.util.stream.StreamSupport;
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
-    private UsuarioService usuarioService;
-    private CredencialService credencialService;
+    private final UsuarioService usuarioService;
+    private final CredencialService credencialService;
+    private final EmailClient emailClient;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioServ, CredencialService credencialServ) {
+    public UsuarioController(UsuarioService usuarioServ, CredencialService credencialServ,EmailClient emailClient) {
         this.usuarioService = usuarioServ;
         this.credencialService = credencialServ;
+        this.emailClient = emailClient;
 
     }
 
@@ -174,6 +177,7 @@ public class UsuarioController {
     public ResponseEntity<?> prealta(@RequestBody Usuario usuario) {
         usuario.setHabilitado("no");
         usuarioService.save(usuario);
+        emailClient.NewRegister(usuario.getMail());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

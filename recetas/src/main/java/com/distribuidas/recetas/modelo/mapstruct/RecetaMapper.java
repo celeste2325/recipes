@@ -1,13 +1,14 @@
 package com.distribuidas.recetas.modelo.mapstruct;
 
-import com.distribuidas.recetas.modelo.Receta;
+
 import com.distribuidas.recetas.modelo.dto.RecetaDto;
 import com.distribuidas.recetas.modelo.dto.response.RecetaResponseDto;
+import com.distribuidas.recetas.modelo.entities.Receta;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
-/*@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface RecetaMapper {
     Receta mapToEntity(RecetaDto recetaDto);
 
@@ -15,4 +16,3 @@ public interface RecetaMapper {
 
     List<RecetaResponseDto> mapLisToDto(List<Receta> recetaList);
 }
-*/

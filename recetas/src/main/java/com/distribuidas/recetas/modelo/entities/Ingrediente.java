@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Setter
@@ -30,11 +31,9 @@ public class Ingrediente {
 
         Ingrediente that = (Ingrediente) o;
 
-        if (idIngrediente != null ? !idIngrediente.equals(that.idIngrediente) : that.idIngrediente != null)
+        if (!Objects.equals(idIngrediente, that.idIngrediente))
             return false;
-        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
-
-        return true;
+        return Objects.equals(nombre, that.nombre);
     }
 
     @Override
