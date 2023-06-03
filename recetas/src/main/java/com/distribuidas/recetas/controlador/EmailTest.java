@@ -5,6 +5,7 @@ import com.distribuidas.recetas.servicios.interfaces.CredencialService;
 import com.distribuidas.recetas.servicios.interfaces.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,15 +20,10 @@ public class EmailTest {
     private final UsuarioService usuarioService;
 
     //TODO cambiar nombre
-    @GetMapping("/forgot")
-    public void forgotEmail() {
-        credencialService.forgotPassword("juanvalero252@gmail.com");
-    }
+    @GetMapping("/forgot/{email}")
+    public void forgotEmail(@PathVariable String email) {
 
-    //TODO borrar
-    @GetMapping("/newreg")
-    public void newreg() {
-        emailClient.NewRegister("juanvalero252@gmail.com");
+        credencialService.forgotPassword(email);
     }
 
 
