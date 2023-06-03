@@ -3,10 +3,9 @@ package com.distribuidas.recetas.email.template;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 @Component
 public class TemplateManager {
@@ -16,14 +15,13 @@ public class TemplateManager {
 
 
     public TemplateManager() throws IOException {
-        ForgotPasswordTemplateString = FileToString("recetas/src/main/java/com/distribuidas/recetas/email/template/ForgotEmailTemplate_EN.html");
-        GetNewRegisterTempalteString = FileToString("recetas/src/main/java/com/distribuidas/recetas/email/template/singUpTemplate_EN.html");
+        ForgotPasswordTemplateString = FileToString("src/main/java/com/distribuidas/recetas/email/template/ForgotEmailTemplate_EN.html");
+        GetNewRegisterTempalteString = FileToString("src/main/java/com/distribuidas/recetas/email/template/singUpTemplate_EN.html");
 
     }
 
     private static String FileToString(String templateDir) throws IOException {
-        var path = Paths.get(templateDir);
-        BufferedReader bufferedReader = Files.newBufferedReader(path);
+        BufferedReader bufferedReader = Files.newBufferedReader(Path.of(templateDir));
 
         // Leer el archivo línea por línea y concatenar las líneas en un StringBuilder
         StringBuilder contenido = new StringBuilder();
@@ -37,25 +35,21 @@ public class TemplateManager {
         bufferedReader.close();
 
         // Convertir el StringBuilder en un String
-        return  contenido.toString();
+        return contenido.toString();
 
     }
 
-    public String GetForgotpasswordTemplate(){
+    public String GetForgotpasswordTemplate() {
         return ForgotPasswordTemplateString;
 
 
     }
 
-    public String GetNewRegisterTemplate(){
+    public String GetNewRegisterTemplate() {
         return GetNewRegisterTempalteString;
 
 
     }
-
-
-
-
 
 
 }

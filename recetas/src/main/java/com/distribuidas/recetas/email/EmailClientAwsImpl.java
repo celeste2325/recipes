@@ -13,16 +13,16 @@ public class EmailClientAwsImpl implements EmailClient {
     public EmailClientAwsImpl(TemplateManager templateManager, AwsSesClient awsSesClient) {
 
         this.templateManager = templateManager;
-        this.awsSesClient= awsSesClient;
+        this.awsSesClient = awsSesClient;
     }
 
     @Override
     public void ForgotPassword(String code, String email) {
         var templateString = this.templateManager.GetForgotpasswordTemplate();
 
-        templateString =  templateString.replace("{URL}","localhost:8080");
-        templateString =  templateString.replace("{code}",code);
-        templateString =  templateString.replace("{email}",email);
+        templateString = templateString.replace("{URL}", "localhost:8080");
+        templateString = templateString.replace("{code}", code);
+        templateString = templateString.replace("{email}", email);
 
         var paramenters = new EmailParamenters();
         paramenters.setSubject("reinicia tu password");
@@ -36,8 +36,8 @@ public class EmailClientAwsImpl implements EmailClient {
     @Override
     public void NewRegister(String email) {
         var templateString = this.templateManager.GetNewRegisterTemplate();
-        templateString =  templateString.replace("{URL}","localhost:8080");
-        templateString =  templateString.replace("{email}",email);
+        templateString = templateString.replace("{URL}", "localhost:8080");
+        templateString = templateString.replace("{email}", email);
 
         var paramenters = new EmailParamenters();
         paramenters.setSubject("Confirma tu cuenta");

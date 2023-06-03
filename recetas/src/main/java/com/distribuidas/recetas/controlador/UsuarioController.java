@@ -26,7 +26,7 @@ public class UsuarioController {
     private final EmailClient emailClient;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioServ, CredencialService credencialServ,EmailClient emailClient) {
+    public UsuarioController(UsuarioService usuarioServ, CredencialService credencialServ, EmailClient emailClient) {
         this.usuarioService = usuarioServ;
         this.credencialService = credencialServ;
         this.emailClient = emailClient;

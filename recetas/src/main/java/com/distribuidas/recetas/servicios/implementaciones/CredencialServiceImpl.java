@@ -63,7 +63,7 @@ public class CredencialServiceImpl implements CredencialService {
         var usuario = usuarioRepository.findByMail(email).get();
         var credentials = usuario.getCredencialesByIdUsuario().stream().findFirst().get();
 
-        if(!credentials.getCodigoVerificacion().equals(code)&&usuario.getHabilitado().equals("NO")) {
+        if (!credentials.getCodigoVerificacion().equals(code) && usuario.getHabilitado().equals("NO")) {
             credentials.setCodigoVerificacion(null);
             credencialRepository.save(credentials);// no se si esta bien echo la cascada.
             usuario.setHabilitado("SI");
@@ -81,7 +81,7 @@ public class CredencialServiceImpl implements CredencialService {
         var usuario = usuarioRepository.findByMail(email).get();
         var credentials = usuario.getCredencialesByIdUsuario().stream().findFirst().get();
 
-        if(credentials.getCodigoVerificacion().equals(code)) {
+        if (credentials.getCodigoVerificacion().equals(code)) {
             credentials.setCodigoVerificacion(null);
             credentials.setContrasenia(password);
             credencialRepository.save(credentials);
