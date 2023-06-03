@@ -80,9 +80,11 @@ public class UsuarioController {
         System.out.println(usuario.get().getNombre());
         Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
         if (credencial.get().getContrasenia() != null && credencial.get().getContrasenia().equals(contrasenia)) {
-            return ResponseEntity.ok(usuario.get().getNickname() + "/1");
+           // return ResponseEntity.ok(usuario.get().getNickname() + "/1");
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.ok(" /0");
+        //return ResponseEntity.ok(" /0");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     ////////////////////////////////////
@@ -99,12 +101,12 @@ public class UsuarioController {
         if (usuario.isPresent()) {
             System.out.println(usuario.get().getHabilitado());
             if (usuario.get().getHabilitado().equals("si"))
-                return ResponseEntity.ok(usuario.get().getMail() + "El email ya esta en uso y habilitado");
+                return ResponseEntity.ok("El email ya esta en uso y habilitado");
             else
-                return ResponseEntity.ok(usuario.get().getMail() + "El usuario no completó su registro");
+                return ResponseEntity.ok("El usuario no completó su registro");
 
         }
-        return ResponseEntity.ok("El email no existe");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     ////////////////////////////////////
@@ -118,7 +120,7 @@ public class UsuarioController {
     public ResponseEntity<?> validarAlias(@RequestParam String nickname) {
         Optional<Usuario> usuario = usuarioService.findByNickname(nickname);
         if (usuario.isPresent()) {
-            return ResponseEntity.ok(usuario.get().getNickname() + "El alias ya esta en uso.");
+            return ResponseEntity.ok(usuario.get().getNickname() + ": El alias ya esta en uso.");
         }
         return ResponseEntity.ok("El alias esta libre.");
     }
@@ -162,7 +164,8 @@ public class UsuarioController {
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
         } else {
-            return ResponseEntity.ok("/0 /Contraseñas no coinciden.");
+            //return ResponseEntity.ok("/0 /Contraseñas no coinciden.");
+        	 return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
@@ -241,7 +244,8 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         usuarioService.deleteById(id);
         credencialService.deleteByidUsuario(id);
-        return ResponseEntity.ok().build();
+        //return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     ////////////////////////////////////
