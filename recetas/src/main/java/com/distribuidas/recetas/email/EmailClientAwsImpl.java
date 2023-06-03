@@ -25,7 +25,6 @@ public class EmailClientAwsImpl implements EmailClient {
         templateString =  templateString.replace("{email}",email);
 
         var paramenters = new EmailParamenters();
-        paramenters.setSenderEmail("example.uai@grupo1.com");
         paramenters.setSubject("reinicia tu password");
         paramenters.setRecipientEmail(email);
         paramenters.setHtmlBody(templateString);
@@ -35,14 +34,12 @@ public class EmailClientAwsImpl implements EmailClient {
     }
 
     @Override
-    public void NewRegister(String code, String email) {
+    public void NewRegister(String email) {
         var templateString = this.templateManager.GetNewRegisterTemplate();
         templateString =  templateString.replace("{URL}","localhost:8080");
-        templateString =  templateString.replace("{code}",code);
         templateString =  templateString.replace("{email}",email);
 
         var paramenters = new EmailParamenters();
-        paramenters.setSenderEmail("example.uai@grupo1.com");
         paramenters.setSubject("Confirma tu cuenta");
         paramenters.setRecipientEmail(email);
         paramenters.setHtmlBody(templateString);

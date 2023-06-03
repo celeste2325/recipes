@@ -43,10 +43,7 @@ public class CredencialServiceImpl implements CredencialService {
 
     @Transactional
     public void save(Credencial credencial) {
-        var codigoVer = GetCodigoVerificacion();
-        credencial.setCodigoVerificacion(codigoVer);
         credencialRepository.save(credencial);
-        emailClient.NewRegister(codigoVer, credencial.getUsuariosByIdUsuario().getMail());
     }
 
     // este request es para enviar la solicitud de olvidar password
