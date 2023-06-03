@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class CredencialController {
 
-    private UsuarioService usuarioService;
     private CredencialService credencialService;
-// /credentials/verify-credentials
+
     @PostMapping("/verify-credentials")
     public void verifyCredentials(@RequestParam(name = "email") String email,@RequestParam(name = "code") String codigo ) {
        credencialService.verifyCredentials(email,codigo);

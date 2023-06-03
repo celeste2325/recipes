@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Setter
@@ -39,12 +40,10 @@ public class Paso {
 
         Paso paso = (Paso) o;
 
-        if (idPaso != null ? !idPaso.equals(paso.idPaso) : paso.idPaso != null) return false;
-        if (idReceta != null ? !idReceta.equals(paso.idReceta) : paso.idReceta != null) return false;
-        if (nroPaso != null ? !nroPaso.equals(paso.nroPaso) : paso.nroPaso != null) return false;
-        if (texto != null ? !texto.equals(paso.texto) : paso.texto != null) return false;
-
-        return true;
+        if (!Objects.equals(idPaso, paso.idPaso)) return false;
+        if (!Objects.equals(idReceta, paso.idReceta)) return false;
+        if (!Objects.equals(nroPaso, paso.nroPaso)) return false;
+        return Objects.equals(texto, paso.texto);
     }
 
     @Override

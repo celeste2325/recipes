@@ -20,8 +20,8 @@ import java.util.stream.StreamSupport;
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
-    private UsuarioService usuarioService;
-    private CredencialService credencialService;
+    private final UsuarioService usuarioService;
+    private final CredencialService credencialService;
 
     @Autowired
     public UsuarioController(UsuarioService usuarioServ, CredencialService credencialServ) {

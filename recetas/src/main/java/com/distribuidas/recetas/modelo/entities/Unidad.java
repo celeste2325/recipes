@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Setter
@@ -34,10 +35,8 @@ public class Unidad {
 
         Unidad unidad = (Unidad) o;
 
-        if (idUnidad != null ? !idUnidad.equals(unidad.idUnidad) : unidad.idUnidad != null) return false;
-        if (descripcion != null ? !descripcion.equals(unidad.descripcion) : unidad.descripcion != null) return false;
-
-        return true;
+        if (!Objects.equals(idUnidad, unidad.idUnidad)) return false;
+        return Objects.equals(descripcion, unidad.descripcion);
     }
 
     @Override

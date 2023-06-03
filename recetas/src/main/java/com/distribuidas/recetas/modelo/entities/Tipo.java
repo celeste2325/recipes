@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Setter
@@ -32,10 +33,8 @@ public class Tipo {
 
         Tipo tipo = (Tipo) o;
 
-        if (idTipo != null ? !idTipo.equals(tipo.idTipo) : tipo.idTipo != null) return false;
-        if (descripcion != null ? !descripcion.equals(tipo.descripcion) : tipo.descripcion != null) return false;
-
-        return true;
+        if (!Objects.equals(idTipo, tipo.idTipo)) return false;
+        return Objects.equals(descripcion, tipo.descripcion);
     }
 
     @Override

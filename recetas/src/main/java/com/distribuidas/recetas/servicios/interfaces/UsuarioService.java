@@ -7,17 +7,17 @@ import java.util.Optional;
 
 public interface UsuarioService {
 
-    public Iterable<Usuario> findAll();
+    Iterable<Usuario> findAll();
 
-    public Optional<Usuario> findById(int id);
+    Optional<Usuario> findById(int id);
 
-    public Optional<Usuario> findByNickname(String nickname);
+    Optional<Usuario> findByNickname(String nickname);
 
-    public Optional<Usuario> findByMail(String email);
+    Optional<Usuario> findByMail(String email);
 
-    public void save(Usuario usuario);
+    void save(Usuario usuario);
 
-    public void deleteById(int id);
+    void deleteById(int id);
 
     List<Usuario> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario);
 }

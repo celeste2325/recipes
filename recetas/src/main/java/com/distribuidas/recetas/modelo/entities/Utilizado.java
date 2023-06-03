@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -50,17 +52,14 @@ public class Utilizado {
 
         Utilizado utilizado = (Utilizado) o;
 
-        if (idUtilizado != null ? !idUtilizado.equals(utilizado.idUtilizado) : utilizado.idUtilizado != null)
+        if (!Objects.equals(idUtilizado, utilizado.idUtilizado))
             return false;
-        if (idReceta != null ? !idReceta.equals(utilizado.idReceta) : utilizado.idReceta != null) return false;
-        if (idIngrediente != null ? !idIngrediente.equals(utilizado.idIngrediente) : utilizado.idIngrediente != null)
+        if (!Objects.equals(idReceta, utilizado.idReceta)) return false;
+        if (!Objects.equals(idIngrediente, utilizado.idIngrediente))
             return false;
-        if (cantidad != null ? !cantidad.equals(utilizado.cantidad) : utilizado.cantidad != null) return false;
-        if (idUnidad != null ? !idUnidad.equals(utilizado.idUnidad) : utilizado.idUnidad != null) return false;
-        if (observaciones != null ? !observaciones.equals(utilizado.observaciones) : utilizado.observaciones != null)
-            return false;
-
-        return true;
+        if (!Objects.equals(cantidad, utilizado.cantidad)) return false;
+        if (!Objects.equals(idUnidad, utilizado.idUnidad)) return false;
+        return Objects.equals(observaciones, utilizado.observaciones);
     }
 
     @Override

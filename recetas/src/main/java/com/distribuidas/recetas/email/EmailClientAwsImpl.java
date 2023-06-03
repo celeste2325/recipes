@@ -1,13 +1,10 @@
 package com.distribuidas.recetas.email;
 
 import com.distribuidas.recetas.email.template.TemplateManager;
-import com.distribuidas.recetas.servicios.interfaces.CredencialService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmailClientAwsImpl implements EmailClient {
-
-
 
     final private TemplateManager templateManager;
 

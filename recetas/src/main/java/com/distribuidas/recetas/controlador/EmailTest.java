@@ -24,6 +24,8 @@ public class EmailTest {
 
     @GetMapping("/newreg")
     public void newreg(){
+
+
         emailClient.NewRegister("1234","juanvalero252@gmail.com");
     }
 
