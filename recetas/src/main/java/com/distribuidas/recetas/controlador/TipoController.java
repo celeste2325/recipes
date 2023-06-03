@@ -30,4 +30,5 @@ public class TipoController {
         }
         return null;//agregar excepcion
     }
+    //TODO buscar tipo por id
 }

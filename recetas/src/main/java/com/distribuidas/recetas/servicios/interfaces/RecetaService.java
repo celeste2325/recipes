@@ -2,7 +2,9 @@ package com.distribuidas.recetas.servicios.interfaces;
 
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
+import com.distribuidas.recetas.modelo.dto.response.ReemplazarRecetaResponseDto;
 import com.distribuidas.recetas.modelo.entities.Receta;
+import com.distribuidas.recetas.modelo.entities.RecetaAutorizada;
 
 import java.util.List;
 
@@ -13,22 +15,24 @@ public interface RecetaService {
 
     void eliminarReceta(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException;
 
-    List<Receta> devolverRecetas();
+    List<RecetaAutorizada> devolverRecetas();
 
-    Receta recetaExistentePorUsuario(String nombreReceta, Integer idUsuario);
+    RecetaAutorizada recetaExistentePorUsuario(String nombreReceta, Integer idUsuario);
 
-    List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario);
+    List<RecetaAutorizada> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario);
 
-    Receta devolverRecetaPorId(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException;
+    RecetaAutorizada devolverRecetaPorId(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException;
 
-    List<Receta> devolverRecetasSinIngrediente(Integer idIngrediente);
+    List<RecetaAutorizada> devolverRecetasSinIngrediente(Integer idIngrediente);
 
-    List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta);
+    List<RecetaAutorizada> devolverRecetasPorBusquedaParcialNombre(String nombreReceta);
 
-    List<Receta> devuelve3RecetasInicioApp(Integer idUsuario);
+    List<RecetaAutorizada> devuelve3RecetasInicioApp(Integer idUsuario);
 
-    List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta);
+    List<RecetaAutorizada> recetasPorNombreOrdenNombreUsuario(String nombreReceta);
 
-    List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta);
+    List<RecetaAutorizada> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta);
+
+    ReemplazarRecetaResponseDto reemplazarReceta(Integer idReceta) throws NoExisteUnaRecetaParaElIdIngresadoException;
 
 }

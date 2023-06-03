@@ -2,10 +2,15 @@ package com.distribuidas.recetas.servicios.implementaciones;
 
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
+import com.distribuidas.recetas.modelo.dto.response.ReemplazarRecetaResponseDto;
 import com.distribuidas.recetas.modelo.entities.FechaReceta;
 import com.distribuidas.recetas.modelo.entities.Receta;
+import com.distribuidas.recetas.modelo.entities.RecetaAutorizada;
+import com.distribuidas.recetas.repositorios.CalificacionRepository;
+import com.distribuidas.recetas.repositorios.RecetaAutorizadaRepository;
 import com.distribuidas.recetas.repositorios.RecetaRepository;
 import com.distribuidas.recetas.servicios.interfaces.RecetaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +23,12 @@ import java.util.Optional;
 @Service
 public class RecetaServiceImpl implements RecetaService {
     @Autowired
+    private CalificacionRepository calificacionRepository;
+    @Autowired
     private RecetaRepository recetaRepository;
+
+    @Autowired
+    private RecetaAutorizadaRepository recetaAutorizadaRepository;
 
     @Override
     public Receta altaReceta(Receta newReceta) throws YaExisteUnaRecetaConMismoNombreYUsuarioException {
@@ -32,12 +42,17 @@ public class RecetaServiceImpl implements RecetaService {
         throw new YaExisteUnaRecetaConMismoNombreYUsuarioException("Estimado/a, ya creo una receta con mismo nombre");
     }
 
+    @Transactional
     @Override
     public Receta updateReceta(Integer id, Receta newReceta) throws NoExisteUnaRecetaParaElIdIngresadoException {
         Optional<Receta> recetaAModificar = this.recetaRepository.findById(id);
         if (recetaAModificar.isPresent()) {
-            //TODO ELIMINAR COMENTARIOS
-            //edita los demas campos
+            //se eliminan los comentarios de la receta
+            if (!recetaAModificar.get().getCalificacionesByIdReceta().isEmpty()) {
+                this.eliminarComentarios(recetaAModificar.get().getIdReceta());
+            }
+
+            //edita los campos
             recetaAModificar.get().setNombre(newReceta.getNombre());
             recetaAModificar.get().setDescripcion(newReceta.getDescripcion());
             recetaAModificar.get().setFotosByIdReceta(newReceta.getFotosByIdReceta());
@@ -52,7 +67,6 @@ public class RecetaServiceImpl implements RecetaService {
         throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
     }
 
-    //TODO crear un reemplazar q llame a este metodo pero antes conserve las calificaciones para cargar a la nueva receta
     @Override
     public void eliminarReceta(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException {
         Optional<Receta> receta = this.recetaRepository.findById(id);
@@ -64,37 +78,60 @@ public class RecetaServiceImpl implements RecetaService {
     }
 
     @Override
-    public List<Receta> devolverRecetas() {
-        return this.recetaRepository.findAll();
+    public List<RecetaAutorizada> devolverRecetas() {
+        return this.recetaAutorizadaRepository.findAll();
     }
 
     @Override
-    public Receta recetaExistentePorUsuario(String nombreReceta, Integer idUsuario) {
-        return this.recetaRepository.findByNombreAndIdUsuario(nombreReceta, idUsuario);
+    public RecetaAutorizada recetaExistentePorUsuario(String nombreReceta, Integer idUsuario) {
+        return this.recetaAutorizadaRepository.findByNombreAndIdUsuario(nombreReceta, idUsuario);
     }
 
     @Override
-    public List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta) {
+    public List<RecetaAutorizada> recetasPorNombreOrdenNombreUsuario(String nombreReceta) {
         return this.recetaRepository.findByNombreOrderByNombreUser(nombreReceta);
     }
 
     @Override
-    public List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta) {
+    public List<RecetaAutorizada> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta) {
         return this.recetaRepository.findByNombreOrderByAntiguedad(nombreReceta);
     }
 
+    @Transactional
     @Override
-    public List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario) {
+    public ReemplazarRecetaResponseDto reemplazarReceta(Integer idReceta) throws NoExisteUnaRecetaParaElIdIngresadoException {
+        Optional<Receta> recetaEncotrada = this.recetaRepository.findById(idReceta);
+        ReemplazarRecetaResponseDto reemplazarRecetaResponseDto = new ReemplazarRecetaResponseDto();
+        if (recetaEncotrada.isPresent()) {
+            reemplazarRecetaResponseDto.setNombre(recetaEncotrada.get().getNombre());
+            //se eliminan los comentarios de la receta pero se mantienen las calificaciones
+            if (!recetaEncotrada.get().getCalificacionesByIdReceta().isEmpty()) {
+                this.eliminarComentarios(recetaEncotrada.get().getIdReceta());
+                reemplazarRecetaResponseDto.setCalificacionesByIdReceta(recetaEncotrada.get().getCalificacionesByIdReceta());
+            }
+            //implementar eliminacion logica
+            //this.eliminarReceta(recetaEncotrada.get().getIdReceta());
+            return reemplazarRecetaResponseDto;
+        }
+        throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
+    }
+
+    private void eliminarComentarios(Integer idReceta) {
+        this.calificacionRepository.eliminarComentariosDeReceta(idReceta);
+    }
+
+    @Override
+    public List<RecetaAutorizada> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario) {
         if (!Objects.equals(nombreReceta, "")) {
-            return this.recetaRepository.findByNombre(nombreReceta);
+            return this.recetaAutorizadaRepository.findByNombre(nombreReceta);
         } else if (!idTipo.equals(0)) {
-            List<Receta> recetasPorTipoDePlato = this.recetaRepository.findByIdTipo(idTipo);
-            recetasPorTipoDePlato.sort(Comparator.comparing((Receta receta) -> receta.getNombre().toLowerCase()));
+            List<RecetaAutorizada> recetasPorTipoDePlato = this.recetaAutorizadaRepository.findByIdTipo(idTipo);
+            recetasPorTipoDePlato.sort(Comparator.comparing((RecetaAutorizada receta) -> receta.getNombre().toLowerCase()));
             return recetasPorTipoDePlato;
 
         } else if (!idUsuario.equals(0)) {
-            List<Receta> byIdUsuario = this.recetaRepository.findByIdUsuario(idUsuario);
-            byIdUsuario.sort(Comparator.comparing((Receta receta) -> receta.getNombre().toLowerCase()));
+            List<RecetaAutorizada> byIdUsuario = this.recetaAutorizadaRepository.findByIdUsuario(idUsuario);
+            byIdUsuario.sort(Comparator.comparing((RecetaAutorizada receta) -> receta.getNombre().toLowerCase()));
             return byIdUsuario;
 
         } else if (!idIngrediente.equals(0)) {
@@ -104,8 +141,8 @@ public class RecetaServiceImpl implements RecetaService {
     }
 
     @Override
-    public Receta devolverRecetaPorId(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException {
-        Optional<Receta> receta = this.recetaRepository.findById(id);
+    public RecetaAutorizada devolverRecetaPorId(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException {
+        Optional<RecetaAutorizada> receta = this.recetaAutorizadaRepository.findById(id);
         if (receta.isPresent()) {
             return receta.get();
         }
@@ -113,20 +150,20 @@ public class RecetaServiceImpl implements RecetaService {
     }
 
     @Override
-    public List<Receta> devolverRecetasSinIngrediente(Integer idIngrediente) {
+    public List<RecetaAutorizada> devolverRecetasSinIngrediente(Integer idIngrediente) {
         return this.recetaRepository.recetasSinIngredientes(idIngrediente);
     }
 
     @Override
-    public List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta) {
+    public List<RecetaAutorizada> devolverRecetasPorBusquedaParcialNombre(String nombreReceta) {
         if (!Objects.equals(nombreReceta, "")) {
-            return recetaRepository.findByNombreLikeIgnoreCase("%" + nombreReceta + "%");
+            return recetaAutorizadaRepository.findByNombreLikeIgnoreCase("%" + nombreReceta + "%");
         }
         return null;
     }
 
     @Override
-    public List<Receta> devuelve3RecetasInicioApp(Integer idUsuario) {
+    public List<RecetaAutorizada> devuelve3RecetasInicioApp(Integer idUsuario) {
         return this.recetaRepository.recetasPorUsuarioOrdenadasPorFecha(idUsuario);
     }
 

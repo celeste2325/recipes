@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.modelo.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class Calificacion {
     @JoinColumn(name = "idusuario", referencedColumnName = "idUsuario")
     private Usuario usuariosByIdusuario;
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
     private Receta recetasByIdReceta;
 
