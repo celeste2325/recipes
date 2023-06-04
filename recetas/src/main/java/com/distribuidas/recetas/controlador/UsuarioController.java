@@ -32,68 +32,15 @@ public class UsuarioController {
         this.emailClient = emailClient;
 
     }
-
-    @GetMapping("busquedaParcial/{nombreParcialUsuario}")
-    public List<Usuario> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialUsuario) {
-        if (nombreParcialUsuario.length() >= 3) {
-            return this.usuarioService.devolverUsuariosPorBusquedaParcialNombre(nombreParcialUsuario);
-        }
-        return null;//agregar excepcion
-    }
-
+    
     ////////////////////////////////////
 
     // METODO OK
 
     ////////////////////////////////////
-
-    // Crear un usuario
-    @PostMapping("/alta")
-    public ResponseEntity<?> create(@RequestBody Usuario usuario) {
-        usuarioService.save(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    ////////////////////////////////////
-
-    // METODO OK
-
-    ////////////////////////////////////
-
-    // Crear credencial
-    @PostMapping("/altacred")
-    public ResponseEntity<?> createCred(@RequestBody Credencial credencial) {
-        credencialService.save(credencial);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    ////////////////////////////////////
-
-    // METODO OK
-
-    ////////////////////////////////////
-
-    // Login
-    @GetMapping(path = "/login", params = {"alias", "contrasenia"})
-    public ResponseEntity<?> login(@RequestParam String alias, @RequestParam String contrasenia) {
-        Optional<Usuario> usuario = usuarioService.findByNickname(alias);
-        System.out.println(usuario.get().getNombre());
-        Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
-        if (credencial.get().getContrasenia() != null && credencial.get().getContrasenia().equals(contrasenia)) {
-           // return ResponseEntity.ok(usuario.get().getNickname() + "/1");
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-       // return ResponseEntity.badRequest().build();
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
-    }
-
-    ////////////////////////////////////
-
-    // METODO OK
-
-    ////////////////////////////////////
-
-    // Valida si existe el email
+    
+    
+ // Valida si existe el email
     @GetMapping(path = "/validarEmail", params = {"email"})
     public ResponseEntity<?> validarEmail(@RequestParam String email) {
         Optional<Usuario> usuario = usuarioService.findByMail(email);
@@ -104,11 +51,11 @@ public class UsuarioController {
                 //return ResponseEntity.ok("El email ya esta en uso y habilitado");
             	return ResponseEntity.ok("1");
             else
-                return ResponseEntity.ok("El usuario no completó su registro");
+                return ResponseEntity.ok("2");
 
         }
-
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+        		return ResponseEntity.ok("0");
+       // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
 
     }
 
@@ -130,26 +77,76 @@ public class UsuarioController {
         	throw new ResponseStatusException(HttpStatus.CONFLICT, "El alias existe.");
 
         }
-        return ResponseEntity.ok("El alias esta libre.");
+        return ResponseEntity.ok("0");
     }
 
     ////////////////////////////////////
 
-    // METODO OK ------------ ESTE METODO SE RESUELVE DESDE EL FRONT
+    // METODO OK
 
     ////////////////////////////////////
 
-    /*
-     * //Valida contraseña
-     *
-     * @GetMapping(path="/validarContrasenia",params= {"pwd1","pwd2"}) public
-     * ResponseEntity<?> validarAlias(@RequestParam String pwd1, @RequestParam
-     * String pwd2) {
-     *
-     * if (pwd1.equals(pwd2)) { return
-     * ResponseEntity.ok("/1 /Contraseñas coinciden."); }else { return
-     * ResponseEntity.ok("/0 /Contraseñas no coinciden."); } }
-     */
+    // Pre-creación de usuario
+    @PostMapping("/prealta")
+    public ResponseEntity<?> prealta(@RequestBody Usuario usuario) {
+        usuario.setHabilitado("no");
+        usuarioService.save(usuario);
+        emailClient.NewRegister(usuario.getMail());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+    ////////////////////////////////////
+
+    // METODO OK
+
+    ////////////////////////////////////
+
+    // Crear un usuario
+    @PostMapping("/alta")
+    public ResponseEntity<?> create(@RequestBody Usuario usuario) {
+        Optional<Usuario> usr = usuarioService.findByMail(usuario.getMail());
+            usr.get().setNombre(usuario.getNombre());
+            usr.get().setMail(usuario.getMail());
+            usr.get().setHabilitado(usuario.getHabilitado());
+            usr.get().setNickname(usuario.getNickname());
+            usr.get().setAvatar(usuario.getAvatar());
+            usr.get().setTipoUsuario(usuario.getTipoUsuario());
+            usuarioService.save(usr.get());
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+    ////////////////////////////////////
+
+   // METODO OK
+
+   ////////////////////////////////////
+
+   // Crear credencial
+   @PostMapping("/altacred")
+   public ResponseEntity<?> createCred(@RequestBody Credencial credencial) {
+       credencialService.save(credencial);
+       return ResponseEntity.status(HttpStatus.CREATED).build();
+   }
+
+
+
+    ////////////////////////////////////
+
+    // METODO OK
+
+    ////////////////////////////////////
+
+    // Login
+    @GetMapping(path = "/login", params = {"alias", "contrasenia"})
+    public ResponseEntity<?> login(@RequestParam String alias, @RequestParam String contrasenia) {
+        Optional<Usuario> usuario = usuarioService.findByNickname(alias);
+        System.out.println(usuario.get().getNombre());
+        Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
+        if (credencial.get().getContrasenia() != null && credencial.get().getContrasenia().equals(contrasenia)) {
+           // return ResponseEntity.ok(usuario.get().getNickname() + "/1");
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+       // return ResponseEntity.badRequest().build();
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario no encontrado");
+    }
 
     ////////////////////////////////////
 
@@ -184,14 +181,105 @@ public class UsuarioController {
 
     ////////////////////////////////////
 
-    // Pre-creación de usuario
-    @PostMapping("/prealta")
-    public ResponseEntity<?> prealta(@RequestBody Usuario usuario) {
-        usuario.setHabilitado("no");
-        usuarioService.save(usuario);
-        emailClient.NewRegister(usuario.getMail());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    // REGISTRO SI ES ALUMNO
+
+    @GetMapping(path = "/validarAlumno", params = {"email"})
+    public ResponseEntity<?> validarAlumno(@RequestParam String email) {
+        Optional<Usuario> usuario = usuarioService.findByMail(email);
+
+        if (usuario.isPresent() && usuario.get().getTipoUsuario().equals("Alumno")) {
+            System.out.println(usuario.get().getTipoUsuario());
+            credencialService.esAlumno(email);
+            return ResponseEntity.ok("Es Alumno");
+        } else {
+        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No es Alumno o el Email no existe");
+           // return ResponseEntity.ok("No es Alumno o el Email no existe");
+
+        }
     }
+
+
+    ////////////////////////////////////
+
+    // METODO OK
+
+    ////////////////////////////////////
+    
+    
+
+    @GetMapping(path = "/forgot", params = {"email"})
+    public ResponseEntity<?> recuperoContraseniaOTP(@RequestParam String email) {
+        credencialService.forgotPassword(email);
+        return ResponseEntity.status(HttpStatus.OK).build();
+       
+    }
+    
+    ////////////////////////////////////
+
+    // METODO OK
+
+    ////////////////////////////////////
+    
+    @GetMapping(path = "/verificarOTP", params = {"email", "code"})
+    public ResponseEntity<?> verificarOTP(@RequestParam String email, @RequestParam String code) {
+    	
+        Optional<Usuario> usuario = usuarioService.findByMail(email);
+        Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
+        if (credencial.get().getCodigoVerificacion().equals(code)) {
+        	credencial.get().setCodigoVerificacion(null);
+        	credencialService.save(credencial.get());
+        	return ResponseEntity.status(HttpStatus.OK).build();
+        	}
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Códigos no coinciden");
+    
+    }
+
+    ////////////////////////////////////
+
+    // METODO OK
+
+    ////////////////////////////////////
+
+    /* Valida primer login
+    @GetMapping(path = "/validarPrimerLogin", params = {"email"})
+    public ResponseEntity<?> validarPrimerLogin(@RequestParam String email) {
+        Optional<Usuario> usuario = usuarioService.findByMail(email);
+
+        if (usuario.isPresent() && usuario.get().getNombre().equals("99999")) {
+            	return ResponseEntity.ok("1");}
+            else {
+                return ResponseEntity.ok("2");
+
+        }
+
+    }*/
+    
+    ////////////////////////////////////
+
+    // METODO OK
+
+    ////////////////////////////////////
+
+    
+
+    ////////////////////////////////////
+
+    // METODO OK ------------ ESTE METODO SE RESUELVE DESDE EL FRONT
+
+    ////////////////////////////////////
+
+    /*
+     * //Valida contraseña
+     *
+     * @GetMapping(path="/validarContrasenia",params= {"pwd1","pwd2"}) public
+     * ResponseEntity<?> validarAlias(@RequestParam String pwd1, @RequestParam
+     * String pwd2) {
+     *
+     * if (pwd1.equals(pwd2)) { return
+     * ResponseEntity.ok("/1 /Contraseñas coinciden."); }else { return
+     * ResponseEntity.ok("/0 /Contraseñas no coinciden."); } }
+     */
+
 
     ////////////////////////////////////
 
@@ -272,22 +360,13 @@ public class UsuarioController {
     }
 
 
-    // REGISTRO SI ES ALUMNO
-
-    @GetMapping(path = "/validarAlumno", params = {"email"})
-    public ResponseEntity<?> validarAlumno(@RequestParam String email) {
-        Optional<Usuario> usuario = usuarioService.findByMail(email);
-
-        if (usuario.isPresent() && usuario.get().getTipoUsuario().equals("Alumno")) {
-            System.out.println(usuario.get().getTipoUsuario());
-            emailClient.ValidarAlumno(email);
-            return ResponseEntity.ok("Es Alumno");
-        } else {
-        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No es Alumno o el Email no existe");
-           // return ResponseEntity.ok("No es Alumno o el Email no existe");
-
+    
+    @GetMapping("busquedaParcial/{nombreParcialUsuario}")
+    public List<Usuario> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialUsuario) {
+        if (nombreParcialUsuario.length() >= 3) {
+            return this.usuarioService.devolverUsuariosPorBusquedaParcialNombre(nombreParcialUsuario);
         }
+        return null;//agregar excepcion
     }
 
-    // RECUPERAR CONTRASEÑA CON OTP
 }

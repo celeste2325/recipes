@@ -25,7 +25,7 @@ public class EmailClientAwsImpl implements EmailClient {
         templateString = templateString.replace("{email}", email);
 
         var paramenters = new EmailParamenters();
-        paramenters.setSubject("reinicia tu password");
+        paramenters.setSubject("Recupero de contraseña");
         paramenters.setRecipientEmail(email);
         paramenters.setHtmlBody(templateString);
 
@@ -34,13 +34,14 @@ public class EmailClientAwsImpl implements EmailClient {
     }
 
     @Override
-    public void ValidarAlumno(String email) {
+    public void ValidarAlumno(String code, String email) {
         var templateString = this.templateManager.GetValidarAlumnoTemplateString();
         templateString = templateString.replace("{URL}", "localhost:8080");
+        templateString = templateString.replace("{code}", code);
         templateString = templateString.replace("{email}", email);
 
         var paramenters = new EmailParamenters();
-        paramenters.setSubject("Confirma tu cuenta de alumno");
+        paramenters.setSubject("¡Bienvenido a AdiCook!");
         paramenters.setRecipientEmail(email);
         paramenters.setHtmlBody(templateString);
 
@@ -54,7 +55,7 @@ public class EmailClientAwsImpl implements EmailClient {
         templateString = templateString.replace("{email}", email);
 
         var paramenters = new EmailParamenters();
-        paramenters.setSubject("Confirma tu cuenta");
+        paramenters.setSubject("¡Bienvenido a AdiCook!");
         paramenters.setRecipientEmail(email);
         paramenters.setHtmlBody(templateString);
 
