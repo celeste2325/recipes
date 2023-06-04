@@ -13,9 +13,11 @@ public class TemplateManager {
     private final String ForgotPasswordTemplateString;
     private final String GetNewRegisterTempalteString;
 
+
     public TemplateManager() throws IOException {
         ForgotPasswordTemplateString = FileToString("src/main/java/com/distribuidas/recetas/email/template/ForgotEmailTemplate_EN.html");
         GetNewRegisterTempalteString = FileToString("src/main/java/com/distribuidas/recetas/email/template/singUpTemplate_EN.html");
+
     }
 
     private static String FileToString(String templateDir) throws IOException {

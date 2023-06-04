@@ -3,7 +3,6 @@ package com.distribuidas.recetas.controlador;
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
 import com.distribuidas.recetas.modelo.dto.RecetaDto;
-import com.distribuidas.recetas.modelo.dto.ReemplazarRecetaResponseDto;
 import com.distribuidas.recetas.modelo.dto.response.RecetaResponseDto;
 import com.distribuidas.recetas.modelo.entities.Receta;
 import com.distribuidas.recetas.modelo.mapstruct.RecetaMapper;

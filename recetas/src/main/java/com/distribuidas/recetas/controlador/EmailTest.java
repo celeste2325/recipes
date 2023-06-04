@@ -20,10 +20,15 @@ public class EmailTest {
     private final UsuarioService usuarioService;
 
     //TODO cambiar nombre
-    @GetMapping("/forgot/{email}")
-    public void forgotEmail(@PathVariable String email) {
+    @GetMapping("/forgot")
+    public void forgotEmail() {
+        credencialService.forgotPassword("juanvalero252@gmail.com");
+    }
 
-        credencialService.forgotPassword(email);
+    //TODO borrar
+    @GetMapping("/newreg")
+    public void newreg() {
+        emailClient.NewRegister("juanvalero252@gmail.com");
     }
 
 

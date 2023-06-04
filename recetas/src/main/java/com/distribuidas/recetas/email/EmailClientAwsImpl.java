@@ -32,21 +32,6 @@ public class EmailClientAwsImpl implements EmailClient {
         awsSesClient.SendEmail(paramenters);
 
     }
-    @Override
-    public void validaAlumno(String email) {
-        var templateString = this.templateManager.GetForgotpasswordTemplate();
-
-        templateString = templateString.replace("{URL}", "localhost:8080");
-        templateString = templateString.replace("{email}", email);
-
-        var paramenters = new EmailParamenters();
-        paramenters.setSubject("valida tu email");
-        paramenters.setRecipientEmail(email);
-        paramenters.setHtmlBody(templateString);
-
-        awsSesClient.SendEmail(paramenters);
-
-    }
 
     @Override
     public void NewRegister(String email) {
