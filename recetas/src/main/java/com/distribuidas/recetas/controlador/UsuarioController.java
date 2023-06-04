@@ -276,6 +276,7 @@ public class UsuarioController {
 
         if (usuario.isPresent() && usuario.get().getTipoUsuario().equals("Alumno")) {
             System.out.println(usuario.get().getTipoUsuario());
+            emailClient.ValidarAlumno(email);
             return ResponseEntity.ok("Es Alumno");
         } else {
         	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No es Alumno o el Email no existe");

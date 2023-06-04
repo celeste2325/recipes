@@ -34,6 +34,20 @@ public class EmailClientAwsImpl implements EmailClient {
     }
 
     @Override
+    public void ValidarAlumno(String email) {
+        var templateString = this.templateManager.GetValidarAlumnoTemplateString();
+        templateString = templateString.replace("{URL}", "localhost:8080");
+        templateString = templateString.replace("{email}", email);
+
+        var paramenters = new EmailParamenters();
+        paramenters.setSubject("Confirma tu cuenta de alumno");
+        paramenters.setRecipientEmail(email);
+        paramenters.setHtmlBody(templateString);
+
+        awsSesClient.SendEmail(paramenters);
+    }
+    
+    @Override
     public void NewRegister(String email) {
         var templateString = this.templateManager.GetNewRegisterTemplate();
         templateString = templateString.replace("{URL}", "localhost:8080");
