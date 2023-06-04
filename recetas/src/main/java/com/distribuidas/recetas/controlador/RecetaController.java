@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/recetas")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class RecetaController {
 
     private final RecetaService recetaService;
@@ -37,6 +38,14 @@ public class RecetaController {
             Receta newRecetaEntity = this.recetaMapper.mapToEntity(newReceta);
             return new ResponseEntity<>(this.recetaMapper.mapResponseDto(this.recetaService.updateReceta(id, newRecetaEntity)), HttpStatus.CREATED);
         } catch (NoExisteUnaRecetaParaElIdIngresadoException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @GetMapping("/reemplazar/{idReceta}")
+    public ResponseEntity<?> reemplazarReceta(@PathVariable Integer idReceta) {
+        try {
+            return new ResponseEntity<>(this.recetaService.reemplazarReceta(idReceta), HttpStatus.OK);
+        }catch (NoExisteUnaRecetaParaElIdIngresadoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -73,12 +82,13 @@ public class RecetaController {
     }
 
     @GetMapping("/{idUsuario}/{nombreReceta}")
-    public ResponseEntity<?> recetaExistentePorUsuario(@PathVariable Integer idUsuario, @PathVariable String nombreReceta) {
+    public ResponseEntity<?> recetaExistentePorUsuario(@PathVariable Integer idUsuario, @PathVariable String nombreReceta) throws YaExisteUnaRecetaConMismoNombreYUsuarioException {
         Receta receta = this.recetaService.recetaExistentePorUsuario(nombreReceta, idUsuario);
         if (receta == null) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(receta,HttpStatus.OK);
+        }else {
+            return ResponseEntity.badRequest().body(receta);
         }
-        return new ResponseEntity<>(this.recetaMapper.mapResponseDto(receta), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("busquedaPorId/{id}")
@@ -91,11 +101,17 @@ public class RecetaController {
     }
 
     @GetMapping("/request-param")
-    public ResponseEntity<List<RecetaResponseDto>> devolverRecetasbyParamQuery(@RequestParam(defaultValue = "") String nombreReceta,
+    public ResponseEntity<List<Object>> devolverRecetasbyParamQuery(@RequestParam(defaultValue = "0") Integer idReceta,
+                                                                               @RequestParam(defaultValue = "") String nombreReceta,
                                                                                @RequestParam(defaultValue = "0") Integer idTipo,
                                                                                @RequestParam(defaultValue = "0") Integer idIngrediente,
-                                                                               @RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasPorParamQueries(nombreReceta, idTipo, idIngrediente, idUsuario)),
+                                                                               @RequestParam(defaultValue = "0") Integer idUsuarioObligatorio,
+                                                                               @RequestParam(defaultValue = "") String tipoOrdenamiento,
+                                                                               @RequestParam(defaultValue = "") String nombreUsuario,
+                                                                               @RequestParam(defaultValue = "0") Integer idUsuario
+    ) {
+        return new ResponseEntity<>(this.recetaService.busquedaRecetasByParamAndOrderbyparam(
+                idReceta, nombreReceta, idTipo, idIngrediente, idUsuarioObligatorio,tipoOrdenamiento,nombreUsuario,idUsuario),
                 HttpStatus.OK);
     }
 

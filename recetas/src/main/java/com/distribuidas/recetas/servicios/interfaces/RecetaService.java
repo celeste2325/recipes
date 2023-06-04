@@ -2,6 +2,7 @@ package com.distribuidas.recetas.servicios.interfaces;
 
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
+import com.distribuidas.recetas.modelo.dto.response.ReemplazarRecetaResponseDto;
 import com.distribuidas.recetas.modelo.entities.Receta;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface RecetaService {
 
     List<Receta> devolverRecetas();
 
-    Receta recetaExistentePorUsuario(String nombreReceta, Integer idUsuario);
+    Receta recetaExistentePorUsuario(String nombreReceta, Integer idUsuario) throws YaExisteUnaRecetaConMismoNombreYUsuarioException;
 
     List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario);
 
@@ -30,5 +31,8 @@ public interface RecetaService {
     List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta);
 
     List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta);
+
+    List<Object> busquedaRecetasByParamAndOrderbyparam(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente,  Integer IdUsuarioObligatorio, String tipoOrdenamiento, String nombreUsuario,Integer idUsuario);
+    ReemplazarRecetaResponseDto reemplazarReceta(Integer idReceta) throws NoExisteUnaRecetaParaElIdIngresadoException;
 
 }

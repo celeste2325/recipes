@@ -2,10 +2,13 @@ package com.distribuidas.recetas.servicios.implementaciones;
 
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
+import com.distribuidas.recetas.modelo.dto.response.ReemplazarRecetaResponseDto;
 import com.distribuidas.recetas.modelo.entities.FechaReceta;
 import com.distribuidas.recetas.modelo.entities.Receta;
+import com.distribuidas.recetas.repositorios.CalificacionRepository;
 import com.distribuidas.recetas.repositorios.RecetaRepository;
 import com.distribuidas.recetas.servicios.interfaces.RecetaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class RecetaServiceImpl implements RecetaService {
+    @Autowired
+    private CalificacionRepository calificacionRepository;
     @Autowired
     private RecetaRepository recetaRepository;
 
@@ -36,8 +41,12 @@ public class RecetaServiceImpl implements RecetaService {
     public Receta updateReceta(Integer id, Receta newReceta) throws NoExisteUnaRecetaParaElIdIngresadoException {
         Optional<Receta> recetaAModificar = this.recetaRepository.findById(id);
         if (recetaAModificar.isPresent()) {
-            //TODO ELIMINAR COMENTARIOS
-            //edita los demas campos
+            //se eliminan los comentarios de la receta
+            if (!recetaAModificar.get().getCalificacionesByIdReceta().isEmpty()) {
+                this.eliminarComentarios(recetaAModificar.get().getIdReceta());
+            }
+
+            //edita los campos
             recetaAModificar.get().setNombre(newReceta.getNombre());
             recetaAModificar.get().setDescripcion(newReceta.getDescripcion());
             recetaAModificar.get().setFotosByIdReceta(newReceta.getFotosByIdReceta());
@@ -52,7 +61,6 @@ public class RecetaServiceImpl implements RecetaService {
         throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
     }
 
-    //TODO crear un reemplazar q llame a este metodo pero antes conserve las calificaciones para cargar a la nueva receta
     @Override
     public void eliminarReceta(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException {
         Optional<Receta> receta = this.recetaRepository.findById(id);
@@ -85,7 +93,34 @@ public class RecetaServiceImpl implements RecetaService {
         return this.recetaRepository.findByNombreOrderByAntiguedad(nombreReceta);
     }
 
+    @Override
+    public List<Object> busquedaRecetasByParamAndOrderbyparam(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuarioObligatorio, String tipoOrdenamiento, String nombreUsuario, Integer idUsuario) {
+        return this.recetaRepository.recetasByParamQuery(idReceta,nombreReceta,idTipo,idIngrediente,idUsuarioObligatorio,tipoOrdenamiento,nombreUsuario,idUsuario);
+    }
 
+    @Transactional
+    @Override
+    public ReemplazarRecetaResponseDto reemplazarReceta(Integer idReceta) throws NoExisteUnaRecetaParaElIdIngresadoException {
+        Optional<Receta> recetaEncotrada = this.recetaRepository.findById(idReceta);
+        ReemplazarRecetaResponseDto reemplazarRecetaResponseDto = new ReemplazarRecetaResponseDto();
+        if (recetaEncotrada.isPresent()) {
+            reemplazarRecetaResponseDto.setNombre(recetaEncotrada.get().getNombre());
+            //se eliminan los comentarios de la receta pero se mantienen las calificaciones
+            if (!recetaEncotrada.get().getCalificacionesByIdReceta().isEmpty()) {
+                this.eliminarComentarios(recetaEncotrada.get().getIdReceta());
+                reemplazarRecetaResponseDto.setCalificacionesByIdReceta(recetaEncotrada.get().getCalificacionesByIdReceta());
+            }
+            //implementar eliminacion logica
+            //TODO eliminar cuando la receta este creada
+            //this.eliminarReceta(recetaEncotrada.get().getIdReceta());
+            return reemplazarRecetaResponseDto;
+        }
+        throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
+    }
+
+    private void eliminarComentarios(Integer idReceta) {
+        this.calificacionRepository.eliminarComentariosDeReceta(idReceta);
+    }
     //TODO va ser modificador por el refactor
     @Override
     public List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario) {
