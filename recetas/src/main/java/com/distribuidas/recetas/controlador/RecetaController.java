@@ -3,6 +3,7 @@ package com.distribuidas.recetas.controlador;
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
 import com.distribuidas.recetas.modelo.dto.RecetaDto;
+import com.distribuidas.recetas.modelo.dto.ReemplazarRecetaResponseDto;
 import com.distribuidas.recetas.modelo.dto.response.RecetaResponseDto;
 import com.distribuidas.recetas.modelo.entities.Receta;
 import com.distribuidas.recetas.modelo.mapstruct.RecetaMapper;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/recetas")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class RecetaController {
 
     private final RecetaService recetaService;
@@ -37,6 +39,14 @@ public class RecetaController {
             Receta newRecetaEntity = this.recetaMapper.mapToEntity(newReceta);
             return new ResponseEntity<>(this.recetaMapper.mapResponseDto(this.recetaService.updateReceta(id, newRecetaEntity)), HttpStatus.CREATED);
         } catch (NoExisteUnaRecetaParaElIdIngresadoException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @GetMapping("/reemplazar/{idReceta}")
+    public ResponseEntity<?> reemplazarReceta(@PathVariable Integer idReceta) {
+        try {
+            return new ResponseEntity<>(this.recetaService.reemplazarReceta(idReceta), HttpStatus.OK);
+        }catch (NoExisteUnaRecetaParaElIdIngresadoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -73,12 +83,13 @@ public class RecetaController {
     }
 
     @GetMapping("/{idUsuario}/{nombreReceta}")
-    public ResponseEntity<?> recetaExistentePorUsuario(@PathVariable Integer idUsuario, @PathVariable String nombreReceta) {
+    public ResponseEntity<?> recetaExistentePorUsuario(@PathVariable Integer idUsuario, @PathVariable String nombreReceta) throws YaExisteUnaRecetaConMismoNombreYUsuarioException {
         Receta receta = this.recetaService.recetaExistentePorUsuario(nombreReceta, idUsuario);
         if (receta == null) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(receta,HttpStatus.OK);
+        }else {
+            return ResponseEntity.badRequest().body(receta);
         }
-        return new ResponseEntity<>(this.recetaMapper.mapResponseDto(receta), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("busquedaPorId/{id}")
