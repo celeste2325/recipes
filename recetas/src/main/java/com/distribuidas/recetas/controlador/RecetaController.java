@@ -91,11 +91,17 @@ public class RecetaController {
     }
 
     @GetMapping("/request-param")
-    public ResponseEntity<List<RecetaResponseDto>> devolverRecetasbyParamQuery(@RequestParam(defaultValue = "") String nombreReceta,
+    public ResponseEntity<List<Object>> devolverRecetasbyParamQuery(@RequestParam(defaultValue = "0") Integer idReceta,
+                                                                               @RequestParam(defaultValue = "") String nombreReceta,
                                                                                @RequestParam(defaultValue = "0") Integer idTipo,
                                                                                @RequestParam(defaultValue = "0") Integer idIngrediente,
-                                                                               @RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasPorParamQueries(nombreReceta, idTipo, idIngrediente, idUsuario)),
+                                                                               @RequestParam(defaultValue = "0") Integer idUsuarioObligatorio,
+                                                                               @RequestParam(defaultValue = "") String tipoOrdenamiento,
+                                                                               @RequestParam(defaultValue = "") String nombreUsuario,
+                                                                               @RequestParam(defaultValue = "0") Integer idUsuario
+    ) {
+        return new ResponseEntity<>(this.recetaService.busquedaRecetasByParamAndOrderbyparam(
+                idReceta, nombreReceta, idTipo, idIngrediente, idUsuarioObligatorio,tipoOrdenamiento,nombreUsuario,idUsuario),
                 HttpStatus.OK);
     }
 

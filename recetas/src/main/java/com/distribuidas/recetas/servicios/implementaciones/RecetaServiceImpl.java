@@ -85,6 +85,11 @@ public class RecetaServiceImpl implements RecetaService {
         return this.recetaRepository.findByNombreOrderByAntiguedad(nombreReceta);
     }
 
+    @Override
+    public List<Object> busquedaRecetasByParamAndOrderbyparam(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuarioObligatorio, String tipoOrdenamiento, String nombreUsuario, Integer idUsuario) {
+        return this.recetaRepository.recetasByParamQuery(idReceta,nombreReceta,idTipo,idIngrediente,idUsuarioObligatorio,tipoOrdenamiento,nombreUsuario,idUsuario);
+    }
+
 
     //TODO va ser modificador por el refactor
     @Override

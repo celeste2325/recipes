@@ -31,4 +31,11 @@ public interface RecetaRepository extends JpaRepository<Receta, Integer> {
 
     @Query(value = "SELECT r FROM Receta r  inner join FechaReceta f on r.idReceta = f.idReceta where r.nombre = ?1 order by f.fechaCreacion")
     List<Receta> findByNombreOrderByAntiguedad(String nombreReceta);
+
+    @Query(value = "SELECT DISTINCT r.*, fr.fechaCreacion, usu.nombre, r.nombre FROM recetas r inner join utilizados u on r.idReceta = u.idReceta inner join fechasReceta fr on r.idReceta = fr.idReceta inner join estados_autorizaciones es on es.id_entidad = r.idReceta inner join usuarios usu on r.idUsuario = usu.idUsuario WHERE (r.idReceta = ?1  OR r.nombre = ?2 OR r.idTipo = ?3 OR u.idIngrediente = ?4 OR usu.nombre = ?7 OR r.idUsuario = ?8) and ((es.tipo_estado='Autorizado' and es.tipo_entidad='Receta')  OR (es.tipo_estado='No autorizado' and es.tipo_entidad='Receta' and r.idUsuario = ?5)) order by ?6 ", nativeQuery = true)
+    List<Object> recetasByParamQuery(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente,  Integer IdUsuarioObligatorio, String tipoOrdenamiento, String nombreUsuario,Integer idUsuario);
+
+    //@Query(value = "SELECT DISTINCT r, fr.fechaCreacion, usu.nombre, r.nombre FROM Receta r inner join Utilizado u on r.idReceta = u.idReceta inner join FechaReceta fr on r.idReceta = fr.idReceta inner join EstadoAutorizacion es on es.idEntidad = r.idReceta inner join Usuario usu on r.idUsuario = usu.idUsuario WHERE (r.idReceta = ?1  OR r.nombre = ?2 OR r.idTipo = ?3 OR u.idIngrediente = ?4 OR usu.nombre = ?7 OR r.idUsuario = ?8) and ((es.tipoEstado='Autorizado' and es.tipoEntidad='Receta')  OR (es.tipoEstado='No autorizado' and es.tipoEntidad='Receta' and r.idUsuario = ?5)) order by ?6 ")
+    //List<Receta> recetasByParamQuery(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente,  Integer IdUsuarioObligatorio, Object tipoOrdenamiento, String nombreUsuario,Integer idUsuario);
+
 }

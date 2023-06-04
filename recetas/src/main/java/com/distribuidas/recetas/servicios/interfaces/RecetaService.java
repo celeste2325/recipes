@@ -31,4 +31,6 @@ public interface RecetaService {
 
     List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta);
 
+    List<Object> busquedaRecetasByParamAndOrderbyparam(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente,  Integer IdUsuarioObligatorio, String tipoOrdenamiento, String nombreUsuario,Integer idUsuario);
+
 }
