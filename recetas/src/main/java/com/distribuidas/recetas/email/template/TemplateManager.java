@@ -12,11 +12,13 @@ public class TemplateManager {
 
     private final String ForgotPasswordTemplateString;
     private final String GetNewRegisterTempalteString;
+    private final String ValidarAlumnoTemplateString;
 
 
     public TemplateManager() throws IOException {
         ForgotPasswordTemplateString = FileToString("src/main/java/com/distribuidas/recetas/email/template/ForgotEmailTemplate_EN.html");
         GetNewRegisterTempalteString = FileToString("src/main/java/com/distribuidas/recetas/email/template/singUpTemplate_EN.html");
+        ValidarAlumnoTemplateString = FileToString("src/main/java/com/distribuidas/recetas/email/template/ValidarAlumno.HTML");
 
     }
 
@@ -48,6 +50,10 @@ public class TemplateManager {
     public String GetNewRegisterTemplate() {
         return GetNewRegisterTempalteString;
 
+
+    }
+    public String GetValidarAlumnoTemplateString() {
+        return ValidarAlumnoTemplateString;
 
     }
 

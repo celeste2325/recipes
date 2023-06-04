@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,9 +80,11 @@ public class UsuarioController {
         System.out.println(usuario.get().getNombre());
         Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
         if (credencial.get().getContrasenia() != null && credencial.get().getContrasenia().equals(contrasenia)) {
-            return ResponseEntity.ok(usuario.get().getNickname() + "/1");
+           // return ResponseEntity.ok(usuario.get().getNickname() + "/1");
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.ok(" /0");
+       // return ResponseEntity.badRequest().build();
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
     }
 
     ////////////////////////////////////
@@ -99,12 +101,15 @@ public class UsuarioController {
         if (usuario.isPresent()) {
             System.out.println(usuario.get().getHabilitado());
             if (usuario.get().getHabilitado().equals("si"))
-                return ResponseEntity.ok(usuario.get().getMail() + "El email ya esta en uso y habilitado");
+                //return ResponseEntity.ok("El email ya esta en uso y habilitado");
+            	return ResponseEntity.ok("1");
             else
-                return ResponseEntity.ok(usuario.get().getMail() + "El usuario no completó su registro");
+                return ResponseEntity.ok("El usuario no completó su registro");
 
         }
-        return ResponseEntity.ok("El email no existe");
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+
     }
 
     ////////////////////////////////////
@@ -117,8 +122,13 @@ public class UsuarioController {
     @GetMapping(path = "/validarAlias", params = {"nickname"})
     public ResponseEntity<?> validarAlias(@RequestParam String nickname) {
         Optional<Usuario> usuario = usuarioService.findByNickname(nickname);
+        if (nickname.equals("")) {
+        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El Alias está vacío.");
+        }
         if (usuario.isPresent()) {
-            return ResponseEntity.ok(usuario.get().getNickname() + "El alias ya esta en uso.");
+
+        	throw new ResponseStatusException(HttpStatus.CONFLICT, "El alias existe.");
+
         }
         return ResponseEntity.ok("El alias esta libre.");
     }
@@ -162,7 +172,9 @@ public class UsuarioController {
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
         } else {
-            return ResponseEntity.ok("/0 /Contraseñas no coinciden.");
+
+        	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Contraseñas no coinciden");
+
         }
     }
 
@@ -241,7 +253,8 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         usuarioService.deleteById(id);
         credencialService.deleteByidUsuario(id);
-        return ResponseEntity.ok().build();
+        //return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     ////////////////////////////////////
@@ -267,9 +280,11 @@ public class UsuarioController {
 
         if (usuario.isPresent() && usuario.get().getTipoUsuario().equals("Alumno")) {
             System.out.println(usuario.get().getTipoUsuario());
+            emailClient.ValidarAlumno(email);
             return ResponseEntity.ok("Es Alumno");
         } else {
-            return ResponseEntity.ok("No es Alumno o el Email no existe");
+        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No es Alumno o el Email no existe");
+           // return ResponseEntity.ok("No es Alumno o el Email no existe");
 
         }
     }
