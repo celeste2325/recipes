@@ -83,13 +83,8 @@ public class UsuarioController {
            // return ResponseEntity.ok(usuario.get().getNickname() + "/1");
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-<<<<<<< Updated upstream
-        //return ResponseEntity.ok(" /0");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-=======
        // return ResponseEntity.badRequest().build();
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
->>>>>>> Stashed changes
     }
 
     ////////////////////////////////////
@@ -111,11 +106,9 @@ public class UsuarioController {
                 return ResponseEntity.ok("El usuario no completó su registro");
 
         }
-<<<<<<< Updated upstream
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-=======
+
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
->>>>>>> Stashed changes
+
     }
 
     ////////////////////////////////////
@@ -129,11 +122,9 @@ public class UsuarioController {
     public ResponseEntity<?> validarAlias(@RequestParam String nickname) {
         Optional<Usuario> usuario = usuarioService.findByNickname(nickname);
         if (usuario.isPresent()) {
-<<<<<<< Updated upstream
-            return ResponseEntity.ok(usuario.get().getNickname() + ": El alias ya esta en uso.");
-=======
+
         	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El alias existe.");
->>>>>>> Stashed changes
+
         }
         return ResponseEntity.ok("El alias esta libre.");
     }
@@ -177,12 +168,9 @@ public class UsuarioController {
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
         } else {
-<<<<<<< Updated upstream
-            //return ResponseEntity.ok("/0 /Contraseñas no coinciden.");
-        	 return ResponseEntity.status(HttpStatus.CONFLICT).build();
-=======
+
         	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Contraseñas no coinciden");
->>>>>>> Stashed changes
+
         }
     }
 
