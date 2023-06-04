@@ -101,7 +101,8 @@ public class UsuarioController {
         if (usuario.isPresent()) {
             System.out.println(usuario.get().getHabilitado());
             if (usuario.get().getHabilitado().equals("si"))
-                return ResponseEntity.ok("El email ya esta en uso y habilitado");
+                //return ResponseEntity.ok("El email ya esta en uso y habilitado");
+            	return ResponseEntity.ok("1");
             else
                 return ResponseEntity.ok("El usuario no completó su registro");
 
@@ -121,9 +122,12 @@ public class UsuarioController {
     @GetMapping(path = "/validarAlias", params = {"nickname"})
     public ResponseEntity<?> validarAlias(@RequestParam String nickname) {
         Optional<Usuario> usuario = usuarioService.findByNickname(nickname);
+        if (nickname.equals("")) {
+        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El Alias está vacío.");
+        }
         if (usuario.isPresent()) {
 
-        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El alias existe.");
+        	throw new ResponseStatusException(HttpStatus.CONFLICT, "El alias existe.");
 
         }
         return ResponseEntity.ok("El alias esta libre.");
