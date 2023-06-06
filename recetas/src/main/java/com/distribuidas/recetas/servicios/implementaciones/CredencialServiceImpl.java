@@ -57,7 +57,16 @@ public class CredencialServiceImpl implements CredencialService {
         emailClient.ForgotPassword(codigoVer, email);
     }
 
-    // este servicio es para cuando el usuario haga el request para verificar el email
+    public void esAlumno(String email) {
+        var usuario = usuarioRepository.findByMail(email).get();
+        var codigoVer = GetCodigoVerificacion();
+        var credentials = usuario.getCredencialesByIdUsuario().stream().findFirst().get();
+        credentials.setCodigoVerificacion(codigoVer);
+        credencialRepository.save(credentials);
+        emailClient.ValidarAlumno(codigoVer, email);
+    }
+    
+    /* este servicio es para cuando el usuario haga el request para verificar el email
     @Transactional
     public void verifyCredentials(String email, String code) {
         var usuario = usuarioRepository.findByMail(email).get();
@@ -71,7 +80,7 @@ public class CredencialServiceImpl implements CredencialService {
         }
 
 
-    }
+    }*/
 
     // este servicio handlea el request cuando envia el link para forgot password
     // pone verifica que el codigo de verificacion para el forgot password sea el mismo enviado en el link

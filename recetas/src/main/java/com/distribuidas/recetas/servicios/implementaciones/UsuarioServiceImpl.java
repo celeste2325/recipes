@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.servicios.implementaciones;
 
+import com.distribuidas.recetas.excepciones.NoExisteUnUsuarioParaElIdIngresadoException;
 import com.distribuidas.recetas.modelo.entities.Usuario;
 import com.distribuidas.recetas.repositorios.UsuarioRepository;
 import com.distribuidas.recetas.servicios.interfaces.UsuarioService;
@@ -53,6 +54,16 @@ public class UsuarioServiceImpl implements UsuarioService {
             return this.usuarioRepository.findByNombreLikeIgnoreCase("%" + nombreParcialUsuario + "%");
         }
         return null;
+    }
+
+    @Override
+    public String cargarUrlAvatar(Integer idUsuario, String url) throws NoExisteUnUsuarioParaElIdIngresadoException {
+        Optional<Usuario> usuario = this.usuarioRepository.findById(idUsuario);
+        if (usuario.isPresent()) {
+            usuario.get().setAvatar(url);
+            this.usuarioRepository.save(usuario.get());
+            return  usuario.get().getAvatar();
+        } throw new NoExisteUnUsuarioParaElIdIngresadoException("No existe un usuario asociado al id ingresado");
     }
 
     @Override

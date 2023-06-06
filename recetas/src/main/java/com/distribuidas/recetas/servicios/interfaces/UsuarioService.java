@@ -1,5 +1,6 @@
 package com.distribuidas.recetas.servicios.interfaces;
 
+import com.distribuidas.recetas.excepciones.NoExisteUnUsuarioParaElIdIngresadoException;
 import com.distribuidas.recetas.modelo.entities.Usuario;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UsuarioService {
     void deleteById(int id);
 
     List<Usuario> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario);
+
+    String cargarUrlAvatar(Integer idUsuario, String url) throws NoExisteUnUsuarioParaElIdIngresadoException;
 }

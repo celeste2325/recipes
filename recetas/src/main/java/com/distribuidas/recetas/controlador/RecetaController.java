@@ -36,7 +36,7 @@ public class RecetaController {
     public ResponseEntity<?> editarReceta(@PathVariable Integer id, @RequestBody RecetaDto newReceta) {
         try {
             Receta newRecetaEntity = this.recetaMapper.mapToEntity(newReceta);
-            return new ResponseEntity<>(this.recetaMapper.mapResponseDto(this.recetaService.updateReceta(id, newRecetaEntity)), HttpStatus.CREATED);
+            return new ResponseEntity<>(this.recetaService.updateReceta(id, newRecetaEntity), HttpStatus.CREATED);
         } catch (NoExisteUnaRecetaParaElIdIngresadoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

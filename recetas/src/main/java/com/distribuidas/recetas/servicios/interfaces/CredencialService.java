@@ -19,8 +19,8 @@ public interface CredencialService {
     void deleteByidUsuario(int id);
 
     void forgotPassword(String email);
-
-    void verifyCredentials(String email, String code);
+    
+    void esAlumno(String email);
 
     void verifyNewPassword(String email, String code, String password);
 
