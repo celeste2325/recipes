@@ -25,9 +25,9 @@ public class CalificacionController {
         return new ResponseEntity<>(this.calificacionService.devolverCalificacionesByIdReceta(idReceta), HttpStatus.OK);
     }
 
-    @DeleteMapping("{idReceta}")
-    public void eliminarCalificacion(@PathVariable Calificacion calificacion) {
-        this.calificacionService.eliminarCalificacionDeReceta(calificacion);
+    @DeleteMapping("{calificacionId}")
+    public void eliminarCalificacion(@PathVariable Integer calificacionId) {
+        this.calificacionService.eliminarCalificacionDeReceta(calificacionId);
     }
 
 }

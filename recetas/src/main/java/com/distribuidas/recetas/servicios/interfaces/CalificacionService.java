@@ -10,5 +10,5 @@ public interface CalificacionService {
 
     List<Calificacion> devolverCalificacionesByIdReceta(Integer idReceta);
 
-    void eliminarCalificacionDeReceta(Calificacion calificacion);
+    void eliminarCalificacionDeReceta(Integer calificacionId);
 }
