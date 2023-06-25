@@ -14,25 +14,24 @@ public interface RecetaService {
 
     void eliminarReceta(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException;
 
-    List<Receta> devolverRecetas();
+    List<Receta> devolverRecetas(Integer idUsuario);
 
     Receta recetaExistentePorUsuario(String nombreReceta, Integer idUsuario) throws YaExisteUnaRecetaConMismoNombreYUsuarioException;
 
-    List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario);
+    Receta devolverRecetaPorId(Integer id, Integer idUsuario) throws NoExisteUnaRecetaParaElIdIngresadoException;
+    List<Receta> devolverRecetasSinIngredienteOrdenadaPorAntiguedad(Integer idIngrediente, Integer idUsuario);
+    List<Receta> devolverRecetasSinIngredienteOrdenadaPorNombre(Integer idIngrediente, Integer idUsuario);
 
-    Receta devolverRecetaPorId(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException;
-
-    List<Receta> devolverRecetasSinIngrediente(Integer idIngrediente);
-
-    List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta);
+    List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta, Integer idUsuario);
 
     List<Receta> devuelve3RecetasInicioApp(Integer idUsuario);
 
-    List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta);
+    List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta, Integer idUsuario);
 
-    List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta);
+    List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta, Integer idUsuario);
 
-    List<Object> busquedaRecetasByParamAndOrderbyparam(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente,  Integer IdUsuarioObligatorio, String tipoOrdenamiento, String nombreUsuario,Integer idUsuario);
+    List<Receta> busquedaRecetasByParam(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario, Integer idUsuarioObligatorio);
     ReemplazarRecetaResponseDto reemplazarReceta(Integer idReceta) throws NoExisteUnaRecetaParaElIdIngresadoException;
 
+    List<Receta> devolverRecetasSinIngredienteOrdenadaPorNombreUser(Integer idIngrediente, Integer idUsuario);
 }

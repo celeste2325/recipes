@@ -70,10 +70,10 @@ public class RecetaServiceImpl implements RecetaService {
             throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta asociada al id ingresado");
         }
     }
-
+    //TODO ESTA OK
     @Override
-    public List<Receta> devolverRecetas() {
-        return this.recetaRepository.findAll();
+    public List<Receta> devolverRecetas(Integer idUsuario) {
+        return this.recetaRepository.devolverTodasLasrecetasHabilitadas(idUsuario);
     }
 
     @Override
@@ -81,21 +81,20 @@ public class RecetaServiceImpl implements RecetaService {
         return this.recetaRepository.findByNombreAndIdUsuario(nombreReceta, idUsuario);
     }
 
-    //TODO va ser modificador por el refactor
-    // @RequestHeader("usuari_id")String usuariID  fecha <-poner donde haga falta
+    //TODO esta ok
     @Override
-    public List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta) {
-        return this.recetaRepository.findByNombreOrderByNombreUser(nombreReceta);
+    public List<Receta> recetasPorNombreOrdenNombreUsuario(String nombreReceta, Integer idUsuario) {
+        return this.recetaRepository.findByNombreOrderByNombreUser(nombreReceta, idUsuario);
     }
-
+    //TODO esta ok
     @Override
-    public List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta) {
-        return this.recetaRepository.findByNombreOrderByAntiguedad(nombreReceta);
+    public List<Receta> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta, Integer idUsuario) {
+        return this.recetaRepository.findByNombreOrderByAntiguedad(nombreReceta, idUsuario);
     }
-
+    //TODO esta ok
     @Override
-    public List<Object> busquedaRecetasByParamAndOrderbyparam(Integer idReceta, String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuarioObligatorio, String tipoOrdenamiento, String nombreUsuario, Integer idUsuario) {
-        return this.recetaRepository.recetasByParamQuery(idReceta,nombreReceta,idTipo,idIngrediente,idUsuarioObligatorio,tipoOrdenamiento,nombreUsuario,idUsuario);
+    public List<Receta> busquedaRecetasByParam(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario, Integer idUsuarioObligatorio) {
+        return this.recetaRepository.recetasByParamQuery(nombreReceta,idTipo,idIngrediente,idUsuario,idUsuarioObligatorio);
     }
 
     @Transactional
@@ -121,49 +120,45 @@ public class RecetaServiceImpl implements RecetaService {
     private void eliminarComentarios(Integer idReceta) {
         this.calificacionRepository.eliminarComentariosDeReceta(idReceta);
     }
-    //TODO va ser modificador por el refactor
+
+    //TODO esta ok
     @Override
-    public List<Receta> devolverRecetasPorParamQueries(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario) {
-        if (!Objects.equals(nombreReceta, "")) {
-            return this.recetaRepository.findByNombre(nombreReceta);
-        } else if (!idTipo.equals(0)) {
-            List<Receta> recetasPorTipoDePlato = this.recetaRepository.findByIdTipo(idTipo);
-            recetasPorTipoDePlato.sort(Comparator.comparing((Receta receta) -> receta.getNombre().toLowerCase()));
-            return recetasPorTipoDePlato;
-
-        } else if (!idUsuario.equals(0)) {
-            List<Receta> byIdUsuario = this.recetaRepository.findByIdUsuario(idUsuario);
-            byIdUsuario.sort(Comparator.comparing((Receta receta) -> receta.getNombre().toLowerCase()));
-            return byIdUsuario;
-
-        } else if (!idIngrediente.equals(0)) {
-            return this.recetaRepository.recetasPorIngrediente(idIngrediente);
-        }
-        return null;
-    }
-
-    @Override
-    public Receta devolverRecetaPorId(Integer id) throws NoExisteUnaRecetaParaElIdIngresadoException {
-        Optional<Receta> receta = this.recetaRepository.findById(id);
+    public Receta devolverRecetaPorId(Integer id, Integer idUsuario) throws NoExisteUnaRecetaParaElIdIngresadoException {
+        Optional<Receta> receta = this.recetaRepository.devuelveRecetasPorId(id, idUsuario);
         if (receta.isPresent()) {
             return receta.get();
         }
         throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta para el id ingresado");
     }
 
+    //TODO FALTA RECETAS SIN INGREDIENTE ORDENADAS POR NOMBRE DEL PLATO
+
+
+    //TODO ESTA OK
     @Override
-    public List<Receta> devolverRecetasSinIngrediente(Integer idIngrediente) {
-        return this.recetaRepository.recetasSinIngredientes(idIngrediente);
+    public List<Receta> devolverRecetasSinIngredienteOrdenadaPorAntiguedad(Integer idIngrediente, Integer idUsuario) {
+        return this.recetaRepository.recetasSinIngredientesOrdenadaPorAntiguedad(idIngrediente,idUsuario);
+    }
+    @Override
+    public List<Receta> devolverRecetasSinIngredienteOrdenadaPorNombre(Integer idIngrediente, Integer idUsuario) {
+        return this.recetaRepository.recetasSinIngredientesOrdenadaPorNombre(idIngrediente,idUsuario);
+    }
+    //TODO ESTA OK
+    @Override
+    public List<Receta> devolverRecetasSinIngredienteOrdenadaPorNombreUser(Integer idIngrediente, Integer idUsuario) {
+        return this.recetaRepository.recetasSinIngredientesOrdenadaPorNombreUser(idIngrediente,idUsuario);
     }
 
+    //TODO ESTA OK
     @Override
-    public List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta) {
+    public List<Receta> devolverRecetasPorBusquedaParcialNombre(String nombreReceta, Integer idUsuario) {
         if (!Objects.equals(nombreReceta, "")) {
-            return recetaRepository.findByNombreLikeIgnoreCase("%" + nombreReceta + "%");
+            return recetaRepository.findByNombreLikeIgnoreCase(nombreReceta,idUsuario);
         }
         return null;
     }
 
+    //TODO ESTA OK
     @Override
     public List<Receta> devuelve3RecetasInicioApp(Integer idUsuario) {
         return this.recetaRepository.recetasPorUsuarioOrdenadasPorFecha(idUsuario);
