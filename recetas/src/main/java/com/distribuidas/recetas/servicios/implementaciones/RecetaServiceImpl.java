@@ -131,9 +131,6 @@ public class RecetaServiceImpl implements RecetaService {
         throw new NoExisteUnaRecetaParaElIdIngresadoException("No existe una receta para el id ingresado");
     }
 
-    //TODO FALTA RECETAS SIN INGREDIENTE ORDENADAS POR NOMBRE DEL PLATO
-
-
     //TODO ESTA OK
     @Override
     public List<Receta> devolverRecetasSinIngredienteOrdenadaPorAntiguedad(Integer idIngrediente, Integer idUsuario) {
