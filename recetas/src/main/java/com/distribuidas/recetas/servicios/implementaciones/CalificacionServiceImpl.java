@@ -24,7 +24,7 @@ public class CalificacionServiceImpl implements CalificacionService {
     }
 
     @Override
-    public void eliminarCalificacionDeReceta(Calificacion calificacion) {
-        this.calificacionRepository.delete(calificacion);
+    public void eliminarCalificacionDeReceta(Integer calificacionId) {
+        this.calificacionRepository.deleteById(calificacionId);
     }
 }
