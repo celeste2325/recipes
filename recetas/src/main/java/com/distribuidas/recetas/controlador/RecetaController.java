@@ -62,7 +62,7 @@ public class RecetaController {
 
     @GetMapping("/inicioApp")
     public ResponseEntity<?> devolverRecetasInicio(@RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaService.devuelve3RecetasInicioApp(idUsuario), HttpStatus.OK);
+        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devuelve3RecetasInicioApp(idUsuario)), HttpStatus.OK);
     }
 
     @GetMapping("ordenNombreUsuario/{nombreReceta}")
@@ -102,14 +102,13 @@ public class RecetaController {
     }
 
     @GetMapping("/request-param")
-    public ResponseEntity<List<Receta>> devolverRecetasbyParamQuery( @RequestParam(defaultValue = "") String nombreReceta,
+    public ResponseEntity<List<RecetaResponseDto>> devolverRecetasbyParamQuery( @RequestParam(defaultValue = "") String nombreReceta,
                                                                                @RequestParam(defaultValue = "0") Integer idTipo,
                                                                                @RequestParam(defaultValue = "0") Integer idIngrediente,
                                                                                @RequestParam(defaultValue = "0") Integer idUsuario,
                                                                                 @RequestParam(defaultValue = "0") Integer idUsuarioObligatorio
     ) {
-        return new ResponseEntity<>(this.recetaService.busquedaRecetasByParam(nombreReceta, idTipo, idIngrediente, idUsuario, idUsuarioObligatorio),
-                HttpStatus.OK);
+        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.busquedaRecetasByParam(nombreReceta, idTipo, idIngrediente, idUsuario, idUsuarioObligatorio)), HttpStatus.OK);
     }
 
     @GetMapping("sinIngrediente/nombreReceta/{idIngrediente}")
@@ -133,10 +132,10 @@ public class RecetaController {
     }
 
     @GetMapping("busquedaParcial/{nombreParcialReceta}")
-    public List<Receta> devuelveRecetasPorBusquedaParcial(@PathVariable String nombreParcialReceta,
+    public ResponseEntity<List<RecetaResponseDto>> devuelveRecetasPorBusquedaParcial(@PathVariable String nombreParcialReceta,
                                                           @RequestParam(defaultValue = "0") Integer idUsuario) {
         if (nombreParcialReceta.length() >= 3) {
-            return this.recetaService.devolverRecetasPorBusquedaParcialNombre(nombreParcialReceta, idUsuario);
+            return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasPorBusquedaParcialNombre(nombreParcialReceta, idUsuario)), HttpStatus.OK);
         }
         return null;
     }
