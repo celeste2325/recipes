@@ -106,8 +106,11 @@ public class UsuarioController {
 	// Crear credencial
 	@PostMapping("/altacred")
 	public ResponseEntity<?> createCred(@RequestBody Credencial credencial) {
-
-		credencialService.save(credencial);
+		Optional <Credencial> cred = credencialService.findByidUsuario(credencial.getIdUsuario());
+		cred.get().setIdUsuario(credencial.getIdUsuario());
+		cred.get().setContrasenia(credencial.getContrasenia());
+		cred.get().setCodigoVerificacion(credencial.getCodigoVerificacion());
+		credencialService.save(cred.get());
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
@@ -217,6 +220,16 @@ public class UsuarioController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(usuario.get());
 	}
+	
+	// Leer un usuario x alias
+	@GetMapping(path = "/buscarxalias", params = { "alias" })
+	public ResponseEntity<?> buscarxalias(@RequestParam String alias) {
+		Optional<Usuario> usuario = usuarioService.findByNickname(alias);
+		System.out.println(usuario.get().getIdUsuario());
+		if (!usuario.isPresent())
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(usuario.get());
+	}
 
 
 
@@ -258,6 +271,20 @@ public class UsuarioController {
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 	}
+	
+	
+	// Actualizar un ApeNom
+	@PutMapping(path = "/modificarApeNom", params = {"alias", "apenom"})
+	public ResponseEntity<?> modificarapenom(@RequestParam String alias, String apenom) {
+		Optional<Usuario> usr = usuarioService.findByNickname(alias);
+		if (!usr.isPresent()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			usr.get().setNombre(apenom);
+			usuarioService.save(usr.get());
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		}
+	}
 
 
 	// Borrar un usuario
@@ -288,4 +315,17 @@ public class UsuarioController {
 		return null;// agregar excepcion
 	}
 
+	
+	// Actualizar Avatar
+	@PutMapping(path = "/modificarAvatar", params = {"alias", "avatar"})
+	public ResponseEntity<?> modificarAvatar(@RequestParam String alias, String avatar) {
+		Optional<Usuario> usr = usuarioService.findByNickname(alias);
+		if (!usr.isPresent()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			usr.get().setAvatar(avatar);
+			usuarioService.save(usr.get());
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		}
+	}
 }
