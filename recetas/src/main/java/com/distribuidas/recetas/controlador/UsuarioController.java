@@ -193,16 +193,16 @@ public class UsuarioController {
 
 	/*
 	 * Valida primer login
-	 * 
+	 *
 	 * @GetMapping(path = "/validarPrimerLogin", params = {"email"}) public
 	 * ResponseEntity<?> validarPrimerLogin(@RequestParam String email) {
 	 * Optional<Usuario> usuario = usuarioService.findByMail(email);
-	 * 
+	 *
 	 * if (usuario.isPresent() && usuario.get().getNombre().equals("99999")) {
 	 * return ResponseEntity.ok("1");} else { return ResponseEntity.ok("2");
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * }
 	 */
 

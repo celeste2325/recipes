@@ -42,14 +42,18 @@ public class Receta {
     private Integer idTipo;
     @OneToMany(mappedBy = "recetasByIdReceta")
     private Collection<Calificacion> calificacionesByIdReceta;
+
     @OneToMany(mappedBy = "recetasByIdReceta")
     private Collection<Favorito> favoritosByIdReceta;
+
     @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Foto> fotosByIdReceta;
+
     @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Paso> pasosByIdReceta;
+
     @ManyToOne
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
     @JsonBackReference(value = "receta-usuario")
@@ -105,7 +109,9 @@ public class Receta {
                 ", nombre='" + nombre + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", porciones=" + porciones +
+                ", fecha" + fechaRecetaByIdReceta +
                 ", cantidadPersonas=" + cantidadPersonas +
+                ", url foto=" + foto +
                 ", fotosByIdReceta=" + fotosByIdReceta +
                 ", pasosByIdReceta=" + pasosByIdReceta +
                 ", tiposByIdTipo=" + tiposByIdTipo +
