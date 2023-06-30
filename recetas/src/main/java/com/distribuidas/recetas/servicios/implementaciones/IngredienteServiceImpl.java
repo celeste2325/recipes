@@ -33,7 +33,7 @@ public class IngredienteServiceImpl implements IngredienteService {
     @Override
     public List<Ingrediente> devolverIngredientesPorBusquedaParcial(String nombreParcialIngrediente) {
         if (!Objects.equals(nombreParcialIngrediente, "")) {
-            return this.ingredienteRepository.findByNombreLikeIgnoreCase("%" + nombreParcialIngrediente + "%");
+            return this.ingredienteRepository.findByNombreLikeIgnoreCase(nombreParcialIngrediente + "%");
         }
         return null;
     }

@@ -51,7 +51,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Usuario> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario) {
         if (!Objects.equals(nombreParcialUsuario, "")) {
-            return this.usuarioRepository.findByNombreLikeIgnoreCase("%" + nombreParcialUsuario + "%");
+            return this.usuarioRepository.findByNombreLikeIgnoreCase(nombreParcialUsuario + "%");
         }
         return null;
     }

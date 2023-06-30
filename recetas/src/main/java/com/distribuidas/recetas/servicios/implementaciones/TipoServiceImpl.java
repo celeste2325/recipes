@@ -22,7 +22,7 @@ public class TipoServiceImpl implements TipoService {
     @Override
     public List<Tipo> devolverPlatosPorBusquedaParcialTipoDePlato(String nombreParcialTipoPlato) {
         if (!Objects.equals(nombreParcialTipoPlato, "")) {
-            return this.tipoRepository.findByDescripcionLikeIgnoreCase("%" + nombreParcialTipoPlato + "%");
+            return this.tipoRepository.findByDescripcionLikeIgnoreCase(nombreParcialTipoPlato + "%");
         }
         return null;
     }
