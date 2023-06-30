@@ -220,7 +220,7 @@ public class UsuarioController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(usuario.get());
 	}
-	
+
 	// Leer un usuario x alias
 	@GetMapping(path = "/buscarxalias", params = { "alias" })
 	public ResponseEntity<?> buscarxalias(@RequestParam String alias) {
@@ -271,8 +271,8 @@ public class UsuarioController {
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 	}
-	
-	
+
+
 	// Actualizar un ApeNom
 	@PutMapping(path = "/modificarApeNom", params = {"alias", "apenom"})
 	public ResponseEntity<?> modificarapenom(@RequestParam String alias, String apenom) {
@@ -309,13 +309,13 @@ public class UsuarioController {
 
 	@GetMapping("busquedaParcial/{nombreParcialUsuario}")
 	public List<Usuario> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialUsuario) {
-		if (nombreParcialUsuario.length() >= 3) {
+		if (nombreParcialUsuario.length() >= 2) {
 			return this.usuarioService.devolverUsuariosPorBusquedaParcialNombre(nombreParcialUsuario);
 		}
 		return null;// agregar excepcion
 	}
 
-	
+
 	// Actualizar Avatar
 	@PutMapping(path = "/modificarAvatar", params = {"alias", "avatar"})
 	public ResponseEntity<?> modificarAvatar(@RequestParam String alias, String avatar) {

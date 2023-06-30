@@ -34,7 +34,7 @@ public class IngredienteController {
 
     @GetMapping("busquedaParcial/{nombreParcialIngrediente}")
     public List<Ingrediente> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialIngrediente) {
-        if (nombreParcialIngrediente.length() >= 3) {
+        if (nombreParcialIngrediente.length() >= 2) {
             return this.ingredienteService.devolverIngredientesPorBusquedaParcial(nombreParcialIngrediente);
         }
         return null;

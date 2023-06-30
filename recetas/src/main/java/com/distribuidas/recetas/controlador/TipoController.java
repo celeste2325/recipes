@@ -23,7 +23,7 @@ public class TipoController {
 
     @GetMapping("busquedaParcial/{nombreParcialTipoPlato}")
     public List<Tipo> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialTipoPlato) {
-        if (nombreParcialTipoPlato.length() >= 3) {
+        if (nombreParcialTipoPlato.length() >= 2) {
             return this.tipoService.devolverPlatosPorBusquedaParcialTipoDePlato(nombreParcialTipoPlato);
         }
         return null;//agregar excepcion
