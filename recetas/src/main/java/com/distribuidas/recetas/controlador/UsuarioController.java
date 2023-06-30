@@ -81,10 +81,16 @@ public class UsuarioController {
 	// Pre-creación de usuario
 	@PostMapping("/prealta")
 	public ResponseEntity<?> prealta(@RequestBody Usuario usuario) {
+		Optional<Usuario> usr = usuarioService.findByNickname(usuario.getNickname());
+		if (usr.isPresent()) {
+			List <String> alternativasAlias = usuarioService.opcionesAlias(usuario.getNickname());
+			return ResponseEntity.ok(alternativasAlias);
+		} else {		
 		usuario.setHabilitado("no");
 		usuarioService.save(usuario);
 		emailClient.NewRegister(usuario.getMail());
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+		}
 	}
 
 
@@ -323,6 +329,7 @@ public class UsuarioController {
 		if (!usr.isPresent()) {
 			return ResponseEntity.notFound().build();
 		} else {
+			System.out.println(usr.get().getAvatar());
 			usr.get().setAvatar(avatar);
 			usuarioService.save(usr.get());
 			return ResponseEntity.status(HttpStatus.CREATED).build();

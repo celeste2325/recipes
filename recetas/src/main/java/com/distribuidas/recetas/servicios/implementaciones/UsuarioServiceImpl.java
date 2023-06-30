@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ArrayList;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -54,6 +55,23 @@ public class UsuarioServiceImpl implements UsuarioService {
             return this.usuarioRepository.findByNombreLikeIgnoreCase(nombreParcialUsuario + "%");
         }
         return null;
+    }
+    
+    
+    
+    @Override
+    public List<String> opcionesAlias(String alias) {
+    	List<String> alternativas = new ArrayList<>();
+    	int i = 1;
+    	while (alternativas.size() < 3) {
+    		String alternativa = alias + i;
+            Optional<Usuario> usuario = this.usuarioRepository.findByNickname(alternativa);
+            if(!usuario.isPresent()) {
+            	alternativas.add(alternativa);
+            }
+        i++;
+    	}
+    	return alternativas;
     }
 
     @Override

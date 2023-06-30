@@ -21,6 +21,8 @@ public interface UsuarioService {
     void deleteById(int id);
 
     List<Usuario> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario);
+    
+    List<String> opcionesAlias(String alias);
 
     String cargarUrlAvatar(Integer idUsuario, String url) throws NoExisteUnUsuarioParaElIdIngresadoException;
 }
