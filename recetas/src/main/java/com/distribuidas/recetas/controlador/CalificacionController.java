@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/calificaciones")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class CalificacionController {
     private CalificacionService calificacionService;
 
