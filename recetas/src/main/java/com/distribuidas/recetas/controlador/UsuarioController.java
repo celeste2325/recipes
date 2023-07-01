@@ -113,11 +113,16 @@ public class UsuarioController {
 	@PostMapping("/altacred")
 	public ResponseEntity<?> createCred(@RequestBody Credencial credencial) {
 		Optional <Credencial> cred = credencialService.findByidUsuario(credencial.getIdUsuario());
+		if (cred.isPresent()) {
 		cred.get().setIdUsuario(credencial.getIdUsuario());
 		cred.get().setContrasenia(credencial.getContrasenia());
 		cred.get().setCodigoVerificacion(credencial.getCodigoVerificacion());
 		credencialService.save(cred.get());
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+		}else {
+			credencialService.save(credencial);
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		}
 	}
 
 
