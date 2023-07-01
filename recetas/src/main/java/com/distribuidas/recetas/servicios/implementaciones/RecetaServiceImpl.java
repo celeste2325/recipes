@@ -3,9 +3,11 @@ package com.distribuidas.recetas.servicios.implementaciones;
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
 import com.distribuidas.recetas.modelo.dto.ReemplazarRecetaResponseDto;
+import com.distribuidas.recetas.modelo.entities.EstadoAutorizacion;
 import com.distribuidas.recetas.modelo.entities.FechaReceta;
 import com.distribuidas.recetas.modelo.entities.Receta;
 import com.distribuidas.recetas.repositorios.CalificacionRepository;
+import com.distribuidas.recetas.repositorios.EstadoAutorizacionRepository;
 import com.distribuidas.recetas.repositorios.RecetaRepository;
 import com.distribuidas.recetas.servicios.interfaces.RecetaService;
 import jakarta.transaction.Transactional;
@@ -24,6 +26,8 @@ public class RecetaServiceImpl implements RecetaService {
     private CalificacionRepository calificacionRepository;
     @Autowired
     private RecetaRepository recetaRepository;
+    @Autowired
+    EstadoAutorizacionRepository EstadoAutorizacionRepository;
 
     @Override
     public Receta altaReceta(Receta newReceta) throws YaExisteUnaRecetaConMismoNombreYUsuarioException {
@@ -32,7 +36,16 @@ public class RecetaServiceImpl implements RecetaService {
             fechaReceta.setFechaCreacion(LocalDateTime.now());
             newReceta.setFechaRecetaByIdReceta(fechaReceta);
             fechaReceta.setRecetaByIdReceta(newReceta);
-            return this.recetaRepository.save(newReceta);
+
+
+            Receta receta = this.recetaRepository.save(newReceta);
+
+            EstadoAutorizacion estadoAutorizacion = new EstadoAutorizacion();
+            estadoAutorizacion.setTipoEstado("No autorizado");
+            estadoAutorizacion.setIdEntidad(receta.getIdReceta());
+            estadoAutorizacion.setTipoEntidad("Receta");
+            this.EstadoAutorizacionRepository.save(estadoAutorizacion);
+            return receta;
         }
         throw new YaExisteUnaRecetaConMismoNombreYUsuarioException("Estimado/a, ya creo una receta con mismo nombre");
     }
@@ -49,6 +62,7 @@ public class RecetaServiceImpl implements RecetaService {
             //edita los campos
             recetaAModificar.get().setNombre(newReceta.getNombre());
             recetaAModificar.get().setDescripcion(newReceta.getDescripcion());
+            recetaAModificar.get().setFoto(newReceta.getFoto());
             recetaAModificar.get().setFotosByIdReceta(newReceta.getFotosByIdReceta());
             recetaAModificar.get().setPorciones(newReceta.getPorciones());
             recetaAModificar.get().setCantidadPersonas(newReceta.getCantidadPersonas());

@@ -12,6 +12,7 @@ public class RecetaDto {
     private String nombre;
     private String descripcion;
     private Integer porciones;
+    private String foto;
     private Integer cantidadPersonas;
     private Collection<Calificacion> calificacionesByIdReceta;
     private Collection<Favorito> favoritosByIdReceta;

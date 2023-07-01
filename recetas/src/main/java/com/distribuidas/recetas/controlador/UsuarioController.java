@@ -85,7 +85,7 @@ public class UsuarioController {
 		if (usr.isPresent()) {
 			List <String> alternativasAlias = usuarioService.opcionesAlias(usuario.getNickname());
 			return ResponseEntity.ok(alternativasAlias);
-		} else {		
+		} else {
 		usuario.setHabilitado("no");
 		usuarioService.save(usuario);
 		emailClient.NewRegister(usuario.getMail());
@@ -129,7 +129,7 @@ public class UsuarioController {
 		System.out.println(usuario.get().getNombre());
 		Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
 		if (credencial.get().getContrasenia() != null && credencial.get().getContrasenia().equals(contrasenia)) {
-			return ResponseEntity.status(HttpStatus.OK).build();
+			return new ResponseEntity<>(credencial.get(), HttpStatus.OK);
 		}
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario no encontrado");
 	}

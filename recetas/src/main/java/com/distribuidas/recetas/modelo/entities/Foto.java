@@ -16,9 +16,9 @@ public class Foto {
     @Id
     @Column(name = "idfoto")
     private Integer idfoto;
-    @Basic
+    /*@Basic
     @Column(name = "idReceta", insertable = false, updatable = false)
-    private Integer idReceta;
+    private Integer idReceta;*/
     @Basic
     @Column(name = "urlFoto")
     private String urlFoto;
@@ -38,7 +38,7 @@ public class Foto {
         Foto foto = (Foto) o;
 
         if (!Objects.equals(idfoto, foto.idfoto)) return false;
-        if (!Objects.equals(idReceta, foto.idReceta)) return false;
+        //if (!Objects.equals(idReceta, foto.idReceta)) return false;
         if (!Objects.equals(urlFoto, foto.urlFoto)) return false;
         return Objects.equals(extension, foto.extension);
     }
@@ -46,7 +46,7 @@ public class Foto {
     @Override
     public int hashCode() {
         int result = idfoto != null ? idfoto.hashCode() : 0;
-        result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
+        //result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
         result = 31 * result + (urlFoto != null ? urlFoto.hashCode() : 0);
         result = 31 * result + (extension != null ? extension.hashCode() : 0);
         return result;
