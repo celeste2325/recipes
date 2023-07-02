@@ -43,6 +43,7 @@ public class Receta {
     @OneToMany(mappedBy = "recetasByIdReceta")
     private Collection<Calificacion> calificacionesByIdReceta;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "recetasByIdReceta")
     private Collection<Favorito> favoritosByIdReceta;
 
