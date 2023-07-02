@@ -71,7 +71,8 @@ public class UsuarioController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El Alias está vacío.");
 		}
 		if (usuario.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "El alias existe.");
+			List <String> alternativasAlias = usuarioService.opcionesAlias(usuario.get().getNickname());
+			return ResponseEntity.ok(alternativasAlias);
 		}
 		return ResponseEntity.ok("0");
 	}
@@ -82,15 +83,11 @@ public class UsuarioController {
 	@PostMapping("/prealta")
 	public ResponseEntity<?> prealta(@RequestBody Usuario usuario) {
 		Optional<Usuario> usr = usuarioService.findByNickname(usuario.getNickname());
-		if (usr.isPresent()) {
-			List <String> alternativasAlias = usuarioService.opcionesAlias(usuario.getNickname());
-			return ResponseEntity.ok(alternativasAlias);
-		} else {
 		usuario.setHabilitado("no");
 		usuarioService.save(usuario);
 		emailClient.NewRegister(usuario.getMail());
 		return ResponseEntity.status(HttpStatus.CREATED).build();
-		}
+		
 	}
 
 
@@ -125,6 +122,7 @@ public class UsuarioController {
 		}
 	}
 
+	
 
 
 	// Login
@@ -172,10 +170,11 @@ public class UsuarioController {
 
 		if (usuario.isPresent() && usuario.get().getTipoUsuario().equals("Alumno")) {
 			System.out.println(usuario.get().getTipoUsuario());
-			credencialService.esAlumno(email);
-			return ResponseEntity.ok("Es Alumno");
+			//credencialService.esAlumno(email);
+			return ResponseEntity.ok("1");
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No es Alumno o el Email no existe");
+			return ResponseEntity.ok("0");
+			//throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No es Alumno o el Email no existe");
 		}
 	}
 
@@ -188,6 +187,12 @@ public class UsuarioController {
 
 	}
 
+	@GetMapping(path = "/forgotAlumno", params = { "email" })
+	public ResponseEntity<?> recuperoContraseniaOTPAlumno(@RequestParam String email) {
+		credencialService.esAlumno(email);
+		return ResponseEntity.status(HttpStatus.OK).build();
+
+	}
 
 
 	@GetMapping(path = "/verificarOTP", params = { "email", "code" })
