@@ -3,12 +3,8 @@ package com.distribuidas.recetas.servicios.implementaciones;
 import com.distribuidas.recetas.excepciones.NoExisteUnaRecetaParaElIdIngresadoException;
 import com.distribuidas.recetas.excepciones.YaExisteUnaRecetaConMismoNombreYUsuarioException;
 import com.distribuidas.recetas.modelo.dto.ReemplazarRecetaResponseDto;
-import com.distribuidas.recetas.modelo.entities.EstadoAutorizacion;
-import com.distribuidas.recetas.modelo.entities.FechaReceta;
-import com.distribuidas.recetas.modelo.entities.Receta;
-import com.distribuidas.recetas.repositorios.CalificacionRepository;
-import com.distribuidas.recetas.repositorios.EstadoAutorizacionRepository;
-import com.distribuidas.recetas.repositorios.RecetaRepository;
+import com.distribuidas.recetas.modelo.entities.*;
+import com.distribuidas.recetas.repositorios.*;
 import com.distribuidas.recetas.servicios.interfaces.RecetaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +65,24 @@ public class RecetaServiceImpl implements RecetaService {
             recetaAModificar.get().setTiposByIdTipo(newReceta.getTiposByIdTipo());
             recetaAModificar.get().setPasosByIdReceta(newReceta.getPasosByIdReceta());
             recetaAModificar.get().setUtilizadosByIdReceta(newReceta.getUtilizadosByIdReceta());
+
+
+            recetaAModificar.get().getUtilizadosByIdReceta().forEach(utilizado -> {
+                utilizado.setRecetasByIdReceta(recetaAModificar.get());
+                var unidad =  new Unidad();
+                unidad.setIdUnidad(utilizado.getIdUnidad());
+                utilizado.setUnidadesByIdUnidad( unidad);
+
+                var ingrediente = new Ingrediente();
+                ingrediente.setIdIngrediente(utilizado.getIdIngrediente());
+                utilizado.setIngredientesByIdIngrediente(ingrediente);
+            });
+
+            recetaAModificar.get().getPasosByIdReceta().forEach(paso -> {
+                paso.setRecetasByIdReceta(recetaAModificar.get());
+            });
+
+
 
             return this.recetaRepository.save(recetaAModificar.get());
         }

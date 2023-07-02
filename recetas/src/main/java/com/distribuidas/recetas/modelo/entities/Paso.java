@@ -1,6 +1,7 @@
 package com.distribuidas.recetas.modelo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +32,7 @@ public class Paso {
     @ManyToOne
     @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
     @JsonBackReference(value = "receta-pasos")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Receta recetasByIdReceta;
 
     @Override
