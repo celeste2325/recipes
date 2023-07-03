@@ -1,9 +1,14 @@
 package com.distribuidas.recetas.email.template;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,16 +19,17 @@ public class TemplateManager {
     private final String GetNewRegisterTempalteString;
     private final String ValidarAlumnoTemplateString;
 
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     public TemplateManager() throws IOException {
-        ForgotPasswordTemplateString = FileToString("src/main/java/com/distribuidas/recetas/email/template/ForgotEmailTemplate_EN.html");
-        GetNewRegisterTempalteString = FileToString("src/main/java/com/distribuidas/recetas/email/template/singUpTemplate_EN.html");
-        ValidarAlumnoTemplateString = FileToString("src/main/java/com/distribuidas/recetas/email/template/ValidarAlumno.HTML");
-
+        ForgotPasswordTemplateString = FileToString(ResourceUtils.getFile("classpath:email/ForgotEmailTemplate_EN.html").toPath());
+        GetNewRegisterTempalteString = FileToString(ResourceUtils.getFile("classpath:email/singUpTemplate_EN.html").toPath());
+        ValidarAlumnoTemplateString = FileToString(ResourceUtils.getFile("classpath:email/ValidarAlumno.HTML").toPath());
     }
 
-    private static String FileToString(String templateDir) throws IOException {
-        BufferedReader bufferedReader = Files.newBufferedReader(Path.of(templateDir));
+    private static String FileToString(Path path) throws IOException {
+        BufferedReader bufferedReader = Files.newBufferedReader(path);
 
         // Leer el archivo línea por línea y concatenar las líneas en un StringBuilder
         StringBuilder contenido = new StringBuilder();
