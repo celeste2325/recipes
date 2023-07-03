@@ -19,17 +19,14 @@ public class TemplateManager {
     private final String GetNewRegisterTempalteString;
     private final String ValidarAlumnoTemplateString;
 
-    @Autowired
-    private ResourceLoader resourceLoader;
-
     public TemplateManager() throws IOException {
-        ForgotPasswordTemplateString = FileToString(ResourceUtils.getFile("classpath:email/ForgotEmailTemplate_EN.html").toPath());
-        GetNewRegisterTempalteString = FileToString(ResourceUtils.getFile("classpath:email/singUpTemplate_EN.html").toPath());
-        ValidarAlumnoTemplateString = FileToString(ResourceUtils.getFile("classpath:email/ValidarAlumno.HTML").toPath());
+        ForgotPasswordTemplateString = FileToString(getClass().getResourceAsStream("/email/ForgotEmailTemplate_EN.html"));
+        GetNewRegisterTempalteString = FileToString(getClass().getResourceAsStream("/email/singUpTemplate_EN.html"));
+        ValidarAlumnoTemplateString = FileToString(getClass().getResourceAsStream("/email/ValidarAlumno.HTML"));
     }
 
-    private static String FileToString(Path path) throws IOException {
-        BufferedReader bufferedReader = Files.newBufferedReader(path);
+    private static String FileToString(InputStream in) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
 
         // Leer el archivo línea por línea y concatenar las líneas en un StringBuilder
         StringBuilder contenido = new StringBuilder();
