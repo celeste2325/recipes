@@ -18,10 +18,8 @@ go
 
 create table dbo.ingredientes
 (
-    idIngrediente int identity
-        constraint pk_ingredientes
-            primary key,
-    nombre        varchar(200)
+    idIngrediente int  IDENTITY(1,1)  primary key,
+    nombre        varchar(200))
 )
 go
 
