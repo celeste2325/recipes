@@ -34,6 +34,18 @@ esto te generar un prompt tendras que meter el access key y el secret key y la r
 pedir los credenciales al administrador del grupo
 
 
+para pegarle a la BD en la nube usar esta URL de base de datos
+
+
+url de base de datos `database-sql-server.ctlsabf5got6.us-east-1.rds.amazonaws.com`
+
+puerto `1433`
+
+usuario `admin`
+
+contrasena `ROOTfancyPass252!`
+
+
 
 ## License
 
