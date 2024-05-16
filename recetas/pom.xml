@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.distribuidas</groupId>
-    <artifactId>recetas</artifactId>
+    <artifactId>recipes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>recetas</name>
-    <description>api rest compartiendo recetas</description>
+    <name>recipes</name>
+    <description>api rest recipes</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -63,11 +63,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-        	<groupId>com</groupId>
-        	<artifactId>Sipicook</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
