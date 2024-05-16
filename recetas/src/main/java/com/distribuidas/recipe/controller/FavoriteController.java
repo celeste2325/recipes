@@ -1,6 +1,6 @@
 package com.distribuidas.recipe.controller;
 
-import com.distribuidas.recipe.model.dto.response.FavoritoResponseDto;
+import com.distribuidas.recipe.model.dto.response.FavoriteResponseDto;
 import com.distribuidas.recipe.model.mapstruct.FavoriteMapper;
 import com.distribuidas.recipe.service.interfaces.FavoriteService;
 import lombok.AllArgsConstructor;
@@ -16,11 +16,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class FavoriteController {
 
-    private final FavoriteService favoritoService;
-    private final FavoriteMapper favoritoMapper;
+    private final FavoriteService favoriteService;
+    private final FavoriteMapper favoriteMapper;
 
     @GetMapping()
-    public ResponseEntity<List<FavoritoResponseDto>> devolverFavoritosDeUser(@RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.favoritoMapper.mapLisToDto(this.favoritoService.getFavoritos(idUsuario)), HttpStatus.OK);
+    public ResponseEntity<List<FavoriteResponseDto>> getFavoritesByUser(@RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.favoriteMapper.mapLisToDto(this.favoriteService.getFavorites(userID)), HttpStatus.OK);
     }
 }

@@ -16,7 +16,7 @@ public class MultimediaServiceImpl implements MultimediaService {
     MultimediaRepository multimediaRepository;
 
     @Override
-    public List<Multimedia> cargarMultimediasPaso(Collection<Multimedia> multimediaByIdPaso) {
-        return this.multimediaRepository.saveAll(multimediaByIdPaso);
+    public List<Multimedia> saveMultimediasStep(Collection<Multimedia> multimediaByStepID) {
+        return this.multimediaRepository.saveAll(multimediaByStepID);
     }
 }

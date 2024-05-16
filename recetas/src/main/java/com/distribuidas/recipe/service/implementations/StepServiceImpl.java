@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 public class StepServiceImpl implements StepService {
     @Autowired
-    private StepRepository pasoRepository;
+    private StepRepository stepRepository;
 
     @Override
-    public List<Step> buscaTodosLosPasosDeUnaReceta(Integer idReceta) {
-        return this.pasoRepository.findByIdReceta(idReceta);
+    public List<Step> getStepsByRecipe(Integer recipeID) {
+        return this.stepRepository.findByIdReceta(recipeID);
     }
 }

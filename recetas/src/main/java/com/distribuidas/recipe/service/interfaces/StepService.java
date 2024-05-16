@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface StepService {
-    List<Step> buscaTodosLosPasosDeUnaReceta(Integer idReceta);
+    List<Step> getStepsByRecipe(Integer recipeID);
 }

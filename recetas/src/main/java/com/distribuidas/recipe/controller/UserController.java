@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.distribuidas.recipe.email.EmailClient;
-import com.distribuidas.recipe.model.entities.Credencial;
+import com.distribuidas.recipe.model.entities.Credential;
 import com.distribuidas.recipe.model.entities.User;
 import com.distribuidas.recipe.service.interfaces.CredentialService;
 import com.distribuidas.recipe.service.interfaces.UserService;
@@ -32,14 +32,14 @@ import com.distribuidas.recipe.service.interfaces.UserService;
 @CrossOrigin(origins = "*")
 public class UserController {
 
-	private final UserService usuarioService;
-	private final CredentialService credencialService;
+	private final UserService userService;
+	private final CredentialService credentialService;
 	private final EmailClient emailClient;
 
 	@Autowired
-	public UserController(UserService usuarioServ, CredentialService credencialServ, EmailClient emailClient) {
-		this.usuarioService = usuarioServ;
-		this.credencialService = credencialServ;
+	public UserController(UserService userService, CredentialService credentialService, EmailClient emailClient) {
+		this.userService = userService;
+		this.credentialService = credentialService;
 		this.emailClient = emailClient;
 
 	}
@@ -48,12 +48,12 @@ public class UserController {
 
 	// Valida si existe el email
 	@GetMapping(path = "/validarEmail", params = { "email" })
-	public ResponseEntity<?> validarEmail(@RequestParam String email) {
-		Optional<User> usuario = usuarioService.findByMail(email);
+	public ResponseEntity<?> validateEmail(@RequestParam String email) {
+		Optional<User> user = userService.findByMail(email);
 
-		if (usuario.isPresent()) {
-			System.out.println(usuario.get().getHabilitado());
-			if (usuario.get().getHabilitado().equals("si"))
+		if (user.isPresent()) {
+			System.out.println(user.get().getHabilitado());
+			if (user.get().getHabilitado().equals("si"))
 				return ResponseEntity.ok("1");
 			else
 				return ResponseEntity.ok("2");
@@ -65,13 +65,13 @@ public class UserController {
 
 	// Valida si existe el Alias
 	@GetMapping(path = "/validarAlias", params = { "nickname" })
-	public ResponseEntity<?> validarAlias(@RequestParam String nickname) {
-		Optional<User> usuario = usuarioService.findByNickname(nickname);
+	public ResponseEntity<?> validateNickname(@RequestParam String nickname) {
+		Optional<User> user = userService.findByNickname(nickname);
 		if (nickname.equals("")) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El Alias está vacío.");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "empty nickname");
 		}
-		if (usuario.isPresent()) {
-			List <String> alternativasAlias = usuarioService.opcionesAlias(usuario.get().getNickname());
+		if (user.isPresent()) {
+			List <String> alternativasAlias = userService.opcionesAlias(user.get().getNickname());
 			return ResponseEntity.ok(alternativasAlias);
 		}
 		return ResponseEntity.ok("0");
@@ -82,9 +82,9 @@ public class UserController {
 	// Pre-creación de usuario
 	@PostMapping("/prealta")
 	public ResponseEntity<?> prealta(@RequestBody User usuario) {
-		Optional<User> usr = usuarioService.findByNickname(usuario.getNickname());
+		Optional<User> usr = userService.findByNickname(usuario.getNickname());
 		usuario.setHabilitado("no");
-		usuarioService.save(usuario);
+		userService.save(usuario);
 		emailClient.NewRegister(usuario.getMail());
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 
@@ -94,30 +94,30 @@ public class UserController {
 	// Crear un usuario
 	@PostMapping("/alta")
 	public ResponseEntity<?> create(@RequestBody User usuario) {
-		Optional<User> usr = usuarioService.findByMail(usuario.getMail());
+		Optional<User> usr = userService.findByMail(usuario.getMail());
 		usr.get().setNombre(usuario.getNombre());
 		usr.get().setMail(usuario.getMail());
 		usr.get().setHabilitado(usuario.getHabilitado());
 		usr.get().setNickname(usuario.getNickname());
 		usr.get().setAvatar(usuario.getAvatar());
 		usr.get().setTipoUsuario(usuario.getTipoUsuario());
-		usuarioService.save(usr.get());
+		userService.save(usr.get());
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 
 	// Crear credencial
 	@PostMapping("/altacred")
-	public ResponseEntity<?> createCred(@RequestBody Credencial credencial) {
-		Optional <Credencial> cred = credencialService.findByidUsuario(credencial.getIdUsuario());
+	public ResponseEntity<?> createCred(@RequestBody Credential credencial) {
+		Optional <Credential> cred = credentialService.findByidUser(credencial.getIdUsuario());
 		if (cred.isPresent()) {
 		cred.get().setIdUsuario(credencial.getIdUsuario());
 		cred.get().setContrasenia(credencial.getContrasenia());
 		cred.get().setCodigoVerificacion(credencial.getCodigoVerificacion());
-		credencialService.save(cred.get());
+		credentialService.save(cred.get());
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 		}else {
-			credencialService.save(credencial);
+			credentialService.save(credencial);
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 	}
@@ -128,9 +128,9 @@ public class UserController {
 	// Login
 	@GetMapping(path = "/login", params = { "alias", "contrasenia" })
 	public ResponseEntity<?> login(@RequestParam String alias, @RequestParam String contrasenia) {
-		Optional<User> usuario = usuarioService.findByNickname(alias);
+		Optional<User> usuario = userService.findByNickname(alias);
 		System.out.println(usuario.get().getNombre());
-		Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
+		Optional<Credential> credencial = credentialService.findByidUser(usuario.get().getIdUsuario());
 		if (credencial.get().getContrasenia() != null && credencial.get().getContrasenia().equals(contrasenia)) {
 			return new ResponseEntity<>(credencial.get(), HttpStatus.OK);
 		}
@@ -145,12 +145,12 @@ public class UserController {
 			@RequestParam String pwd2) {
 
 		if (pwd1.equals(pwd2)) {
-			Optional<Credencial> cred = credencialService.findByidUsuario(id);
+			Optional<Credential> cred = credentialService.findByidUser(id);
 			if (!cred.isPresent()) {
 				return ResponseEntity.notFound().build();
 			} else {
 				cred.get().setContrasenia(pwd1);
-				credencialService.save(cred.get());
+				credentialService.save(cred.get());
 				return ResponseEntity.status(HttpStatus.CREATED).build();
 			}
 		} else {
@@ -166,7 +166,7 @@ public class UserController {
 
 	@GetMapping(path = "/validarAlumno", params = { "email" })
 	public ResponseEntity<?> validarAlumno(@RequestParam String email) {
-		Optional<User> usuario = usuarioService.findByMail(email);
+		Optional<User> usuario = userService.findByMail(email);
 
 		if (usuario.isPresent() && usuario.get().getTipoUsuario().equals("Alumno")) {
 			System.out.println(usuario.get().getTipoUsuario());
@@ -182,14 +182,14 @@ public class UserController {
 
 	@GetMapping(path = "/forgot", params = { "email" })
 	public ResponseEntity<?> recuperoContraseniaOTP(@RequestParam String email) {
-		credencialService.forgotPassword(email);
+		credentialService.forgotPassword(email);
 		return ResponseEntity.status(HttpStatus.OK).build();
 
 	}
 
 	@GetMapping(path = "/forgotAlumno", params = { "email" })
 	public ResponseEntity<?> recuperoContraseniaOTPAlumno(@RequestParam String email) {
-		credencialService.esAlumno(email);
+		credentialService.isStudent(email);
 		return ResponseEntity.status(HttpStatus.OK).build();
 
 	}
@@ -198,11 +198,11 @@ public class UserController {
 	@GetMapping(path = "/verificarOTP", params = { "email", "code" })
 	public ResponseEntity<?> verificarOTP(@RequestParam String email, @RequestParam String code) {
 
-		Optional<User> usuario = usuarioService.findByMail(email);
-		Optional<Credencial> credencial = credencialService.findByidUsuario(usuario.get().getIdUsuario());
+		Optional<User> usuario = userService.findByMail(email);
+		Optional<Credential> credencial = credentialService.findByidUser(usuario.get().getIdUsuario());
 		if (credencial.get().getCodigoVerificacion().equals(code)) {
 			credencial.get().setCodigoVerificacion(null);
-			credencialService.save(credencial.get());
+			credentialService.save(credencial.get());
 			return ResponseEntity.ok("1");
 		}
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Códigos no coinciden");
@@ -230,7 +230,7 @@ public class UserController {
 	// Leer un usuario
 	@GetMapping(path = "/buscarxemail", params = { "email" })
 	public ResponseEntity<?> buscarxemail(@RequestParam String email) {
-		Optional<User> usuario = usuarioService.findByMail(email);
+		Optional<User> usuario = userService.findByMail(email);
 		System.out.println(usuario.get().getIdUsuario());
 		if (!usuario.isPresent())
 			return ResponseEntity.notFound().build();
@@ -240,7 +240,7 @@ public class UserController {
 	// Leer un usuario x alias
 	@GetMapping(path = "/buscarxalias", params = { "alias" })
 	public ResponseEntity<?> buscarxalias(@RequestParam String alias) {
-		Optional<User> usuario = usuarioService.findByNickname(alias);
+		Optional<User> usuario = userService.findByNickname(alias);
 		System.out.println(usuario.get().getIdUsuario());
 		if (!usuario.isPresent())
 			return ResponseEntity.notFound().build();
@@ -252,7 +252,7 @@ public class UserController {
 	// Leer un usuario
 	@GetMapping(path = "/buscarxemailalias", params = { "email" })
 	public ResponseEntity<?> buscarxemailalias(@RequestParam String email) {
-		Optional<User> usuario = usuarioService.findByMail(email);
+		Optional<User> usuario = userService.findByMail(email);
 		System.out.println(usuario.get().getNickname());
 		if (!usuario.isPresent())
 			return ResponseEntity.notFound().build();
@@ -263,7 +263,7 @@ public class UserController {
 	// Leer un usuario
 	@GetMapping(path = "/buscar", params = { "id" })
 	public ResponseEntity<?> leer(@RequestParam Integer id) {
-		Optional<User> usuario = usuarioService.findById(id);
+		Optional<User> usuario = userService.findById(id);
 		if (!usuario.isPresent())
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(usuario.get());
@@ -273,7 +273,7 @@ public class UserController {
 	// Actualizar un usuario
 	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody User usuario) {
-		Optional<User> usr = usuarioService.findById(usuario.getIdUsuario());
+		Optional<User> usr = userService.findById(usuario.getIdUsuario());
 		if (!usr.isPresent()) {
 			return ResponseEntity.notFound().build();
 		} else {
@@ -283,7 +283,7 @@ public class UserController {
 			usr.get().setNickname(usuario.getNickname());
 			usr.get().setAvatar(usuario.getAvatar());
 			usr.get().setTipoUsuario(usuario.getTipoUsuario());
-			usuarioService.save(usr.get());
+			userService.save(usr.get());
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 	}
@@ -292,12 +292,12 @@ public class UserController {
 	// Actualizar un ApeNom
 	@PutMapping(path = "/modificarApeNom", params = {"alias", "apenom"})
 	public ResponseEntity<?> modificarapenom(@RequestParam String alias, String apenom) {
-		Optional<User> usr = usuarioService.findByNickname(alias);
+		Optional<User> usr = userService.findByNickname(alias);
 		if (!usr.isPresent()) {
 			return ResponseEntity.notFound().build();
 		} else {
 			usr.get().setNombre(apenom);
-			usuarioService.save(usr.get());
+			userService.save(usr.get());
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 	}
@@ -306,10 +306,10 @@ public class UserController {
 	// Borrar un usuario
 	@DeleteMapping(path = "/eliminar", params = "id")
 	public ResponseEntity<?> borrar(@RequestParam Integer id) {
-		if (!usuarioService.findById(id).isPresent())
+		if (!userService.findById(id).isPresent())
 			return ResponseEntity.notFound().build();
-		usuarioService.deleteById(id);
-		credencialService.deleteByidUsuario(id);
+		userService.deleteById(id);
+		credentialService.deleteByIdUser(id);
 		// return ResponseEntity.ok().build();
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
@@ -318,7 +318,7 @@ public class UserController {
 	// traer todas las personas
 	@GetMapping("/buscarTodos")
 	public List<User> readAll() {
-		List<User> usuarios = StreamSupport.stream(usuarioService.findAll().spliterator(), false)
+		List<User> usuarios = StreamSupport.stream(userService.findAll().spliterator(), false)
 				.collect(Collectors.toList());
 		return usuarios;
 	}
@@ -326,7 +326,7 @@ public class UserController {
 	@GetMapping("busquedaParcial/{nombreParcialUsuario}")
 	public List<User> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialUsuario) {
 		if (nombreParcialUsuario.length() >= 2) {
-			return this.usuarioService.devolverUsuariosPorBusquedaParcialNombre(nombreParcialUsuario);
+			return this.userService.getUsersByPartialName(nombreParcialUsuario);
 		}
 		return null;// agregar excepcion
 	}
@@ -335,13 +335,13 @@ public class UserController {
 	// Actualizar Avatar
 	@PutMapping(path = "/modificarAvatar", params = {"alias", "avatar"})
 	public ResponseEntity<?> modificarAvatar(@RequestParam String alias, String avatar) {
-		Optional<User> usr = usuarioService.findByNickname(alias);
+		Optional<User> usr = userService.findByNickname(alias);
 		if (!usr.isPresent()) {
 			return ResponseEntity.notFound().build();
 		} else {
 			System.out.println(usr.get().getAvatar());
 			usr.get().setAvatar(avatar);
-			usuarioService.save(usr.get());
+			userService.save(usr.get());
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 	}

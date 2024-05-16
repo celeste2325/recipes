@@ -16,43 +16,43 @@ import java.util.ArrayList;
 @Service
 public class UserServiceImpl implements UserService {
 
-    UserRepository usuarioRepository;
+    UserRepository userRepository;
 
     @Autowired
-    UserServiceImpl(UserRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Transactional(readOnly = true)
     public Iterable<User> findAll() {
-        return usuarioRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> findById(int id) {
-        return usuarioRepository.findById(id);
+    public Optional<User> findById(int ID) {
+        return userRepository.findById(ID);
     }
 
     @Override
     public Optional<User> findByNickname(String nickname) {
-        return usuarioRepository.findByNickname(nickname);
+        return userRepository.findByNickname(nickname);
     }
 
     @Transactional
-    public void save(User usuario) {
-        usuarioRepository.save(usuario);
+    public void save(User user) {
+        userRepository.save(user);
     }
 
     @Transactional
-    public void deleteById(int id) {
-        usuarioRepository.deleteById(id);
+    public void deleteById(int ID) {
+        userRepository.deleteById(ID);
 
     }
 
     @Override
-    public List<User> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario) {
-        if (!Objects.equals(nombreParcialUsuario, "")) {
-            return this.usuarioRepository.findByNombreLikeIgnoreCase(nombreParcialUsuario + "%");
+    public List<User> getUsersByPartialName(String partialUserName) {
+        if (!Objects.equals(partialUserName, "")) {
+            return this.userRepository.findByNombreLikeIgnoreCase(partialUserName + "%");
         }
         return null;
     }
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     	int i = 1;
     	while (alternativas.size() < 3) {
     		String alternativa = alias + i;
-            Optional<User> usuario = this.usuarioRepository.findByNickname(alternativa);
+            Optional<User> usuario = this.userRepository.findByNickname(alternativa);
             if(!usuario.isPresent()) {
             	alternativas.add(alternativa);
             }
@@ -75,18 +75,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String cargarUrlAvatar(Integer idUsuario, String url) throws UserDoesNotExistException {
-        Optional<User> usuario = this.usuarioRepository.findById(idUsuario);
-        if (usuario.isPresent()) {
-            usuario.get().setAvatar(url);
-            this.usuarioRepository.save(usuario.get());
-            return  usuario.get().getAvatar();
-        } throw new UserDoesNotExistException("No existe un usuario asociado al id ingresado");
+    public String cargarUrlAvatar(Integer userID, String url) throws UserDoesNotExistException {
+        Optional<User> user = this.userRepository.findById(userID);
+        if (user.isPresent()) {
+            user.get().setAvatar(url);
+            this.userRepository.save(user.get());
+            return  user.get().getAvatar();
+        } throw new UserDoesNotExistException("No user for ID introduced");
     }
 
     @Override
     public Optional<User> findByMail(String email) {
-        return usuarioRepository.findByMail(email);
+        return userRepository.findByMail(email);
 
     }
 

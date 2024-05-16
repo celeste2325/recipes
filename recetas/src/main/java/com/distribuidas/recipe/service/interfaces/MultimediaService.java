@@ -9,5 +9,5 @@ import java.util.List;
 @Service
 public interface MultimediaService {
 
-    List<Multimedia> cargarMultimediasPaso(Collection<Multimedia> multimediaByIdPaso);
+    List<Multimedia> saveMultimediasStep(Collection<Multimedia> multimediaByStepID);
 }

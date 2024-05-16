@@ -14,26 +14,26 @@ import java.util.Objects;
 public class IngredientServiceImpl implements IngredientService {
 
     @Autowired
-    private IngredientRepository ingredienteRepository;
+    private IngredientRepository ingredientRepository;
 
-    public Ingredient salvarIngrediente(Ingredient newIngrediente) throws ExistingIngredientException {
-        Ingredient ingredienteEncontrado = this.ingredienteRepository.findByNombre(newIngrediente.getNombre());
-        if (ingredienteEncontrado == null) {
-            return this.ingredienteRepository.save(newIngrediente);
+    public Ingredient saveIngredient(Ingredient newIngredient) throws ExistingIngredientException {
+        Ingredient ingredientFound = this.ingredientRepository.findByNombre(newIngredient.getNombre());
+        if (ingredientFound == null) {
+            return this.ingredientRepository.save(newIngredient);
         } else {
-            throw new ExistingIngredientException("El ingrediente que intenta crear ya existe");
+            throw new ExistingIngredientException("the ingredient already exists");
         }
 
     }
 
-    public List<Ingredient> listarIngredientes() {
-        return this.ingredienteRepository.findAll();
+    public List<Ingredient> getIngredients() {
+        return this.ingredientRepository.findAll();
     }
 
     @Override
-    public List<Ingredient> devolverIngredientesPorBusquedaParcial(String nombreParcialIngrediente) {
-        if (!Objects.equals(nombreParcialIngrediente, "")) {
-            return this.ingredienteRepository.findByNombreLikeIgnoreCase(nombreParcialIngrediente + "%");
+    public List<Ingredient> getIngredientsByPartialName(String partialNameIngredient) {
+        if (!Objects.equals(partialNameIngredient, "")) {
+            return this.ingredientRepository.findByNombreLikeIgnoreCase(partialNameIngredient + "%");
         }
         return null;
     }

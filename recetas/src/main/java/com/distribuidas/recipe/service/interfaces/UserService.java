@@ -20,7 +20,7 @@ public interface UserService {
 
     void deleteById(int id);
 
-    List<User> devolverUsuariosPorBusquedaParcialNombre(String nombreParcialUsuario);
+    List<User> getUsersByPartialName(String nombreParcialUsuario);
 
     List<String> opcionesAlias(String alias);
 

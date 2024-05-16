@@ -48,7 +48,7 @@ public class User {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuariosByIdUsuario")
-    private Collection<Credencial> credencialesByIdUsuario;
+    private Collection<Credential> credencialesByIdUsuario;
     //@JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuariosByIdUsuario")

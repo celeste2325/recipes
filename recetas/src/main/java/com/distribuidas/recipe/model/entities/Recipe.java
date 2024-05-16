@@ -63,7 +63,7 @@ public class Recipe {
     @JoinColumn(name = "idTipo", referencedColumnName = "idTipo")
     @JsonBackReference(value = "receta-tipo")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Type tiposByIdTipo;
+    private Category tiposByIdTipo;
     @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<IngredientUsed> utilizadosByIdReceta;

@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 public class UnitOfMeasurementServiceImpl implements UnitOfMeasurementService {
     @Autowired
-    private UnitOfMeasurementRepository unidadRepository;
+    private UnitOfMeasurementRepository unitOfMeasurementRepository;
 
     @Override
-    public List<UnitOfMeasurement> devolverUnidades() {
-        return this.unidadRepository.findAll();
+    public List<UnitOfMeasurement> getUnits() {
+        return this.unitOfMeasurementRepository.findAll();
     }
 }

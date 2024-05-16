@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public interface IngredientService {
 
-    Ingredient salvarIngrediente(Ingredient newIngrediente) throws ExistingIngredientException;
+    Ingredient saveIngredient(Ingredient newIngredient) throws ExistingIngredientException;
 
-    List<Ingredient> listarIngredientes();
+    List<Ingredient> getIngredients();
 
-    List<Ingredient> devolverIngredientesPorBusquedaParcial(String nombreParcialIngrediente);
+    List<Ingredient> getIngredientsByPartialName(String partialNameIngredient);
 }

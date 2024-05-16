@@ -12,9 +12,9 @@ import java.util.List;
 public class FavoriteServiceImpl implements FavoriteService {
 
     @Autowired
-    FavoriteRepository favoritoRepository;
+    FavoriteRepository favoriteRepository;
     @Override
-    public List<Favorite> getFavoritos(Integer idUsuario) {
-      return this.favoritoRepository.findByIdUsuario(idUsuario);
+    public List<Favorite> getFavorites(Integer userID) {
+      return this.favoriteRepository.findByIdUsuario(userID);
     }
 }

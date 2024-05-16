@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.util.Collection;
 @Data
-public class ReemplazarRecetaResponseDto {
+public class ReplaceRecipeResponseDto {
     private String nombre;
     private Collection<Rating> calificacionesByIdReceta;
 }

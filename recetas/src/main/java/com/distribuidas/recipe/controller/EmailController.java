@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/emailtest")
 @AllArgsConstructor
-public class EmailTest {
+public class EmailController {
 
 
     private final EmailClient emailClient;
     private final CredentialService credencialService;
-    private final UserService usuarioService;
+    private final UserService userService;
 
     //TODO cambiar nombre
     @GetMapping("/forgot/{email}")

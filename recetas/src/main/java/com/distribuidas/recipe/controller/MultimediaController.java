@@ -19,8 +19,8 @@ public class MultimediaController {
     private MultimediaCloudHandler multimediaCloudHandler;
 
     @PostMapping
-    public ResponseEntity<?> cargarMultimedia(@RequestBody Collection<Multimedia> multimediaByIdPaso) {
-        return new ResponseEntity<>(this.multimediaService.cargarMultimediasPaso(multimediaByIdPaso), HttpStatus.OK);
+    public ResponseEntity<?> saveMultimedia(@RequestBody Collection<Multimedia> multimediaByStepID) {
+        return new ResponseEntity<>(this.multimediaService.saveMultimediasStep(multimediaByStepID), HttpStatus.OK);
     }
     @GetMapping("/get_url")
     public String GetCertifiedURL(@RequestParam("file_name") String FileRequest,@RequestHeader("user_id") String UserID){

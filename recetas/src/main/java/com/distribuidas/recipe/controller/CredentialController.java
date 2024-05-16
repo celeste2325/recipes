@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class CredentialController {
 
-    private CredentialService credencialService;
+    private CredentialService credentialService;
 
 
     @PostMapping("/verify-pasword")
-    public void verifynewPassword(@RequestParam(name = "email") String email, @RequestParam(name = "code") String codigo, @RequestParam(name = "password") String password) {
-        credencialService.verifyNewPassword(email, codigo, password);
+    public void verifyNewPassword(@RequestParam(name = "email") String email, @RequestParam(name = "code") String code, @RequestParam(name = "password") String password) {
+        credentialService.verifyNewPassword(email, code, password);
     }
 
 

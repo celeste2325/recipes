@@ -10,7 +10,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Table(name = "credenciales")
-public class Credencial {
+public class Credential {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -35,7 +35,7 @@ public class Credencial {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Credencial that = (Credencial) o;
+        Credential that = (Credential) o;
 
         if (!Objects.equals(id, that.id))
             return false;

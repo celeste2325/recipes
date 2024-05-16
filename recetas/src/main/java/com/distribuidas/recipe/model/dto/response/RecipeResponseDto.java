@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-public class RecetaResponseDto {
+public class RecipeResponseDto {
     private Integer idReceta;
     private String nombre;
     private String descripcion;
@@ -15,7 +15,7 @@ public class RecetaResponseDto {
     private DateOfRecipe fechaRecetaByIdReceta;
     private Integer cantidadPersonas;
     private User usuariosByIdUsuario;
-    private Type tiposByIdTipo;
+    private Category tiposByIdTipo;
     private String foto;
     private Collection<Photo> fotosByIdReceta;
     private List<Step> pasosByIdReceta;

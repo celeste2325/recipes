@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface FavoriteService {
-    List<Favorite> getFavoritos(Integer idUsuario);
+    List<Favorite> getFavorites(Integer userID);
 }

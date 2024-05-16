@@ -8,30 +8,30 @@ import com.distribuidas.recipe.model.entities.Recipe;
 import java.util.List;
 
 public interface RecipeService {
-    Recipe altaReceta(Recipe newReceta) throws ExistingRecipeException;
+    Recipe createRecipe(Recipe newRecipe) throws ExistingRecipeException;
 
-    Recipe updateReceta(Integer id, Recipe newReceta) throws RecipeDoesNotExistException;
+    Recipe updateRecipe(Integer ID, Recipe newRecipe) throws RecipeDoesNotExistException;
 
-    void eliminarReceta(Integer id) throws RecipeDoesNotExistException;
+    void removeRecipe(Integer ID) throws RecipeDoesNotExistException;
 
-    List<Recipe> devolverRecetas(Integer idUsuario);
+    List<Recipe> getRecipes(Integer userID);
 
-    Recipe recetaExistentePorUsuario(String nombreReceta, Integer idUsuario) throws ExistingRecipeException;
+    Recipe recipeByUser(String recipeName, Integer userID) throws ExistingRecipeException;
 
-    Recipe devolverRecetaPorId(Integer id, Integer idUsuario) throws RecipeDoesNotExistException;
-    List<Recipe> devolverRecetasSinIngredienteOrdenadaPorAntiguedad(Integer idIngrediente, Integer idUsuario);
-    List<Recipe> devolverRecetasSinIngredienteOrdenadaPorNombre(Integer idIngrediente, Integer idUsuario);
+    Recipe getRecipeByID(Integer ID, Integer userID) throws RecipeDoesNotExistException;
+    List<Recipe> getRecipesWithoutIngredientOrderByDate(Integer ingredientID, Integer userID);
+    List<Recipe> getRecipesWithoutIngredientsOrderByName(Integer ingredientID, Integer userID);
 
-    List<Recipe> devolverRecetasPorBusquedaParcialNombre(String nombreReceta, Integer idUsuario);
+    List<Recipe> getRecipesByPartialName(String partialRecipeName, Integer userID);
 
-    List<Recipe> devuelve3RecetasInicioApp(Integer idUsuario);
+    List<Recipe> getThreeRecipesStartApp(Integer userID);
 
-    List<Recipe> recetasPorNombreOrdenNombreUsuario(String nombreReceta, Integer idUsuario);
+    List<Recipe> getRecipesByNameOrderByUserName(String recipeName, Integer userID);
 
-    List<Recipe> busquedaRecetaPorNombreOrdenadaPorAntiguedad(String nombreReceta, Integer idUsuario);
+    List<Recipe> getRecipesByNameOrderByAntiquity(String recipeName, Integer userID);
 
-    List<Recipe> busquedaRecetasByParam(String nombreReceta, Integer idTipo, Integer idIngrediente, Integer idUsuario, Integer idUsuarioObligatorio);
-    ReplaceRecipeResponseDto reemplazarReceta(Integer idReceta) throws RecipeDoesNotExistException;
+    List<Recipe> getRecipesByParam(String recipeName, Integer typeID, Integer ingredientID, Integer userID, Integer mandatoryUserID);
+    ReplaceRecipeResponseDto replaceRecipe(Integer recipeID) throws RecipeDoesNotExistException;
 
-    List<Recipe> devolverRecetasSinIngredienteOrdenadaPorNombreUser(Integer idIngrediente, Integer idUsuario);
+    List<Recipe> getRecipesWithoutIngredientsOrderByUserName(Integer ingredientID, Integer userID);
 }

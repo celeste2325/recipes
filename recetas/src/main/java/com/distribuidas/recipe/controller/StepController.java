@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/pasos")
 @AllArgsConstructor
 public class StepController {
-    private final StepService pasoService;
+    private final StepService stepService;
 
-    @GetMapping("{idReceta}")
-    public ResponseEntity<?> devolverPasosDeReceta(@PathVariable Integer idReceta) {
-        return new ResponseEntity<>(this.pasoService.buscaTodosLosPasosDeUnaReceta(idReceta), HttpStatus.OK);
+    @GetMapping("{recipeID}")
+    public ResponseEntity<?> getStepsByRecipeID(@PathVariable Integer recipeID) {
+        return new ResponseEntity<>(this.stepService.getStepsByRecipe(recipeID), HttpStatus.OK);
     }
 
 

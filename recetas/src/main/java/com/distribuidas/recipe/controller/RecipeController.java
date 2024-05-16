@@ -1,9 +1,9 @@
 package com.distribuidas.recipe.controller;
 
-import com.distribuidas.recipe.exception.RecipeDoesNotExistException;
 import com.distribuidas.recipe.exception.ExistingRecipeException;
+import com.distribuidas.recipe.exception.RecipeDoesNotExistException;
 import com.distribuidas.recipe.model.dto.RecipeDto;
-import com.distribuidas.recipe.model.dto.response.RecetaResponseDto;
+import com.distribuidas.recipe.model.dto.response.RecipeResponseDto;
 import com.distribuidas.recipe.model.entities.Recipe;
 import com.distribuidas.recipe.model.mapstruct.RecipeMapper;
 import com.distribuidas.recipe.service.interfaces.RecipeService;
@@ -20,127 +20,127 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class RecipeController {
 
-    private final RecipeService recetaService;
-    private final RecipeMapper recetaMapper;
+    private final RecipeService recipeService;
+    private final RecipeMapper recipeMapper;
 
     @PostMapping()
-    public ResponseEntity<?> crearReceta(@RequestBody Recipe newReceta) {
+    public ResponseEntity<?> createRecipe(@RequestBody Recipe newRecipe) {
         try {
-            return new ResponseEntity<Recipe>(this.recetaService.altaReceta(newReceta), HttpStatus.CREATED);
+            return new ResponseEntity<Recipe>(this.recipeService.createRecipe(newRecipe), HttpStatus.CREATED);
         } catch (ExistingRecipeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> editarReceta(@PathVariable Integer id, @RequestBody RecipeDto newReceta) {
+    @PutMapping("/{ID}")
+    public ResponseEntity<?> editRecipe(@PathVariable Integer ID, @RequestBody RecipeDto newRecipe) {
         try {
-            Recipe newRecetaEntity = this.recetaMapper.mapToEntity(newReceta);
-            return new ResponseEntity<>(this.recetaMapper.mapResponseDto(this.recetaService.updateReceta(id, newRecetaEntity)), HttpStatus.CREATED);
+            Recipe newRecipeEntity = this.recipeMapper.mapToEntity(newRecipe);
+            return new ResponseEntity<>(this.recipeMapper.mapResponseDto(this.recipeService.updateRecipe(ID, newRecipeEntity)), HttpStatus.CREATED);
         } catch (RecipeDoesNotExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/reemplazar/{idReceta}")
-    public ResponseEntity<?> reemplazarReceta(@PathVariable Integer idReceta) {
+
+    @GetMapping("/replace/{recipeID}")
+    public ResponseEntity<?> replaceRecipe(@PathVariable Integer recipeID) {
         try {
-            return new ResponseEntity<>(this.recetaService.reemplazarReceta(idReceta), HttpStatus.OK);
-        }catch (RecipeDoesNotExistException e) {
+            return new ResponseEntity<>(this.recipeService.replaceRecipe(recipeID), HttpStatus.OK);
+        } catch (RecipeDoesNotExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarReceta(@PathVariable Integer id) {
+    @DeleteMapping("/{ID}")
+    public ResponseEntity<?> deleteRecipe(@PathVariable Integer ID) {
         try {
-            this.recetaService.eliminarReceta(id);
+            this.recipeService.removeRecipe(ID);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (RecipeDoesNotExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/inicioApp")
-    public ResponseEntity<?> devolverRecetasInicio(@RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devuelve3RecetasInicioApp(idUsuario)), HttpStatus.OK);
+    @GetMapping("/startApp")
+    public ResponseEntity<?> getRecipesStartingApp(@RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.recipeMapper.mapLisToDto(this.recipeService.getThreeRecipesStartApp(userID)), HttpStatus.OK);
     }
 
-    @GetMapping("ordenNombreUsuario/{nombreReceta}")
-    public ResponseEntity<?> busquedaRecetaPorNombreOrdenadaPorNombreUsuario(@PathVariable String nombreReceta,
-                                                                             @RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(
-                this.recetaService.recetasPorNombreOrdenNombreUsuario(nombreReceta, idUsuario)), HttpStatus.OK);
+    @GetMapping("byUserName/{recipeName}")
+    public ResponseEntity<?> getRecipesByNameOrderByUserName(@PathVariable String recipeName,
+                                                             @RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.recipeMapper.mapLisToDto(
+                this.recipeService.getRecipesByNameOrderByUserName(recipeName, userID)), HttpStatus.OK);
     }
 
-    @GetMapping("ordenAntiguedad/{nombreReceta}")
-    public ResponseEntity<?> busquedaRecetaPorNombreOrdenadaPorAntiguedad(@PathVariable String nombreReceta, @RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaService.busquedaRecetaPorNombreOrdenadaPorAntiguedad(nombreReceta, idUsuario), HttpStatus.OK);
+    @GetMapping("orderByAntiquity/{recipeName}")
+    public ResponseEntity<?> getRecipesByNameOrderByAntiquity(@PathVariable String recipeName, @RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.recipeService.getRecipesByNameOrderByAntiquity(recipeName, userID), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<RecetaResponseDto>> devolverRecetas(@RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetas(idUsuario)), HttpStatus.OK);
+    public ResponseEntity<List<RecipeResponseDto>> getRecipes(@RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.recipeMapper.mapLisToDto(this.recipeService.getRecipes(userID)), HttpStatus.OK);
     }
 
-    @GetMapping("/{idUsuario}/{nombreReceta}")
-    public ResponseEntity<?> recetaExistentePorUsuario(@PathVariable Integer idUsuario, @PathVariable String nombreReceta) throws ExistingRecipeException {
-        Recipe receta = this.recetaService.recetaExistentePorUsuario(nombreReceta, idUsuario);
-        if (receta == null) {
-            return new ResponseEntity<>(receta,HttpStatus.OK);
-        }else {
-            return ResponseEntity.badRequest().body(receta);
+    @GetMapping("/{userID}/{recipeName}")
+    public ResponseEntity<?> recipeByUser(@PathVariable Integer userID, @PathVariable String recipeName) throws ExistingRecipeException {
+        Recipe recipe = this.recipeService.recipeByUser(recipeName, userID);
+        if (recipe == null) {
+            return new ResponseEntity<>(recipe, HttpStatus.OK);
+        } else {
+            return ResponseEntity.badRequest().body(recipe);
         }
     }
 
-    @GetMapping("busquedaPorId/{id}")
-    public ResponseEntity<?> buscarRecetaPorId(@PathVariable Integer id, @RequestParam(defaultValue = "0") Integer idUsuario) {
+    @GetMapping("busquedaPorId/{ID}")
+    public ResponseEntity<?> getRecipeByID(@PathVariable Integer ID, @RequestParam(defaultValue = "0") Integer userID) {
         try {
-            return new ResponseEntity<>(this.recetaMapper.mapResponseDto(this.recetaService.devolverRecetaPorId(id, idUsuario)), HttpStatus.OK);
+            return new ResponseEntity<>(this.recipeMapper.mapResponseDto(this.recipeService.getRecipeByID(ID, userID)), HttpStatus.OK);
         } catch (RecipeDoesNotExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/request-param")
-    public ResponseEntity<List<RecetaResponseDto>> devolverRecetasbyParamQuery( @RequestParam(defaultValue = "") String nombreReceta,
-                                                                               @RequestParam(defaultValue = "0") Integer idTipo,
-                                                                               @RequestParam(defaultValue = "0") Integer idIngrediente,
-                                                                               @RequestParam(defaultValue = "0") Integer idUsuario,
-                                                                                @RequestParam(defaultValue = "0") Integer idUsuarioObligatorio
+    public ResponseEntity<List<RecipeResponseDto>> getRecipesByParamQuery(@RequestParam(defaultValue = "") String recipeName,
+                                                                          @RequestParam(defaultValue = "0") Integer typeID,
+                                                                          @RequestParam(defaultValue = "0") Integer ingredientID,
+                                                                          @RequestParam(defaultValue = "0") Integer userID,
+                                                                          @RequestParam(defaultValue = "0") Integer mandatoryUserID
     ) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.busquedaRecetasByParam(nombreReceta, idTipo, idIngrediente, idUsuario, idUsuarioObligatorio)), HttpStatus.OK);
+        return new ResponseEntity<>(this.recipeMapper.mapLisToDto(this.recipeService.getRecipesByParam(recipeName, typeID, ingredientID, userID, mandatoryUserID)), HttpStatus.OK);
     }
 
-    @GetMapping("sinIngrediente/nombreReceta/{idIngrediente}")
-    public ResponseEntity<?> devolverRecetasSinIngredienteOrdenadaPorNombreReceta(@PathVariable Integer idIngrediente,
-                                                                                @RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasSinIngredienteOrdenadaPorNombre(idIngrediente,idUsuario)), HttpStatus.OK);
-
-    }
-
-    @GetMapping("sinIngrediente/antiguedad/{idIngrediente}")
-    public ResponseEntity<?> devolverRecetasSinIngredienteOrdenadaPorAntiguedad(@PathVariable Integer idIngrediente,
-                                                                                @RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasSinIngredienteOrdenadaPorAntiguedad(idIngrediente,idUsuario)), HttpStatus.OK);
-
-    }
-    @GetMapping("sinIngrediente/nombreUser/{idIngrediente}")
-    public ResponseEntity<?> devolverRecetasSinIngredienteOrdenadaPorNombreUser(@PathVariable Integer idIngrediente,
-                                                                                @RequestParam(defaultValue = "0") Integer idUsuario) {
-        return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasSinIngredienteOrdenadaPorNombreUser(idIngrediente,idUsuario)), HttpStatus.OK);
+    @GetMapping("withoutIngredient/recipeName/{ingredientID}")
+    public ResponseEntity<?> getRecipesWithoutIngredientsOrderByName(@PathVariable Integer ingredientID,
+                                                                     @RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.recipeMapper.
+                mapLisToDto(this.recipeService.getRecipesWithoutIngredientsOrderByName(ingredientID, userID)),
+                HttpStatus.OK);
 
     }
 
-    @GetMapping("busquedaParcial/{nombreParcialReceta}")
-    public ResponseEntity<List<RecetaResponseDto>> devuelveRecetasPorBusquedaParcial(@PathVariable String nombreParcialReceta,
-                                                          @RequestParam(defaultValue = "0") Integer idUsuario) {
-        if (nombreParcialReceta.length() >= 2) {
-            return new ResponseEntity<>(this.recetaMapper.mapLisToDto(this.recetaService.devolverRecetasPorBusquedaParcialNombre(nombreParcialReceta, idUsuario)), HttpStatus.OK);
+    @GetMapping("withoutIngredient/antiquity/{ingredientID}")
+    public ResponseEntity<?> getRecipeWithoutIngredientOrderByAntiquity(@PathVariable Integer ingredientID,
+                                                                        @RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.recipeMapper.mapLisToDto(this.recipeService.getRecipesWithoutIngredientOrderByDate(ingredientID, userID)), HttpStatus.OK);
+
+    }
+
+    @GetMapping("withoutIngredient/userName/{ingredientID}")
+    public ResponseEntity<?> getRecipesWithoutIngredientsOrderByUserName(@PathVariable Integer ingredientID,
+                                                                         @RequestParam(defaultValue = "0") Integer userID) {
+        return new ResponseEntity<>(this.recipeMapper.mapLisToDto(this.recipeService.getRecipesWithoutIngredientsOrderByUserName(ingredientID, userID)), HttpStatus.OK);
+
+    }
+
+    @GetMapping("partialSearch/{partialRecipeName}")
+    public ResponseEntity<List<RecipeResponseDto>> getRecipesByPartialName(@PathVariable String partialRecipeName,
+                                                                           @RequestParam(defaultValue = "0") Integer userID) {
+        if (partialRecipeName.length() >= 2) {
+            return new ResponseEntity<>(this.recipeMapper.mapLisToDto(this.recipeService.getRecipesByPartialName(partialRecipeName, userID)), HttpStatus.OK);
         }
         return null;
     }
-
-    //TODO AGREGAR REEMPLAZAR --> que antes de eliminar la receta se conserven las calificaciones para guardar en la nueva receta a crear. luego el delete
-    //TODO probar de agregar comentarios y calificacion a receta y luego reemplazar
-    // TODO hacer la carga de las calificaciones
 }

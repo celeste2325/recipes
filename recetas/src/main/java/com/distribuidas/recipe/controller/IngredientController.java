@@ -16,26 +16,26 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class IngredientController {
 
-    private final IngredientService ingredienteService;
+    private final IngredientService ingredientService;
 
     @PostMapping
-    public ResponseEntity<?> crearIngrediente(@RequestBody Ingredient newIngrediente) {
+    public ResponseEntity<?> createIngredient(@RequestBody Ingredient newIngredient) {
         try {
-            return new ResponseEntity<>(this.ingredienteService.salvarIngrediente(newIngrediente), HttpStatus.CREATED);
+            return new ResponseEntity<>(this.ingredientService.saveIngredient(newIngredient), HttpStatus.CREATED);
         } catch (ExistingIngredientException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping()
-    public List<Ingredient> devuelveIngredientes() {
-        return this.ingredienteService.listarIngredientes();
+    public List<Ingredient> getIngredients() {
+        return this.ingredientService.getIngredients();
     }
 
-    @GetMapping("busquedaParcial/{nombreParcialIngrediente}")
-    public List<Ingredient> devuelveTiposPorBusquedaParcial(@PathVariable String nombreParcialIngrediente) {
-        if (nombreParcialIngrediente.length() >= 2) {
-            return this.ingredienteService.devolverIngredientesPorBusquedaParcial(nombreParcialIngrediente);
+    @GetMapping("busquedaParcial/{partialNameIngredient}")
+    public List<Ingredient> getTypeByPartialName(@PathVariable String partialNameIngredient) {
+        if (partialNameIngredient.length() >= 2) {
+            return this.ingredientService.getIngredientsByPartialName(partialNameIngredient);
         }
         return null;
     }

@@ -13,7 +13,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Table(name = "tipos")
-public class Type {
+public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idTipo")
@@ -31,7 +31,7 @@ public class Type {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Type tipo = (Type) o;
+        Category tipo = (Category) o;
 
         if (!Objects.equals(idTipo, tipo.idTipo)) return false;
         return Objects.equals(descripcion, tipo.descripcion);

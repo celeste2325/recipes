@@ -19,7 +19,7 @@ public class RecipeDto {
     private Collection<Photo> fotosByIdReceta;
     private List<Step> pasosByIdReceta;
     private User usuariosByIdUsuario;
-    private Type tiposByIdTipo;
+    private Category tiposByIdTipo;
     private List<IngredientUsed> utilizadosByIdReceta;
 
 }

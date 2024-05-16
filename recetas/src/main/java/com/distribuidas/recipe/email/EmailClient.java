@@ -6,6 +6,6 @@ public interface EmailClient {
 
     void NewRegister(String email);
 
-    void ValidarAlumno(String code, String email);
+    void validateStudent(String code, String email);
 
 }

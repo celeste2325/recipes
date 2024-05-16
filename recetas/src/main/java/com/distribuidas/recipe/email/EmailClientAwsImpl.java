@@ -34,7 +34,7 @@ public class EmailClientAwsImpl implements EmailClient {
     }
 
     @Override
-    public void ValidarAlumno(String code, String email) {
+    public void validateStudent(String code, String email) {
         var templateString = this.templateManager.GetValidarAlumnoTemplateString();
         templateString = templateString.replace("{URL}", "localhost:8080");
         templateString = templateString.replace("{code}", code);

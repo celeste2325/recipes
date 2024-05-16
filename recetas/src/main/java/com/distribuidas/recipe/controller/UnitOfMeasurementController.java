@@ -15,11 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class UnitOfMeasurementController {
-    private final UnitOfMeasurementService unidadService;
+    private final UnitOfMeasurementService unitOfMeasurementService;
 
     @GetMapping
-    public List<UnitOfMeasurement> devuelveUnidades() {
-        return this.unidadService.devolverUnidades();
+    public List<UnitOfMeasurement> getUnits() {
+        return this.unitOfMeasurementService.getUnits();
     }
 
 }
