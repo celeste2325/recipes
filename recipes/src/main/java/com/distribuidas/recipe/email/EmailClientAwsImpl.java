@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmailClientAwsImpl implements EmailClient {
-
+/*
     final private TemplateManager templateManager;
 
     final private AwsSesClient awsSesClient;
@@ -29,7 +29,7 @@ public class EmailClientAwsImpl implements EmailClient {
         paramenters.setRecipientEmail(email);
         paramenters.setHtmlBody(templateString);
 
-        awsSesClient.SendEmail(paramenters);
+        //awsSesClient.SendEmail(paramenters);
 
     }
 
@@ -61,4 +61,6 @@ public class EmailClientAwsImpl implements EmailClient {
 
         awsSesClient.SendEmail(paramenters);
     }
+    /*
+ */
 }

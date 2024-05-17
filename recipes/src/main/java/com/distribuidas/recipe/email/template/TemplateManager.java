@@ -9,7 +9,7 @@ import java.nio.file.Path;
 
 @Component
 public class TemplateManager {
-
+/*
     private final String ForgotPasswordTemplateString;
     private final String GetNewRegisterTempalteString;
     private final String ValidarAlumnoTemplateString;
@@ -57,5 +57,5 @@ public class TemplateManager {
 
     }
 
-
+*/
 }

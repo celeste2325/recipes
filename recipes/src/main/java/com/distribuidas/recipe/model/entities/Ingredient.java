@@ -11,18 +11,18 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "ingredientes")
+@Table(name = "ingredients")
 public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idIngrediente")
-    private Integer idIngrediente;
+    @Column(name = "ingredientID")
+    private Integer ingredientID;
     @Basic
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "name")
+    private String name;
     @OneToMany(mappedBy = "ingredientsByIngredientID")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<IngredientUsed> utilizadosByIdIngrediente;
+    private Collection<IngredientUsed> IngredientUsedByIngredientID;
 
     @Override
     public boolean equals(Object o) {
@@ -31,15 +31,15 @@ public class Ingredient {
 
         Ingredient that = (Ingredient) o;
 
-        if (!Objects.equals(idIngrediente, that.idIngrediente))
+        if (!Objects.equals(ingredientID, that.ingredientID))
             return false;
-        return Objects.equals(nombre, that.nombre);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        int result = idIngrediente != null ? idIngrediente.hashCode() : 0;
-        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
+        int result = ingredientID != null ? ingredientID.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 }

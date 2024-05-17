@@ -47,7 +47,7 @@ public class User {
     // this should be only one ? one to one relation ?
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "usersByUserID")
+    @OneToMany(mappedBy = "userByUserID")
     private Collection<Credential> credentialsByUserID;
     //@JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
-    List<Rating> findByIdReceta(Integer idReceta);
+    List<Rating> findByRecipeID(Integer recipeID);
 
     @Modifying
-    @Query(value = "UPDATE calificaciones SET comentarios = NULL WHERE idReceta = ?1", nativeQuery = true)
-    void eliminarComentariosDeReceta(Integer idReceta);
+    @Query(value = "UPDATE ratings SET details = NULL WHERE recipeID = ?1", nativeQuery = true)
+    void deleteDetail(Integer recipeID);
 }

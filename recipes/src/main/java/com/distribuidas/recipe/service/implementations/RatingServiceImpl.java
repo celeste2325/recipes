@@ -20,7 +20,7 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public List<Rating> getRecipeRatingsByRecipeID(Integer recipeID) {
-        return this.ratingRepository.findByIdReceta(recipeID);
+        return this.ratingRepository.findByRecipeID(recipeID);
     }
 
     @Override

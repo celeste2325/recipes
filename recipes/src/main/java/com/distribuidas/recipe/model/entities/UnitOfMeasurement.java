@@ -11,22 +11,25 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "unidades")
+@Table(name = "unitsOfMeasurement")
 public class UnitOfMeasurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idUnidad")
-    private Integer idUnidad;
+    @Column(name = "unitID")
+    private Integer unitID;
     @Basic
-    @Column(name = "descripcion")
-    private String descripcion;
-    @OneToMany(mappedBy = "ByfromUnitID unidadesByIdUnidadOrigen")
-    private Collection<Conversion> conversionesByIdUnidad;
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "unitOfMeasurementByFromUnitID")
+    private Collection<Conversion> conversionsByUnitID;
+
     @OneToMany(mappedBy = "unitOfMeasurementByToUnitID")
-    private Collection<Conversion> conversionesByIdUnidad_0;
-    @OneToMany(mappedBy = "unitsOfMeasurementByUnitOfMeasurementID")
+    private Collection<Conversion> conversionsByUnitID_0;
+
+    @OneToMany(mappedBy = "unitsOfMeasurementByUnitID")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<IngredientUsed> utilizadosByIdUnidad;
+    private Collection<IngredientUsed> ingredientUsedByUnitID;
 
     @Override
     public boolean equals(Object o) {
@@ -35,14 +38,14 @@ public class UnitOfMeasurement {
 
         UnitOfMeasurement unidad = (UnitOfMeasurement) o;
 
-        if (!Objects.equals(idUnidad, unidad.idUnidad)) return false;
-        return Objects.equals(descripcion, unidad.descripcion);
+        if (!Objects.equals(unitID, unidad.unitID)) return false;
+        return Objects.equals(description, unidad.description);
     }
 
     @Override
     public int hashCode() {
-        int result = idUnidad != null ? idUnidad.hashCode() : 0;
-        result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
+        int result = unitID != null ? unitID.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 }

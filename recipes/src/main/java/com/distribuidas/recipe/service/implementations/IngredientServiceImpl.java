@@ -17,7 +17,7 @@ public class IngredientServiceImpl implements IngredientService {
     private IngredientRepository ingredientRepository;
 
     public Ingredient saveIngredient(Ingredient newIngredient) throws ExistingIngredientException {
-        Ingredient ingredientFound = this.ingredientRepository.findByNombre(newIngredient.getNombre());
+        Ingredient ingredientFound = this.ingredientRepository.findByName(newIngredient.getName());
         if (ingredientFound == null) {
             return this.ingredientRepository.save(newIngredient);
         } else {
@@ -33,7 +33,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<Ingredient> getIngredientsByPartialName(String partialNameIngredient) {
         if (!Objects.equals(partialNameIngredient, "")) {
-            return this.ingredientRepository.findByNombreLikeIgnoreCase(partialNameIngredient + "%");
+            return this.ingredientRepository.findByNameLikeIgnoreCase(partialNameIngredient + "%");
         }
         return null;
     }

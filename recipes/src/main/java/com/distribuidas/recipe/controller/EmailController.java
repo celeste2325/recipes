@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailController {
 
 
-    private final EmailClient emailClient;
+   // private final EmailClient emailClient;
     private final CredentialService credencialService;
     private final UserService userService;
 

@@ -16,14 +16,13 @@ import java.util.Random;
 public class CredentialServiceImpl implements CredentialService {
 
     CredentialRepository credentialRepository;
-
     UserRepository userRepository;
     EmailClient emailClient;
 
     @Autowired
-    CredentialServiceImpl(CredentialRepository credentialRepository, UserRepository userRepository, EmailClient emailClient) {
+    CredentialServiceImpl(CredentialRepository credentialRepository, UserRepository userRepository/*, EmailClient emailClient*/) {
         this.credentialRepository = credentialRepository;
-        this.emailClient = emailClient;
+       // this.emailClient = emailClient;
         this.userRepository = userRepository;
     }
 
@@ -37,8 +36,8 @@ public class CredentialServiceImpl implements CredentialService {
         return credentialRepository.findById(ID);
     }
 
-    public Optional<Credential> findByidUser(int userID) {
-        return credentialRepository.findByidUser(userID);
+    public Optional<Credential> findByUserID(int userID) {
+        return credentialRepository.findByUserID(userID);
     }
 
     @Transactional
@@ -52,18 +51,18 @@ public class CredentialServiceImpl implements CredentialService {
         var user = userRepository.findByMail(email).get();
         var verificationCode = GetVerificationCode();
         var credentials = user.getCredentialsByUserID().stream().findFirst().get();
-        credentials.setCodigoVerificacion(verificationCode);
+        credentials.setVerificationCode(verificationCode);
         credentialRepository.save(credentials);
-        emailClient.ForgotPassword(verificationCode, email);
+        //emailClient.ForgotPassword(verificationCode, email);
     }
 
     public void isStudent(String email) {
         var user = userRepository.findByMail(email).get();
         var verificationCode = GetVerificationCode();
         var credentials = user.getCredentialsByUserID().stream().findFirst().get();
-        credentials.setCodigoVerificacion(verificationCode);
+        credentials.setVerificationCode(verificationCode);
         credentialRepository.save(credentials);
-        emailClient.validateStudent(verificationCode, email);
+        //emailClient.validateStudent(verificationCode, email);
     }
 
     /* este servicio es para cuando el usuario haga el request para verificar el email
@@ -92,9 +91,9 @@ public class CredentialServiceImpl implements CredentialService {
         var user = userRepository.findByMail(email).get();
         var credentials = user.getCredentialsByUserID().stream().findFirst().get();
 
-        if (credentials.getCodigoVerificacion().equals(code)) {
-            credentials.setCodigoVerificacion(null);
-            credentials.setContrasenia(password);
+        if (credentials.getVerificationCode().equals(code)) {
+            credentials.setVerificationCode(null);
+            credentials.setPassword(password);
             credentialRepository.save(credentials);
         }
 
@@ -108,8 +107,8 @@ public class CredentialServiceImpl implements CredentialService {
     }
 
     @Transactional
-    public void deleteByIdUser(int ID) {
-        Optional<Credential> cred = findById(ID);
+    public void deleteByUserID(int userID) {
+        Optional<Credential> cred = findByUserID(userID);
         credentialRepository.deleteById(cred.get().getId());
 
     }

@@ -15,6 +15,6 @@ public class StepServiceImpl implements StepService {
 
     @Override
     public List<Step> getStepsByRecipe(Integer recipeID) {
-        return this.stepRepository.findByIdReceta(recipeID);
+        return this.stepRepository.findByRecipeID(recipeID);
     }
 }

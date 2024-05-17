@@ -7,7 +7,7 @@ import software.amazon.awssdk.services.ses.model.*;
 
 @Component
 public class AwsSesClient {
-    private final String senderEmail = "no-reply@adicook.com";
+   /* private final String senderEmail = "no-reply@adicook.com";
     SesClient client = SesClient.builder().region(Region.US_EAST_1).build();
 
     public void SendEmail(EmailParamenters parameters) {
@@ -28,5 +28,5 @@ public class AwsSesClient {
         } catch (SesException e) {
             System.err.println(e.awsErrorDetails().errorMessage());
         }
-    }
+    }*/
 }

@@ -27,8 +27,8 @@ public class IngredientUsed {
     @Column(name = "quantity")
     private Integer quantity;
     @Basic
-    @Column(name = "unitOfMeasurementID", insertable = false, updatable = false)
-    private Integer unitOfMeasurementID;
+    @Column(name = "unitID", insertable = false, updatable = false)
+    private Integer unitID;
     @Basic
     @Column(name = "comments")
     private String comments;
@@ -41,8 +41,8 @@ public class IngredientUsed {
     @JoinColumn(name = "ingredientID", referencedColumnName = "ingredientID")
     private Ingredient ingredientsByIngredientID;
     @ManyToOne
-    @JoinColumn(name = "UnitOfMeasurementID", referencedColumnName = "UnitOfMeasurementID")
-    private UnitOfMeasurement unitsOfMeasurementByUnitOfMeasurementID;
+    @JoinColumn(name = "unitID", referencedColumnName = "unitID")
+    private UnitOfMeasurement unitsOfMeasurementByUnitID;
 
 
     @Override
@@ -58,7 +58,7 @@ public class IngredientUsed {
         if (!Objects.equals(ingredientID, ingredientUsed.ingredientID))
             return false;
         if (!Objects.equals(quantity, ingredientUsed.quantity)) return false;
-        if (!Objects.equals(unitOfMeasurementID, ingredientUsed.unitOfMeasurementID)) return false;
+        if (!Objects.equals(unitID, ingredientUsed.unitID)) return false;
         return Objects.equals(comments, ingredientUsed.comments);
     }
 
@@ -68,7 +68,7 @@ public class IngredientUsed {
         result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
         result = 31 * result + (ingredientID != null ? ingredientID.hashCode() : 0);
         result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
-        result = 31 * result + (unitOfMeasurementID != null ? unitOfMeasurementID.hashCode() : 0);
+        result = 31 * result + (unitID != null ? unitID.hashCode() : 0);
         result = 31 * result + (comments != null ? comments.hashCode() : 0);
         return result;
     }

@@ -10,13 +10,13 @@ public interface CredentialService {
 
     Optional<Credential> findById(int ID);
 
-    Optional<Credential> findByidUser(int userID);
+    Optional<Credential> findByUserID(int userID);
 
     void save(Credential credential);
 
     void deleteById(int ID);
 
-    void deleteByIdUser(int ID);
+    void deleteByUserID(int ID);
 
     void forgotPassword(String email);
 

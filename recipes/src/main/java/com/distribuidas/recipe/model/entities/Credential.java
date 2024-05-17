@@ -9,24 +9,24 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "credenciales")
+@Table(name = "credentials")
 public class Credential {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
+    @Column(name = "userID")
+    private Integer userID;
     @Basic
-    @Column(name = "contrasenia")
-    private String contrasenia;
+    @Column(name = "password")
+    private String password;
     @Basic
-    @Column(name = "codigo_verificacion")
-    private String codigoVerificacion;
+    @Column(name = "verificationCode")
+    private String verificationCode;
     @ManyToOne
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
-    private User usersByUserID;
+    @JoinColumn(name = "userID", referencedColumnName = "userID", insertable = false, updatable = false)
+    private User userByUserID;
 
     @Override
     public boolean equals(Object o) {
@@ -39,19 +39,19 @@ public class Credential {
 
         if (!Objects.equals(id, that.id))
             return false;
-        if (!Objects.equals(idUsuario, that.idUsuario))
+        if (!Objects.equals(userID, that.userID))
             return false;
-        if (!Objects.equals(contrasenia, that.contrasenia))
+        if (!Objects.equals(password, that.password))
             return false;
-        return Objects.equals(codigoVerificacion, that.codigoVerificacion);
+        return Objects.equals(verificationCode, that.verificationCode);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (idUsuario != null ? idUsuario.hashCode() : 0);
-        result = 31 * result + (contrasenia != null ? contrasenia.hashCode() : 0);
-        result = 31 * result + (codigoVerificacion != null ? codigoVerificacion.hashCode() : 0);
+        result = 31 * result + (userID != null ? userID.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (verificationCode != null ? verificationCode.hashCode() : 0);
         return result;
     }
 }

@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getCategoryByPartialName(String categoryPartialName) {
         if (!Objects.equals(categoryPartialName, "")) {
-            return this.categoryRepository.findByDescripcionLikeIgnoreCase(categoryPartialName + "%");
+            return this.categoryRepository.findByDescriptionLikeIgnoreCase(categoryPartialName + "%");
         }
         return null;
     }

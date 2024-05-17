@@ -24,13 +24,13 @@ public class UserController {
 
     private final UserService userService;
     private final CredentialService credentialService;
-    private final EmailClient emailClient;
+    //private final EmailClient emailClient;
 
     @Autowired
-    public UserController(UserService userService, CredentialService credentialService, EmailClient emailClient) {
+    public UserController(UserService userService, CredentialService credentialService/*, EmailClient emailClient*/) {
         this.userService = userService;
         this.credentialService = credentialService;
-        this.emailClient = emailClient;
+    //    this.emailClient = emailClient;
 
     }
 
@@ -72,7 +72,7 @@ public class UserController {
         Optional<User> usr = userService.findByNickname(user.getNickname());
         user.setEnabled("no");
         userService.save(user);
-        emailClient.NewRegister(user.getMail());
+     //   emailClient.NewRegister(user.getMail());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
@@ -94,13 +94,13 @@ public class UserController {
 
 
     // Crear credencial
-    @PostMapping()
+    @PostMapping("/createCredential")
     public ResponseEntity<?> createCredential(@RequestBody Credential credential) {
-        Optional<Credential> cred = credentialService.findByidUser(credential.getIdUsuario());
+        Optional<Credential> cred = credentialService.findByUserID(credential.getUserID());
         if (cred.isPresent()) {
-            cred.get().setIdUsuario(credential.getIdUsuario());
-            cred.get().setContrasenia(credential.getContrasenia());
-            cred.get().setCodigoVerificacion(credential.getCodigoVerificacion());
+            cred.get().setUserID(credential.getUserID());
+            cred.get().setPassword(credential.getPassword());
+            cred.get().setVerificationCode(credential.getVerificationCode());
             credentialService.save(cred.get());
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
@@ -115,8 +115,8 @@ public class UserController {
     public ResponseEntity<?> login(@RequestParam String nickname, @RequestParam String password) {
         Optional<User> user = userService.findByNickname(nickname);
         System.out.println(user.get().getName());
-        Optional<Credential> credential = credentialService.findByidUser(user.get().getUserID());
-        if (credential.get().getContrasenia() != null && credential.get().getContrasenia().equals(password)) {
+        Optional<Credential> credential = credentialService.findByUserID(user.get().getUserID());
+        if (credential.get().getPassword() != null && credential.get().getPassword().equals(password)) {
             return new ResponseEntity<>(credential.get(), HttpStatus.OK);
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found");
@@ -129,11 +129,11 @@ public class UserController {
 											@RequestParam String pwd2) {
 
         if (pwd1.equals(pwd2)) {
-            Optional<Credential> cred = credentialService.findByidUser(ID);
+            Optional<Credential> cred = credentialService.findByUserID(ID);
             if (!cred.isPresent()) {
                 return ResponseEntity.notFound().build();
             } else {
-                cred.get().setContrasenia(pwd1);
+                cred.get().setPassword(pwd1);
                 credentialService.save(cred.get());
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             }
@@ -181,9 +181,9 @@ public class UserController {
     public ResponseEntity<?> verificarOTP(@RequestParam String email, @RequestParam String code) {
 
         Optional<User> user = userService.findByMail(email);
-        Optional<Credential> credential = credentialService.findByidUser(user.get().getUserID());
-        if (credential.get().getCodigoVerificacion().equals(code)) {
-            credential.get().setCodigoVerificacion(null);
+        Optional<Credential> credential = credentialService.findByUserID(user.get().getUserID());
+        if (credential.get().getVerificationCode().equals(code)) {
+            credential.get().setVerificationCode(null);
             credentialService.save(credential.get());
             return ResponseEntity.ok("1");
         }
@@ -289,7 +289,7 @@ public class UserController {
         if (!userService.findById(ID).isPresent())
             return ResponseEntity.notFound().build();
         userService.deleteById(ID);
-        credentialService.deleteByIdUser(ID);
+        credentialService.deleteByUserID(ID);
         // return ResponseEntity.ok().build();
         return ResponseEntity.status(HttpStatus.OK).build();
     }

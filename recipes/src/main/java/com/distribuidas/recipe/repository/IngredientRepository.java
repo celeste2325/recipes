@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IngredientRepository extends JpaRepository<Ingredient, Integer> {
-    Ingredient findByNombre(String nombre);
+    Ingredient findByName(String name);
 
-    List<Ingredient> findByNombreLikeIgnoreCase(String s);
+    List<Ingredient> findByNameLikeIgnoreCase(String name);
 }

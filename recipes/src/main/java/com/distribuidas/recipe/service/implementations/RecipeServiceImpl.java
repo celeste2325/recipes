@@ -69,11 +69,11 @@ public class RecipeServiceImpl implements RecipeService {
             recipeFound.get().getIngredientsUsedByRecipeID().forEach(utilizado -> {
                 utilizado.setRecipeByRecipeID(recipeFound.get());
                 var unit =  new UnitOfMeasurement();
-                unit.setIdUnidad(utilizado.getUnitOfMeasurementID());
-                utilizado.setUnitsOfMeasurementByUnitOfMeasurementID( unit);
+                unit.setUnitID(utilizado.getUnitID());
+                utilizado.setUnitsOfMeasurementByUnitID(unit);
 
                 var ingredient = new Ingredient();
-                ingredient.setIdIngrediente(utilizado.getIngredientID());
+                ingredient.setIngredientID(utilizado.getIngredientID());
                 utilizado.setIngredientsByIngredientID(ingredient);
             });
 
@@ -105,7 +105,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe recipeByUser(String recipeName, Integer userID) {
-        return this.recipeRepository.findByNombreAndIdUsuario(recipeName, userID);
+        return this.recipeRepository.findByNameAndUserID(recipeName, userID);
     }
 
     //TODO esta ok
@@ -145,7 +145,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     private void eliminarComentarios(Integer idReceta) {
-        this.ratingRepository.eliminarComentariosDeReceta(idReceta);
+        this.ratingRepository.deleteDetail(idReceta);
     }
 
     //TODO esta ok

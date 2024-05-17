@@ -25,10 +25,10 @@ public class Conversion {
     @Column(name = "conversionFactor")
     private Double conversionFactor;
     @ManyToOne
-    @JoinColumn(name = "unitOfMeasurementByFromUnitID", referencedColumnName = "idUnidad", nullable = false)
+    @JoinColumn(name = "fromUnitID", referencedColumnName = "unitID", nullable = false)
     private UnitOfMeasurement unitOfMeasurementByFromUnitID;
     @ManyToOne
-    @JoinColumn(name = "unitOfMeasurementByToUnitID", referencedColumnName = "idUnidad", nullable = false)
+    @JoinColumn(name = "toUnitID", referencedColumnName = "unitID", nullable = false)
     private UnitOfMeasurement unitOfMeasurementByToUnitID;
 
     @Override
