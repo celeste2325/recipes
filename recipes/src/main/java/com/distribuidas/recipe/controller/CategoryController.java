@@ -26,6 +26,6 @@ public class CategoryController {
         if (categoryPartialName.length() >= 2) {
             return this.categoryService.getCategoryByPartialName(categoryPartialName);
         }
-        return null;//agregar excepcion
+        return null;
     }
 }

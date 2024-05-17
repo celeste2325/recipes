@@ -13,110 +13,113 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "recetas")
+@Table(name = "recipes")
 public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idReceta")
-    private Integer idReceta;
+    @Column(name = "recipeID")
+    private Integer recipeID;
     @Basic
-    @Column(name = "idUsuario", insertable = false, updatable = false)
-    private Integer idUsuario;
+    @Column(name = "userID", insertable = false, updatable = false)
+    private Integer userID;
     @Basic
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "name")
+    private String name;
     @Basic
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "description")
+    private String description;
     @Basic
-    @Column(name = "foto")
-    private String foto;
+    @Column(name = "urlPhoto")
+    private String urlPhoto;
     @Basic
-    @Column(name = "porciones")
-    private Integer porciones;
+    @Column(name = "servings")
+    private Integer servings;
     @Basic
-    @Column(name = "cantidadPersonas")
-    private Integer cantidadPersonas;
+    @Column(name = "numberPeople")
+    private Integer numberPeople;
     @Basic
-    @Column(name = "idTipo", insertable = false, updatable = false)
-    private Integer idTipo;
-    @OneToMany(mappedBy = "recetasByIdReceta")
-    private Collection<Rating> calificacionesByIdReceta;
+    @Column(name = "categoryID", insertable = false, updatable = false)
+    private Integer categoryID;
+
+    @OneToMany(mappedBy = "recipeByRecipeID")
+    private Collection<Rating> ratingsByRecipeID;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "recetasByIdReceta")
-    private Collection<Favorite> favoritosByIdReceta;
+    @OneToMany(mappedBy = "recipeByRecipeID")
+    private Collection<Favorite> favoritesByRecipeID;
 
-    @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipeByRecipeID", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<Photo> fotosByIdReceta;
+    private Collection<PhotoInstruction> photosByRecipeID;
 
-    @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipeByRecipeID", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Step> pasosByIdReceta;
+    private List<Step> stepsByRecipeID;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
+    @JoinColumn(name = "userID", referencedColumnName = "userID")
     @JsonBackReference(value = "receta-usuario")
-    private User usuariosByIdUsuario;
+    private User userByUserID;
+
     @ManyToOne
-    @JoinColumn(name = "idTipo", referencedColumnName = "idTipo")
+    @JoinColumn(name = "categoryID", referencedColumnName = "categoryID")
     @JsonBackReference(value = "receta-tipo")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Category tiposByIdTipo;
-    @OneToMany(mappedBy = "recetasByIdReceta", cascade = CascadeType.ALL)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<IngredientUsed> utilizadosByIdReceta;
+    private Category categoryByCategoryID;
 
-    @OneToOne(mappedBy = "recetaByIdReceta", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipeByRecipeID", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<IngredientUsed> ingredientsUsedByRecipeID;
+
+    @OneToOne(mappedBy = "recipeByRecipeID", cascade = CascadeType.ALL)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private DateOfRecipe fechaRecetaByIdReceta;
+    private DateOfRecipe dateOfRecipeByRecipeID;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Recipe receta = (Recipe) o;
+        Recipe recipe = (Recipe) o;
 
-        if (!Objects.equals(idReceta, receta.idReceta)) return false;
-        if (!Objects.equals(idUsuario, receta.idUsuario)) return false;
-        if (!Objects.equals(nombre, receta.nombre)) return false;
-        if (!Objects.equals(descripcion, receta.descripcion)) return false;
-        if (!Objects.equals(foto, receta.foto)) return false;
-        if (!Objects.equals(porciones, receta.porciones)) return false;
-        if (!Objects.equals(cantidadPersonas, receta.cantidadPersonas))
+        if (!Objects.equals(recipeID, recipe.recipeID)) return false;
+        if (!Objects.equals(userID, recipe.userID)) return false;
+        if (!Objects.equals(name, recipe.name)) return false;
+        if (!Objects.equals(description, recipe.description)) return false;
+        if (!Objects.equals(urlPhoto, recipe.urlPhoto)) return false;
+        if (!Objects.equals(servings, recipe.servings)) return false;
+        if (!Objects.equals(numberPeople, recipe.numberPeople))
             return false;
-        return Objects.equals(idTipo, receta.idTipo);
+        return Objects.equals(categoryID, recipe.categoryID);
     }
 
     @Override
     public int hashCode() {
-        int result = idReceta != null ? idReceta.hashCode() : 0;
-        result = 31 * result + (idUsuario != null ? idUsuario.hashCode() : 0);
-        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
-        result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
-        result = 31 * result + (foto != null ? foto.hashCode() : 0);
-        result = 31 * result + (porciones != null ? porciones.hashCode() : 0);
-        result = 31 * result + (cantidadPersonas != null ? cantidadPersonas.hashCode() : 0);
-        result = 31 * result + (idTipo != null ? idTipo.hashCode() : 0);
+        int result = recipeID != null ? recipeID.hashCode() : 0;
+        result = 31 * result + (userID != null ? userID.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (urlPhoto != null ? urlPhoto.hashCode() : 0);
+        result = 31 * result + (servings != null ? servings.hashCode() : 0);
+        result = 31 * result + (numberPeople != null ? numberPeople.hashCode() : 0);
+        result = 31 * result + (categoryID != null ? categoryID.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Receta{" +
-                "idReceta=" + idReceta +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", porciones=" + porciones +
-                ", fecha" + fechaRecetaByIdReceta +
-                ", cantidadPersonas=" + cantidadPersonas +
-                ", url foto=" + foto +
-                ", fotosByIdReceta=" + fotosByIdReceta +
-                ", pasosByIdReceta=" + pasosByIdReceta +
-                ", tiposByIdTipo=" + tiposByIdTipo +
-                ", utilizadosByIdReceta=" + utilizadosByIdReceta +
+        return "Recipe{" +
+                "RecipeID=" + recipeID +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", servings=" + servings +
+                ", date" + dateOfRecipeByRecipeID +
+                ", number people=" + numberPeople +
+                ", url photo=" + urlPhoto +
+                ", photosByRecipeID=" + photosByRecipeID +
+                ", stepsByRecipeID=" + stepsByRecipeID +
+                ", categoriesByCategoryID=" + categoryByCategoryID +
+                ", ingredientUsedByRecipeID=" + ingredientsUsedByRecipeID +
                 '}';
     }
 }

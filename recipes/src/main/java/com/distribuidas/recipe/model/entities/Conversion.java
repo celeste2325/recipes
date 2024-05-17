@@ -9,27 +9,27 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "conversiones")
+@Table(name = "conversions")
 public class Conversion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idConversion")
-    private Integer idConversion;
+    @Column(name = "conversionID")
+    private Integer conversionID;
     @Basic
-    @Column(name = "idUnidadOrigen", insertable = false, updatable = false)
-    private Integer idUnidadOrigen;
+    @Column(name = "fromUnitID", insertable = false, updatable = false)
+    private Integer fromUnitID;
     @Basic
-    @Column(name = "idUnidadDestino", insertable = false, updatable = false)
-    private Integer idUnidadDestino;
+    @Column(name = "toUnitID", insertable = false, updatable = false)
+    private Integer toUnitID;
     @Basic
-    @Column(name = "factorConversiones")
-    private Double factorConversiones;
+    @Column(name = "conversionFactor")
+    private Double conversionFactor;
     @ManyToOne
-    @JoinColumn(name = "idUnidadOrigen", referencedColumnName = "idUnidad", nullable = false)
-    private UnitOfMeasurement unidadesByIdUnidadOrigen;
+    @JoinColumn(name = "unitOfMeasurementByFromUnitID", referencedColumnName = "idUnidad", nullable = false)
+    private UnitOfMeasurement unitOfMeasurementByFromUnitID;
     @ManyToOne
-    @JoinColumn(name = "idUnidadDestino", referencedColumnName = "idUnidad", nullable = false)
-    private UnitOfMeasurement unidadesByIdUnidadDestino;
+    @JoinColumn(name = "unitOfMeasurementByToUnitID", referencedColumnName = "idUnidad", nullable = false)
+    private UnitOfMeasurement unitOfMeasurementByToUnitID;
 
     @Override
     public boolean equals(Object o) {
@@ -38,20 +38,20 @@ public class Conversion {
 
         Conversion that = (Conversion) o;
 
-        if (!Objects.equals(idConversion, that.idConversion)) return false;
-        if (!Objects.equals(idUnidadOrigen, that.idUnidadOrigen))
+        if (!Objects.equals(conversionID, that.conversionID)) return false;
+        if (!Objects.equals(fromUnitID, that.fromUnitID))
             return false;
-        if (!Objects.equals(idUnidadDestino, that.idUnidadDestino))
+        if (!Objects.equals(toUnitID, that.toUnitID))
             return false;
-        return Objects.equals(factorConversiones, that.factorConversiones);
+        return Objects.equals(conversionFactor, that.conversionFactor);
     }
 
     @Override
     public int hashCode() {
-        int result = idConversion != null ? idConversion.hashCode() : 0;
-        result = 31 * result + (idUnidadOrigen != null ? idUnidadOrigen.hashCode() : 0);
-        result = 31 * result + (idUnidadDestino != null ? idUnidadDestino.hashCode() : 0);
-        result = 31 * result + (factorConversiones != null ? factorConversiones.hashCode() : 0);
+        int result = conversionID != null ? conversionID.hashCode() : 0;
+        result = 31 * result + (fromUnitID != null ? fromUnitID.hashCode() : 0);
+        result = 31 * result + (toUnitID != null ? toUnitID.hashCode() : 0);
+        result = 31 * result + (conversionFactor != null ? conversionFactor.hashCode() : 0);
         return result;
     }
 }

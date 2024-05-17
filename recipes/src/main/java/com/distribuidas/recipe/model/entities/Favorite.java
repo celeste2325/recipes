@@ -10,25 +10,25 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "favoritos")
+@Table(name = "favorites")
 public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "id_usuario", insertable = false, updatable = false)
-    private Integer idUsuario;
+    @Column(name = "userID", insertable = false, updatable = false)
+    private Integer userID;
     @Basic
-    @Column(name = "id_receta", insertable = false, updatable = false)
-    private Integer idReceta;
+    @Column(name = "recipeID", insertable = false, updatable = false)
+    private Integer recipeID;
     @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "idUsuario", nullable = false)
+    @JoinColumn(name = "userID", referencedColumnName = "userID", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User usuariosByIdUsuario;
+    private User usersByUserID;
     @ManyToOne
-    @JoinColumn(name = "id_receta", referencedColumnName = "idReceta", nullable = false)
-    private Recipe recetasByIdReceta;
+    @JoinColumn(name = "recipeID", referencedColumnName = "recipeID", nullable = false)
+    private Recipe recipeByRecipeID;
 
     @Override
     public boolean equals(Object o) {
@@ -38,22 +38,22 @@ public class Favorite {
         Favorite favorito = (Favorite) o;
 
         if (!Objects.equals(id, favorito.id)) return false;
-        if (!Objects.equals(idUsuario, favorito.idUsuario)) return false;
-        return Objects.equals(idReceta, favorito.idReceta);
+        if (!Objects.equals(userID, favorito.userID)) return false;
+        return Objects.equals(recipeID, favorito.recipeID);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (idUsuario != null ? idUsuario.hashCode() : 0);
-        result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
+        result = 31 * result + (userID != null ? userID.hashCode() : 0);
+        result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Favorito{" +
-                "recetasByIdReceta=" + recetasByIdReceta +
+                "recetasByIdReceta=" + recipeByRecipeID +
                 '}';
     }
 }

@@ -12,12 +12,12 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "usuarios")
+@Table(name = "users")
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
+    @Column(name = "userID")
+    private Integer userID;
     @Basic
     @Column(name = "mail")
     private String mail;
@@ -25,21 +25,21 @@ public class User {
     @Column(name = "nickname")
     private String nickname;
     @Basic
-    @Column(name = "habilitado")
-    private String habilitado;
+    @Column(name = "enabled")
+    private String enabled;
     @Basic
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "name")
+    private String name;
     @Basic
     @Column(name = "avatar")
     private String avatar;
     @Basic
-    @Column(name = "tipo_usuario")
-    private String tipoUsuario;
+    @Column(name = "type_user")
+    private String type_user;
     //@JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "usuariosByIdusuario")
-    private Collection<Rating> calificacionesByIdUsuario;
+    @OneToMany(mappedBy = "userByUserID")
+    private Collection<Rating> ratingsByUserID;
     //@JsonIgnore
     //@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     //@JoinColumn(name="idUsuario")
@@ -47,41 +47,42 @@ public class User {
     // this should be only one ? one to one relation ?
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "usuariosByIdUsuario")
-    private Collection<Credential> credencialesByIdUsuario;
+    @OneToMany(mappedBy = "usersByUserID")
+    private Collection<Credential> credentialsByUserID;
     //@JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "usuariosByIdUsuario")
-    private Collection<Favorite> favoritosByIdUsuario;
+    @OneToMany(mappedBy = "usersByUserID")
+    private Collection<Favorite> favoritesByUserID;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "usuariosByIdUsuario")
-    private Collection<Recipe> recetasByIdUsuario;
+    @OneToMany(mappedBy = "userByUserID")
+    private Collection<Recipe> recipesByUserID;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User usuario = (User) o;
+        User user = (User) o;
 
-        if (!Objects.equals(idUsuario, usuario.idUsuario)) return false;
-        if (!Objects.equals(mail, usuario.mail)) return false;
-        if (!Objects.equals(nickname, usuario.nickname)) return false;
-        if (!Objects.equals(habilitado, usuario.habilitado)) return false;
-        if (!Objects.equals(nombre, usuario.nombre)) return false;
-        if (!Objects.equals(avatar, usuario.avatar)) return false;
-        return Objects.equals(tipoUsuario, usuario.tipoUsuario);
+        if (!Objects.equals(userID, user.userID)) return false;
+        if (!Objects.equals(mail, user.mail)) return false;
+        if (!Objects.equals(nickname, user.nickname)) return false;
+        if (!Objects.equals(enabled, user.enabled)) return false;
+        if (!Objects.equals(name, user.name)) return false;
+        if (!Objects.equals(avatar, user.avatar)) return false;
+        return Objects.equals(type_user, user.type_user);
     }
 
     @Override
     public int hashCode() {
-        int result = idUsuario != null ? idUsuario.hashCode() : 0;
+        int result = userID != null ? userID.hashCode() : 0;
         result = 31 * result + (mail != null ? mail.hashCode() : 0);
         result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
-        result = 31 * result + (habilitado != null ? habilitado.hashCode() : 0);
-        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
+        result = 31 * result + (enabled != null ? enabled.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (avatar != null ? avatar.hashCode() : 0);
-        result = 31 * result + (tipoUsuario != null ? tipoUsuario.hashCode() : 0);
+        result = 31 * result + (type_user != null ? type_user.hashCode() : 0);
         return result;
     }
 

@@ -26,7 +26,7 @@ public class Credential {
     private String codigoVerificacion;
     @ManyToOne
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario", insertable = false, updatable = false)
-    private User usuariosByIdUsuario;
+    private User usersByUserID;
 
     @Override
     public boolean equals(Object o) {

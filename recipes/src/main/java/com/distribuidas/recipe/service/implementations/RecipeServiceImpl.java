@@ -26,19 +26,19 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe createRecipe(Recipe newRecipe) throws ExistingRecipeException {
-        if (recipeByUser(newRecipe.getNombre(), newRecipe.getUsuariosByIdUsuario().getIdUsuario()) == null) {
+        if (recipeByUser(newRecipe.getName(), newRecipe.getUserByUserID().getUserID()) == null) {
             DateOfRecipe dateOfRecipe = new DateOfRecipe();
-            dateOfRecipe.setFechaCreacion(LocalDateTime.now());
-            newRecipe.setFechaRecetaByIdReceta(dateOfRecipe);
-            dateOfRecipe.setRecetaByIdReceta(newRecipe);
+            dateOfRecipe.setDateCreation(LocalDateTime.now());
+            newRecipe.setDateOfRecipeByRecipeID(dateOfRecipe);
+            dateOfRecipe.setRecipeByRecipeID(newRecipe);
 
 
             Recipe recipe = this.recipeRepository.save(newRecipe);
 
             AuthorizationStatus authorizationStatus = new AuthorizationStatus();
-            authorizationStatus.setTipoEstado("No autorizado");
-            authorizationStatus.setIdEntidad(recipe.getIdReceta());
-            authorizationStatus.setTipoEntidad("Receta");
+            authorizationStatus.setStatusType("No autorizado");
+            authorizationStatus.setEntityID(recipe.getRecipeID());
+            authorizationStatus.setEntityType("Receta");
             this.authorizationStatusRepository.save(authorizationStatus);
             return recipe;
         }
@@ -50,35 +50,35 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeFound = this.recipeRepository.findById(ID);
         if (recipeFound.isPresent()) {
             //se eliminan los comentarios de la receta
-            if (!recipeFound.get().getCalificacionesByIdReceta().isEmpty()) {
-                this.eliminarComentarios(recipeFound.get().getIdReceta());
+            if (!recipeFound.get().getRatingsByRecipeID().isEmpty()) {
+                this.eliminarComentarios(recipeFound.get().getRecipeID());
             }
 
             //update fields
-            recipeFound.get().setNombre(newRecipe.getNombre());
-            recipeFound.get().setDescripcion(newRecipe.getDescripcion());
-            recipeFound.get().setFoto(newRecipe.getFoto());
-            recipeFound.get().setFotosByIdReceta(newRecipe.getFotosByIdReceta());
-            recipeFound.get().setPorciones(newRecipe.getPorciones());
-            recipeFound.get().setCantidadPersonas(newRecipe.getCantidadPersonas());
-            recipeFound.get().setTiposByIdTipo(newRecipe.getTiposByIdTipo());
-            recipeFound.get().setPasosByIdReceta(newRecipe.getPasosByIdReceta());
-            recipeFound.get().setUtilizadosByIdReceta(newRecipe.getUtilizadosByIdReceta());
+            recipeFound.get().setName(newRecipe.getName());
+            recipeFound.get().setDescription(newRecipe.getDescription());
+            recipeFound.get().setUrlPhoto(newRecipe.getUrlPhoto());
+            recipeFound.get().setPhotosByRecipeID(newRecipe.getPhotosByRecipeID());
+            recipeFound.get().setServings(newRecipe.getServings());
+            recipeFound.get().setNumberPeople(newRecipe.getNumberPeople());
+            recipeFound.get().setCategoryByCategoryID(newRecipe.getCategoryByCategoryID());
+            recipeFound.get().setStepsByRecipeID(newRecipe.getStepsByRecipeID());
+            recipeFound.get().setIngredientsUsedByRecipeID(newRecipe.getIngredientsUsedByRecipeID());
 
 
-            recipeFound.get().getUtilizadosByIdReceta().forEach(utilizado -> {
-                utilizado.setRecetasByIdReceta(recipeFound.get());
+            recipeFound.get().getIngredientsUsedByRecipeID().forEach(utilizado -> {
+                utilizado.setRecipeByRecipeID(recipeFound.get());
                 var unit =  new UnitOfMeasurement();
-                unit.setIdUnidad(utilizado.getIdUnidad());
-                utilizado.setUnidadesByIdUnidad( unit);
+                unit.setIdUnidad(utilizado.getUnitOfMeasurementID());
+                utilizado.setUnitsOfMeasurementByUnitOfMeasurementID( unit);
 
                 var ingredient = new Ingredient();
-                ingredient.setIdIngrediente(utilizado.getIdIngrediente());
-                utilizado.setIngredientesByIdIngrediente(ingredient);
+                ingredient.setIdIngrediente(utilizado.getIngredientID());
+                utilizado.setIngredientsByIngredientID(ingredient);
             });
 
-            recipeFound.get().getPasosByIdReceta().forEach(paso -> {
-                paso.setRecetasByIdReceta(recipeFound.get());
+            recipeFound.get().getStepsByRecipeID().forEach(paso -> {
+                paso.setRecipeByRecipeID(recipeFound.get());
             });
 
 
@@ -130,11 +130,11 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeFound = this.recipeRepository.findById(recipeID);
         ReplaceRecipeResponseDto reemplazarRecetaResponseDto = new ReplaceRecipeResponseDto();
         if (recipeFound.isPresent()) {
-            reemplazarRecetaResponseDto.setNombre(recipeFound.get().getNombre());
+            reemplazarRecetaResponseDto.setNombre(recipeFound.get().getName());
             //se eliminan los comentarios de la receta pero se mantienen las calificaciones
-            if (!recipeFound.get().getCalificacionesByIdReceta().isEmpty()) {
-                this.eliminarComentarios(recipeFound.get().getIdReceta());
-                reemplazarRecetaResponseDto.setCalificacionesByIdReceta(recipeFound.get().getCalificacionesByIdReceta());
+            if (!recipeFound.get().getRatingsByRecipeID().isEmpty()) {
+                this.eliminarComentarios(recipeFound.get().getRecipeID());
+                reemplazarRecetaResponseDto.setCalificacionesByIdReceta(recipeFound.get().getRatingsByRecipeID());
             }
             //implementar eliminacion logica
             //TODO eliminar cuando la receta este creada

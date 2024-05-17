@@ -10,32 +10,32 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "calificaciones")
+@Table(name = "ratings")
 public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idCalificacion")
-    private Integer idCalificacion;
+    @Column(name = "ratingID")
+    private Integer ratingID;
     @Basic
-    @Column(name = "idusuario", insertable = false, updatable = false)
-    private Integer idusuario;
+    @Column(name = "userID", insertable = false, updatable = false)
+    private Integer userID;
     @Basic
-    @Column(name = "idReceta", insertable = false, updatable = false)
-    private Integer idReceta;
+    @Column(name = "recipeID", insertable = false, updatable = false)
+    private Integer recipeID;
     @Basic
-    @Column(name = "calificacion")
-    private Integer calificacion;
+    @Column(name = "starts")
+    private Integer starts;
     @Basic
-    @Column(name = "comentarios")
-    private String comentarios;
+    @Column(name = "details")
+    private String details;
     @ManyToOne
-    @JoinColumn(name = "idusuario", referencedColumnName = "idUsuario")
+    @JoinColumn(name = "userID", referencedColumnName = "userID")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User usuariosByIdusuario;
+    private User userByUserID;
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
-    private Recipe recetasByIdReceta;
+    @JoinColumn(name = "recipeID", referencedColumnName = "recipeID")
+    private Recipe recipeByRecipeID;
 
     @Override
     public boolean equals(Object o) {
@@ -44,21 +44,21 @@ public class Rating {
 
         Rating that = (Rating) o;
 
-        if (!Objects.equals(idCalificacion, that.idCalificacion))
+        if (!Objects.equals(ratingID, that.ratingID))
             return false;
-        if (!Objects.equals(idusuario, that.idusuario)) return false;
-        if (!Objects.equals(idReceta, that.idReceta)) return false;
-        if (!Objects.equals(calificacion, that.calificacion)) return false;
-        return Objects.equals(comentarios, that.comentarios);
+        if (!Objects.equals(userID, that.userID)) return false;
+        if (!Objects.equals(recipeID, that.recipeID)) return false;
+        if (!Objects.equals(starts, that.starts)) return false;
+        return Objects.equals(details, that.details);
     }
 
     @Override
     public int hashCode() {
-        int result = idCalificacion != null ? idCalificacion.hashCode() : 0;
-        result = 31 * result + (idusuario != null ? idusuario.hashCode() : 0);
-        result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
-        result = 31 * result + (calificacion != null ? calificacion.hashCode() : 0);
-        result = 31 * result + (comentarios != null ? comentarios.hashCode() : 0);
+        int result = ratingID != null ? ratingID.hashCode() : 0;
+        result = 31 * result + (userID != null ? userID.hashCode() : 0);
+        result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
+        result = 31 * result + (starts != null ? starts.hashCode() : 0);
+        result = 31 * result + (details != null ? details.hashCode() : 0);
         return result;
     }
 }

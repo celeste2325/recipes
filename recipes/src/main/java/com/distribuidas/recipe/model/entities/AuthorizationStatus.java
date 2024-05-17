@@ -9,21 +9,21 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "estados_autorizaciones")
+@Table(name = "authorization_status")
 public class AuthorizationStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "id_entidad")
-    private Integer idEntidad;
+    @Column(name = "entityID")
+    private Integer entityID;
     @Basic
-    @Column(name = "tipo_estado")
-    private String tipoEstado;
+    @Column(name = "statusType")
+    private String statusType;
     @Basic
-    @Column(name = "tipo_entidad")
-    private String tipoEntidad;
+    @Column(name = "entityType")
+    private String entityType;
 
     @Override
     public boolean equals(Object o) {
@@ -33,17 +33,17 @@ public class AuthorizationStatus {
         AuthorizationStatus that = (AuthorizationStatus) o;
 
         if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(idEntidad, that.idEntidad)) return false;
-        if (!Objects.equals(tipoEstado, that.tipoEstado)) return false;
-        return Objects.equals(tipoEntidad, that.tipoEntidad);
+        if (!Objects.equals(entityID, that.entityID)) return false;
+        if (!Objects.equals(statusType, that.statusType)) return false;
+        return Objects.equals(entityType, that.entityType);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (idEntidad != null ? idEntidad.hashCode() : 0);
-        result = 31 * result + (tipoEstado != null ? tipoEstado.hashCode() : 0);
-        result = 31 * result + (tipoEntidad != null ? tipoEntidad.hashCode() : 0);
+        result = 31 * result + (entityID != null ? entityID.hashCode() : 0);
+        result = 31 * result + (statusType != null ? statusType.hashCode() : 0);
+        result = 31 * result + (entityType != null ? entityType.hashCode() : 0);
         return result;
     }
 }

@@ -10,19 +10,19 @@ public interface UserService {
 
     Iterable<User> findAll();
 
-    Optional<User> findById(int id);
+    Optional<User> findById(int ID);
 
     Optional<User> findByNickname(String nickname);
 
     Optional<User> findByMail(String email);
 
-    void save(User usuario);
+    void save(User user);
 
-    void deleteById(int id);
+    void deleteById(int ID);
 
-    List<User> getUsersByPartialName(String nombreParcialUsuario);
+    List<User> getUsersByPartialName(String partialNameUser);
 
-    List<String> opcionesAlias(String alias);
+    List<String> getAliasOption(String nickname);
 
-    String cargarUrlAvatar(Integer idUsuario, String url) throws UserDoesNotExistException;
+    String saveUrlAvatar(Integer userID, String url) throws UserDoesNotExistException;
 }

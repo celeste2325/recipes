@@ -10,44 +10,44 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "fotos")
-public class Photo {
+@Table(name = "photosInstruction")
+public class PhotoInstruction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idfoto")
-    private Integer idfoto;
+    @Column(name = "photoID")
+    private Integer photoID;
     /*@Basic
     @Column(name = "idReceta", insertable = false, updatable = false)
     private Integer idReceta;*/
     @Basic
-    @Column(name = "urlFoto")
-    private String urlFoto;
+    @Column(name = "photoUrl")
+    private String photoUrl;
     @Basic
     @Column(name = "extension")
     private String extension;
     @ManyToOne
-    @JoinColumn(name = "idReceta", referencedColumnName = "idReceta", nullable = false)
+    @JoinColumn(name = "recipeID", referencedColumnName = "recipeID", nullable = false)
     @JsonBackReference(value = "receta-foto")
-    private Recipe recetasByIdReceta;
+    private Recipe recipeByRecipeID;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Photo foto = (Photo) o;
+        PhotoInstruction photo = (PhotoInstruction) o;
 
-        if (!Objects.equals(idfoto, foto.idfoto)) return false;
+        if (!Objects.equals(photoID, photo.photoID)) return false;
         //if (!Objects.equals(idReceta, foto.idReceta)) return false;
-        if (!Objects.equals(urlFoto, foto.urlFoto)) return false;
-        return Objects.equals(extension, foto.extension);
+        if (!Objects.equals(photoUrl, photo.photoUrl)) return false;
+        return Objects.equals(extension, photo.extension);
     }
 
     @Override
     public int hashCode() {
-        int result = idfoto != null ? idfoto.hashCode() : 0;
+        int result = photoID != null ? photoID.hashCode() : 0;
         //result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
-        result = 31 * result + (urlFoto != null ? urlFoto.hashCode() : 0);
+        result = 31 * result + (photoUrl != null ? photoUrl.hashCode() : 0);
         result = 31 * result + (extension != null ? extension.hashCode() : 0);
         return result;
     }

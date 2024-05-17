@@ -20,11 +20,11 @@ public class UnitOfMeasurement {
     @Basic
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "unidadesByIdUnidadOrigen")
+    @OneToMany(mappedBy = "ByfromUnitID unidadesByIdUnidadOrigen")
     private Collection<Conversion> conversionesByIdUnidad;
-    @OneToMany(mappedBy = "unidadesByIdUnidadDestino")
+    @OneToMany(mappedBy = "unitOfMeasurementByToUnitID")
     private Collection<Conversion> conversionesByIdUnidad_0;
-    @OneToMany(mappedBy = "unidadesByIdUnidad")
+    @OneToMany(mappedBy = "unitsOfMeasurementByUnitOfMeasurementID")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<IngredientUsed> utilizadosByIdUnidad;
 

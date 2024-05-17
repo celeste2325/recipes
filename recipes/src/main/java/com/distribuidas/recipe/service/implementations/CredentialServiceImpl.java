@@ -51,7 +51,7 @@ public class CredentialServiceImpl implements CredentialService {
     public void forgotPassword(String email) {
         var user = userRepository.findByMail(email).get();
         var verificationCode = GetVerificationCode();
-        var credentials = user.getCredencialesByIdUsuario().stream().findFirst().get();
+        var credentials = user.getCredentialsByUserID().stream().findFirst().get();
         credentials.setCodigoVerificacion(verificationCode);
         credentialRepository.save(credentials);
         emailClient.ForgotPassword(verificationCode, email);
@@ -60,7 +60,7 @@ public class CredentialServiceImpl implements CredentialService {
     public void isStudent(String email) {
         var user = userRepository.findByMail(email).get();
         var verificationCode = GetVerificationCode();
-        var credentials = user.getCredencialesByIdUsuario().stream().findFirst().get();
+        var credentials = user.getCredentialsByUserID().stream().findFirst().get();
         credentials.setCodigoVerificacion(verificationCode);
         credentialRepository.save(credentials);
         emailClient.validateStudent(verificationCode, email);
@@ -69,18 +69,20 @@ public class CredentialServiceImpl implements CredentialService {
     /* este servicio es para cuando el usuario haga el request para verificar el email
     @Transactional
     public void verifyCredentials(String email, String code) {
-        var usuario = usuarioRepository.findByMail(email).get();
-        var credentials = usuario.getCredencialesByIdUsuario().stream().findFirst().get();
+        var user = userRepository.findByMail(email).get();
+        var credentials = user.getCredencialesByIdUsuario().stream().findFirst().get();
 
-        if (!credentials.getCodigoVerificacion().equals(code) && usuario.getHabilitado().equals("NO")) {
+        if (!credentials.getCodigoVerificacion().equals(code) && user.getEnabled().equals("NO")) {
             credentials.setCodigoVerificacion(null);
-            credencialRepository.save(credentials);// no se si esta bien echo la cascada.
-            usuario.setHabilitado("SI");
-            usuarioRepository.save(usuario);
+            credentialRepository.save(credentials);// no se si esta bien echo la cascada.
+            user.setEnabled("SI");
+            userRepository.save(user);
         }
 
 
     }*/
+
+
 
     // este servicio handlea el request cuando envia el link para forgot password
     // pone verifica que el codigo de verificacion para el forgot password sea el mismo enviado en el link
@@ -88,7 +90,7 @@ public class CredentialServiceImpl implements CredentialService {
     @Transactional
     public void verifyNewPassword(String email, String code, String password) {
         var user = userRepository.findByMail(email).get();
-        var credentials = user.getCredencialesByIdUsuario().stream().findFirst().get();
+        var credentials = user.getCredentialsByUserID().stream().findFirst().get();
 
         if (credentials.getCodigoVerificacion().equals(code)) {
             credentials.setCodigoVerificacion(null);

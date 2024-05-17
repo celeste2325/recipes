@@ -10,9 +10,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RecipeMapper {
-    Recipe mapToEntity(RecipeDto recetaDto);
+    Recipe mapToEntity(RecipeDto recipeDto);
 
-    RecipeResponseDto mapResponseDto(Recipe receta);
+    RecipeResponseDto mapResponseDto(Recipe recipe);
 
-    List<RecipeResponseDto> mapLisToDto(List<Recipe> recetaList);
+    List<RecipeResponseDto> mapLisToDto(List<Recipe> recipeList);
 }

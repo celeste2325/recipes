@@ -8,16 +8,16 @@ import java.util.List;
 
 @Data
 public class RecipeResponseDto {
-    private Integer idReceta;
-    private String nombre;
-    private String descripcion;
-    private Integer porciones;
-    private DateOfRecipe fechaRecetaByIdReceta;
-    private Integer cantidadPersonas;
-    private User usuariosByIdUsuario;
-    private Category tiposByIdTipo;
-    private String foto;
-    private Collection<Photo> fotosByIdReceta;
-    private List<Step> pasosByIdReceta;
-    private List<IngredientUsed> utilizadosByIdReceta;
+    private Integer recipeID;
+    private String name;
+    private String description;
+    private Integer servings;
+    private DateOfRecipe dateOfRecipeByRecipeID;
+    private Integer numberPeople;
+    private User usersByUserID;
+    private Category categoriesByCategoryID;
+    private String urlPhoto;
+    private Collection<PhotoInstruction> photosByRecipeID;
+    private List<Step> stepsByRecipeID;
+    private List<IngredientUsed> IngredientUsedByRecipeID;
 }

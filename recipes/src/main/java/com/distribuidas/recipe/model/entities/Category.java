@@ -12,19 +12,20 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "tipos")
+@Table(name = "categories")
 public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idTipo")
-    private Integer idTipo;
+    @Column(name = "categoryID")
+    private Integer categoryID;
     @Basic
-    @Column(name = "descripcion")
-    private String descripcion;
-    @OneToMany(mappedBy = "tiposByIdTipo")
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "categoryByCategoryID")
     @JsonManagedReference(value = "receta-tipo")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<Recipe> recetasByIdTipo;
+    private Collection<Recipe> recipeByCategoryID;
 
     @Override
     public boolean equals(Object o) {
@@ -33,14 +34,14 @@ public class Category {
 
         Category tipo = (Category) o;
 
-        if (!Objects.equals(idTipo, tipo.idTipo)) return false;
-        return Objects.equals(descripcion, tipo.descripcion);
+        if (!Objects.equals(categoryID, tipo.categoryID)) return false;
+        return Objects.equals(description, tipo.description);
     }
 
     @Override
     public int hashCode() {
-        int result = idTipo != null ? idTipo.hashCode() : 0;
-        result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
+        int result = categoryID != null ? categoryID.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 }

@@ -11,38 +11,38 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "utilizados")
+@Table(name = "ingredientsUsed")
 public class IngredientUsed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idUtilizado")
-    private Integer idUtilizado;
+    @Column(name = "ingredientsUsedID")
+    private Integer IngredientsUsedID;
     @Basic
-    @Column(name = "idReceta", insertable = false, updatable = false)
-    private Integer idReceta;
+    @Column(name = "recipeID", insertable = false, updatable = false)
+    private Integer recipeID;
     @Basic
-    @Column(name = "idIngrediente", insertable = false, updatable = false)
-    private Integer idIngrediente;
+    @Column(name = "ingredientID", insertable = false, updatable = false)
+    private Integer ingredientID;
     @Basic
-    @Column(name = "cantidad")
-    private Integer cantidad;
+    @Column(name = "quantity")
+    private Integer quantity;
     @Basic
-    @Column(name = "idUnidad", insertable = false, updatable = false)
-    private Integer idUnidad;
+    @Column(name = "unitOfMeasurementID", insertable = false, updatable = false)
+    private Integer unitOfMeasurementID;
     @Basic
-    @Column(name = "observaciones")
-    private String observaciones;
+    @Column(name = "comments")
+    private String comments;
     @ManyToOne
-    @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
+    @JoinColumn(name = "recipeID", referencedColumnName = "recipeID")
     @JsonBackReference(value = "receta-utilizados")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Recipe recetasByIdReceta;
+    private Recipe recipeByRecipeID;
     @ManyToOne
-    @JoinColumn(name = "idIngrediente", referencedColumnName = "idIngrediente")
-    private Ingredient ingredientesByIdIngrediente;
+    @JoinColumn(name = "ingredientID", referencedColumnName = "ingredientID")
+    private Ingredient ingredientsByIngredientID;
     @ManyToOne
-    @JoinColumn(name = "idUnidad", referencedColumnName = "idUnidad")
-    private UnitOfMeasurement unidadesByIdUnidad;
+    @JoinColumn(name = "UnitOfMeasurementID", referencedColumnName = "UnitOfMeasurementID")
+    private UnitOfMeasurement unitsOfMeasurementByUnitOfMeasurementID;
 
 
     @Override
@@ -50,26 +50,26 @@ public class IngredientUsed {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        IngredientUsed utilizado = (IngredientUsed) o;
+        IngredientUsed ingredientUsed = (IngredientUsed) o;
 
-        if (!Objects.equals(idUtilizado, utilizado.idUtilizado))
+        if (!Objects.equals(IngredientsUsedID, ingredientUsed.IngredientsUsedID))
             return false;
-        if (!Objects.equals(idReceta, utilizado.idReceta)) return false;
-        if (!Objects.equals(idIngrediente, utilizado.idIngrediente))
+        if (!Objects.equals(recipeID, ingredientUsed.recipeID)) return false;
+        if (!Objects.equals(ingredientID, ingredientUsed.ingredientID))
             return false;
-        if (!Objects.equals(cantidad, utilizado.cantidad)) return false;
-        if (!Objects.equals(idUnidad, utilizado.idUnidad)) return false;
-        return Objects.equals(observaciones, utilizado.observaciones);
+        if (!Objects.equals(quantity, ingredientUsed.quantity)) return false;
+        if (!Objects.equals(unitOfMeasurementID, ingredientUsed.unitOfMeasurementID)) return false;
+        return Objects.equals(comments, ingredientUsed.comments);
     }
 
     @Override
     public int hashCode() {
-        int result = idUtilizado != null ? idUtilizado.hashCode() : 0;
-        result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
-        result = 31 * result + (idIngrediente != null ? idIngrediente.hashCode() : 0);
-        result = 31 * result + (cantidad != null ? cantidad.hashCode() : 0);
-        result = 31 * result + (idUnidad != null ? idUnidad.hashCode() : 0);
-        result = 31 * result + (observaciones != null ? observaciones.hashCode() : 0);
+        int result = IngredientsUsedID != null ? IngredientsUsedID.hashCode() : 0;
+        result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
+        result = 31 * result + (ingredientID != null ? ingredientID.hashCode() : 0);
+        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
+        result = 31 * result + (unitOfMeasurementID != null ? unitOfMeasurementID.hashCode() : 0);
+        result = 31 * result + (comments != null ? comments.hashCode() : 0);
         return result;
     }
 }

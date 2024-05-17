@@ -12,24 +12,24 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "fechasReceta")
+@Table(name = "datesOfRecipe")
 public class DateOfRecipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "idReceta", insertable = false, updatable = false)
-    private Integer idReceta;
+    @Column(name = "recipeID", insertable = false, updatable = false)
+    private Integer recipeID;
     @Basic
-    @Column(name = "fechaCreacion")
-    private LocalDateTime fechaCreacion;
+    @Column(name = "dateCreation")
+    private LocalDateTime dateCreation;
 
     @OneToOne
-    @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
+    @JoinColumn(name = "recipeID", referencedColumnName = "recipeID")
     @JsonBackReference(value = "receta-fechaReceta")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Recipe recetaByIdReceta;
+    private Recipe recipeByRecipeID;
 
     @Override
     public boolean equals(Object o) {
@@ -39,15 +39,15 @@ public class DateOfRecipe {
         DateOfRecipe that = (DateOfRecipe) o;
 
         if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(idReceta, that.idReceta)) return false;
-        return Objects.equals(fechaCreacion, that.fechaCreacion);
+        if (!Objects.equals(recipeID, that.recipeID)) return false;
+        return Objects.equals(dateCreation, that.dateCreation);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
-        result = 31 * result + (fechaCreacion != null ? fechaCreacion.hashCode() : 0);
+        result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
+        result = 31 * result + (dateCreation != null ? dateCreation.hashCode() : 0);
         return result;
     }
 }

@@ -32,7 +32,7 @@ public class IngredientController {
         return this.ingredientService.getIngredients();
     }
 
-    @GetMapping("busquedaParcial/{partialNameIngredient}")
+    @GetMapping("partialSearch/{partialNameIngredient}")
     public List<Ingredient> getTypeByPartialName(@PathVariable String partialNameIngredient) {
         if (partialNameIngredient.length() >= 2) {
             return this.ingredientService.getIngredientsByPartialName(partialNameIngredient);

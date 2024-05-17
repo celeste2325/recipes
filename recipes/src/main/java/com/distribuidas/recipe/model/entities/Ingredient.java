@@ -20,7 +20,7 @@ public class Ingredient {
     @Basic
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(mappedBy = "ingredientesByIdIngrediente")
+    @OneToMany(mappedBy = "ingredientsByIngredientID")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<IngredientUsed> utilizadosByIdIngrediente;
 

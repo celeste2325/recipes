@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsersByPartialName(String partialUserName) {
-        if (!Objects.equals(partialUserName, "")) {
-            return this.userRepository.findByNombreLikeIgnoreCase(partialUserName + "%");
+    public List<User> getUsersByPartialName(String partialNameUser) {
+        if (!Objects.equals(partialNameUser, "")) {
+            return this.userRepository.findByNameLikeIgnoreCase(partialNameUser + "%");
         }
         return null;
     }
@@ -60,11 +60,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<String> opcionesAlias(String alias) {
+    public List<String> getAliasOption(String nickname) {
     	List<String> alternativas = new ArrayList<>();
     	int i = 1;
     	while (alternativas.size() < 3) {
-    		String alternativa = alias + i;
+    		String alternativa = nickname + i;
             Optional<User> usuario = this.userRepository.findByNickname(alternativa);
             if(!usuario.isPresent()) {
             	alternativas.add(alternativa);
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String cargarUrlAvatar(Integer userID, String url) throws UserDoesNotExistException {
+    public String saveUrlAvatar(Integer userID, String url) throws UserDoesNotExistException {
         Optional<User> user = this.userRepository.findById(userID);
         if (user.isPresent()) {
             user.get().setAvatar(url);

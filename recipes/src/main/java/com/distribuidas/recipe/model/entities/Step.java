@@ -19,8 +19,8 @@ public class Step {
     @Column(name = "idPaso")
     private Integer idPaso;
     @Basic
-    @Column(name = "idReceta", insertable = false, updatable = false)
-    private Integer idReceta;
+    @Column(name = "recipeID", insertable = false, updatable = false)
+    private Integer recipeID;
     @Basic
     @Column(name = "nroPaso")
     private Integer nroPaso;
@@ -30,10 +30,10 @@ public class Step {
     @OneToMany(mappedBy = "pasosByIdPaso")
     private Collection<Multimedia> multimediaByIdPaso;
     @ManyToOne
-    @JoinColumn(name = "idReceta", referencedColumnName = "idReceta")
+    @JoinColumn(name = "recipeID", referencedColumnName = "recipeID")
     @JsonBackReference(value = "receta-pasos")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Recipe recetasByIdReceta;
+    private Recipe recipeByRecipeID;
 
     @Override
     public boolean equals(Object o) {
@@ -43,7 +43,7 @@ public class Step {
         Step paso = (Step) o;
 
         if (!Objects.equals(idPaso, paso.idPaso)) return false;
-        if (!Objects.equals(idReceta, paso.idReceta)) return false;
+        if (!Objects.equals(recipeID, paso.recipeID)) return false;
         if (!Objects.equals(nroPaso, paso.nroPaso)) return false;
         return Objects.equals(texto, paso.texto);
     }
@@ -51,7 +51,7 @@ public class Step {
     @Override
     public int hashCode() {
         int result = idPaso != null ? idPaso.hashCode() : 0;
-        result = 31 * result + (idReceta != null ? idReceta.hashCode() : 0);
+        result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
         result = 31 * result + (nroPaso != null ? nroPaso.hashCode() : 0);
         result = 31 * result + (texto != null ? texto.hashCode() : 0);
         return result;

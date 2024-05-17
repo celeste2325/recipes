@@ -93,7 +93,7 @@ public class RecipeController {
         }
     }
 
-    @GetMapping("busquedaPorId/{ID}")
+    @GetMapping("recipeById/{ID}")
     public ResponseEntity<?> getRecipeByID(@PathVariable Integer ID, @RequestParam(defaultValue = "0") Integer userID) {
         try {
             return new ResponseEntity<>(this.recipeMapper.mapResponseDto(this.recipeService.getRecipeByID(ID, userID)), HttpStatus.OK);
