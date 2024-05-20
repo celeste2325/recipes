@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class RecipeServiceImpl implements RecipeService {
     @Autowired
-    private RatingRepository ratingRepository;
+    private ReviewRepository ratingRepository;
     @Autowired
     private RecipeRepository recipeRepository;
     @Autowired
@@ -27,9 +27,9 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe createRecipe(Recipe newRecipe) throws ExistingRecipeException {
         if (recipeByUserAndRecipeName(newRecipe.getName(), newRecipe.getUserByUserID().getUserID()) == null) {
-            DateOfRecipe dateOfRecipe = new DateOfRecipe();
+            Date dateOfRecipe = new Date();
             dateOfRecipe.setDateCreation(LocalDateTime.now());
-            newRecipe.setDateOfRecipeByRecipeID(dateOfRecipe);
+            newRecipe.setDateByRecipeID(dateOfRecipe);
             dateOfRecipe.setRecipeByRecipeID(newRecipe);
 
 
@@ -50,8 +50,8 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeFound = this.recipeRepository.findById(ID);
         if (recipeFound.isPresent()) {
             //se eliminan los comentarios de la receta
-            if (!recipeFound.get().getRatingsByRecipeID().isEmpty()) {
-                this.eliminarComentarios(recipeFound.get().getRecipeID());
+            if (!recipeFound.get().getReviewByRecipeID().isEmpty()) {
+                this.deleteComments(recipeFound.get().getRecipeID());
             }
 
             //update fields
@@ -68,7 +68,7 @@ public class RecipeServiceImpl implements RecipeService {
 
             recipeFound.get().getIngredientsUsedByRecipeID().forEach(utilizado -> {
                 utilizado.setRecipeByRecipeID(recipeFound.get());
-                var unit =  new UnitOfMeasurement();
+                var unit =  new Unit();
                 unit.setUnitID(utilizado.getUnitID());
                 utilizado.setUnitsOfMeasurementByUnitID(unit);
 
@@ -116,8 +116,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
     //TODO esta ok
     @Override
-    public List<Recipe> getRecipesByNameOrderByAntiquity(String recipeName, Integer userID) {
-        return this.recipeRepository.findByRecipeNameOrderByAntiquity(recipeName, userID);
+    public List<Recipe> getRecipesByNameOrderByOldest(String recipeName, Integer userID) {
+        return this.recipeRepository.findByRecipeNameOrderByOldest(recipeName, userID);
     }
     //TODO esta ok
     @Override
@@ -131,11 +131,11 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeFound = this.recipeRepository.findById(recipeID);
         ReplaceRecipeResponseDto reemplazarRecetaResponseDto = new ReplaceRecipeResponseDto();
         if (recipeFound.isPresent()) {
-            reemplazarRecetaResponseDto.setNombre(recipeFound.get().getName());
+            reemplazarRecetaResponseDto.setName(recipeFound.get().getName());
             //se eliminan los comentarios de la receta pero se mantienen las calificaciones
-            if (!recipeFound.get().getRatingsByRecipeID().isEmpty()) {
-                this.eliminarComentarios(recipeFound.get().getRecipeID());
-                reemplazarRecetaResponseDto.setCalificacionesByIdReceta(recipeFound.get().getRatingsByRecipeID());
+            if (!recipeFound.get().getReviewByRecipeID().isEmpty()) {
+                this.deleteComments(recipeFound.get().getRecipeID());
+                reemplazarRecetaResponseDto.setReviewByRecipeID(recipeFound.get().getReviewByRecipeID());
             }
             //implementar eliminacion logica
             //TODO eliminar cuando la receta este creada
@@ -145,8 +145,8 @@ public class RecipeServiceImpl implements RecipeService {
         throw new RecipeDoesNotExistException("No recipe for ID introduced");
     }
 
-    private void eliminarComentarios(Integer idReceta) {
-        this.ratingRepository.deleteDetail(idReceta);
+    private void deleteComments(Integer recipeID) {
+        this.ratingRepository.deleteComment(recipeID);
     }
 
     //TODO esta ok

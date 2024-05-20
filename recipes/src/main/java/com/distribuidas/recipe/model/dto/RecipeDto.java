@@ -19,8 +19,8 @@ public class RecipeDto {
     private Collection<PhotoRecipe> photosByRecipeID;
     private List<Step> stepsByRecipeID;
     private List<IngredientUsed> IngredientUsedByRecipeID;
+    private Collection<Review> reviewByRecipeID;
 
-    private Collection<Rating> calificacionesByIdReceta;
     private Collection<Favorite> favoritosByIdReceta;
     private Collection<PhotoRecipe> fotosByIdReceta;
 

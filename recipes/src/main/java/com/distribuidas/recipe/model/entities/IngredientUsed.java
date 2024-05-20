@@ -42,7 +42,7 @@ public class IngredientUsed {
     private Ingredient ingredientsByIngredientID;
     @ManyToOne
     @JoinColumn(name = "unitID", referencedColumnName = "unitID")
-    private UnitOfMeasurement unitsOfMeasurementByUnitID;
+    private Unit unitsOfMeasurementByUnitID;
 
 
     @Override

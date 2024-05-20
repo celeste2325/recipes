@@ -28,7 +28,7 @@ public interface RecipeService {
 
     List<Recipe> getRecipesByNameOrderByUserName(String recipeName, Integer userID);
 
-    List<Recipe> getRecipesByNameOrderByAntiquity(String recipeName, Integer userID);
+    List<Recipe> getRecipesByNameOrderByOldest(String recipeName, Integer userID);
 
     List<Recipe> getRecipesByParam(String recipeName, Integer typeID, Integer ingredientID, Integer userID, Integer mandatoryUserID);
     ReplaceRecipeResponseDto replaceRecipe(Integer recipeID) throws RecipeDoesNotExistException;

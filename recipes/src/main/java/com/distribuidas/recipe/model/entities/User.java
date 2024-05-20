@@ -39,7 +39,7 @@ public class User {
     //@JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "userByUserID")
-    private Collection<Rating> ratingsByUserID;
+    private Collection<Review> ratingsByUserID;
     //@JsonIgnore
     //@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     //@JoinColumn(name="idUsuario")

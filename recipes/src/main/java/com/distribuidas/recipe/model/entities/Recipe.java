@@ -42,7 +42,7 @@ public class Recipe {
     private Integer categoryID;
 
     @OneToMany(mappedBy = "recipeByRecipeID")
-    private Collection<Rating> ratingsByRecipeID;
+    private Collection<Review> reviewByRecipeID;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "recipeByRecipeID")
@@ -73,7 +73,7 @@ public class Recipe {
 
     @OneToOne(mappedBy = "recipeByRecipeID", cascade = CascadeType.ALL)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private DateOfRecipe dateOfRecipeByRecipeID;
+    private Date dateByRecipeID;
 
     @Override
     public boolean equals(Object o) {
@@ -113,7 +113,7 @@ public class Recipe {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", servings=" + servings +
-                ", date" + dateOfRecipeByRecipeID +
+                ", date" + dateByRecipeID +
                 ", number people=" + numberPeople +
                 ", url photo=" + urlPhoto +
                 ", photosByRecipeID=" + photosByRecipeID +

@@ -162,14 +162,14 @@ public class UserController {
 
 
     @GetMapping(path = "/forgot", params = {"email"})
-    public ResponseEntity<?> recuperoContraseniaOTP(@RequestParam String email) {
+    public ResponseEntity<?> forgotPasswordOTP(@RequestParam String email) {
         credentialService.forgotPassword(email);
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 
     @GetMapping(path = "/forgotAlumno", params = {"email"})
-    public ResponseEntity<?> recuperoContraseniaOTPAlumno(@RequestParam String email) {
+    public ResponseEntity<?> forgotPasswordOTPStudent(@RequestParam String email) {
         credentialService.isStudent(email);
         return ResponseEntity.status(HttpStatus.OK).build();
 

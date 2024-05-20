@@ -26,10 +26,10 @@ public class Conversion {
     private Double conversionFactor;
     @ManyToOne
     @JoinColumn(name = "fromUnitID", referencedColumnName = "unitID", nullable = false)
-    private UnitOfMeasurement unitOfMeasurementByFromUnitID;
+    private Unit unitOfMeasurementByFromUnitID;
     @ManyToOne
     @JoinColumn(name = "toUnitID", referencedColumnName = "unitID", nullable = false)
-    private UnitOfMeasurement unitOfMeasurementByToUnitID;
+    private Unit unitOfMeasurementByToUnitID;
 
     @Override
     public boolean equals(Object o) {

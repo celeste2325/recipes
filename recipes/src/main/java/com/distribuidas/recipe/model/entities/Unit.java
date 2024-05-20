@@ -11,8 +11,8 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "unitsOfMeasurement")
-public class UnitOfMeasurement {
+@Table(name = "units")
+public class Unit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "unitID")
@@ -36,7 +36,7 @@ public class UnitOfMeasurement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UnitOfMeasurement unit = (UnitOfMeasurement) o;
+        Unit unit = (Unit) o;
 
         if (!Objects.equals(unitID, unit.unitID)) return false;
         return Objects.equals(description, unit.description);

@@ -12,8 +12,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "datesOfRecipe")
-public class DateOfRecipe {
+@Table(name = "dates")
+public class Date {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -36,7 +36,7 @@ public class DateOfRecipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DateOfRecipe that = (DateOfRecipe) o;
+        Date that = (Date) o;
 
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(recipeID, that.recipeID)) return false;

@@ -75,7 +75,7 @@ public class RecipeController {
 
     @GetMapping("orderByAntiquity/{recipeName}")
     public ResponseEntity<?> getRecipesByNameOrderByAntiquity(@PathVariable String recipeName, @RequestParam(defaultValue = "0") Integer userID) {
-        return new ResponseEntity<>(this.recipeService.getRecipesByNameOrderByAntiquity(recipeName, userID), HttpStatus.OK);
+        return new ResponseEntity<>(this.recipeService.getRecipesByNameOrderByOldest(recipeName, userID), HttpStatus.OK);
     }
 
     //TODO ok

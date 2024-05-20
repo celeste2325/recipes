@@ -12,7 +12,7 @@ public class RecipeResponseDto {
     private String name;
     private String description;
     private Integer servings;
-    private DateOfRecipe dateOfRecipeByRecipeID;
+    private Date dateByRecipeID;
     private Integer numberPeople;
     private User userByUserID;
     private Category categoriesByCategoryID;

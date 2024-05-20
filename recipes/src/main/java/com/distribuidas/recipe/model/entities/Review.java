@@ -10,12 +10,12 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "ratings")
-public class Rating {
+@Table(name = "reviews")
+public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ratingID")
-    private Integer ratingID;
+    @Column(name = "reviewID")
+    private Integer reviewID;
     @Basic
     @Column(name = "userID", insertable = false, updatable = false)
     private Integer userID;
@@ -24,10 +24,10 @@ public class Rating {
     private Integer recipeID;
     @Basic
     @Column(name = "starts")
-    private Integer starts;
+    private Integer rating;
     @Basic
     @Column(name = "details")
-    private String details;
+    private String comment;
     @ManyToOne
     @JoinColumn(name = "userID", referencedColumnName = "userID")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -42,23 +42,23 @@ public class Rating {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Rating that = (Rating) o;
+        Review that = (Review) o;
 
-        if (!Objects.equals(ratingID, that.ratingID))
+        if (!Objects.equals(reviewID, that.reviewID))
             return false;
         if (!Objects.equals(userID, that.userID)) return false;
         if (!Objects.equals(recipeID, that.recipeID)) return false;
-        if (!Objects.equals(starts, that.starts)) return false;
-        return Objects.equals(details, that.details);
+        if (!Objects.equals(rating, that.rating)) return false;
+        return Objects.equals(comment, that.comment);
     }
 
     @Override
     public int hashCode() {
-        int result = ratingID != null ? ratingID.hashCode() : 0;
+        int result = reviewID != null ? reviewID.hashCode() : 0;
         result = 31 * result + (userID != null ? userID.hashCode() : 0);
         result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
-        result = 31 * result + (starts != null ? starts.hashCode() : 0);
-        result = 31 * result + (details != null ? details.hashCode() : 0);
+        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
     }
 }
