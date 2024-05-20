@@ -19,10 +19,10 @@ public class AuthorizationStatus {
     @Column(name = "entityID")
     private Integer entityID;
     @Basic
-    @Column(name = "statusType")
+    @Column(name = "status_type")
     private String statusType;
     @Basic
-    @Column(name = "entityType")
+    @Column(name = "entity_type")
     private String entityType;
 
     @Override

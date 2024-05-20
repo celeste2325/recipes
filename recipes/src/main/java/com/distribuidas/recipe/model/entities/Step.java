@@ -12,23 +12,23 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "pasos")
+@Table(name = "steps")
 public class Step {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idPaso")
-    private Integer idPaso;
+    @Column(name = "stepID")
+    private Integer stepID;
     @Basic
     @Column(name = "recipeID", insertable = false, updatable = false)
     private Integer recipeID;
     @Basic
-    @Column(name = "nroPaso")
-    private Integer nroPaso;
+    @Column(name = "stepNumber")
+    private Integer stepNumber;
     @Basic
-    @Column(name = "texto")
-    private String texto;
-    @OneToMany(mappedBy = "pasosByIdPaso")
-    private Collection<Multimedia> multimediaByIdPaso;
+    @Column(name = "description")
+    private String description;
+    @OneToMany(mappedBy = "stepByStepID")
+    private Collection<Multimedia> multimediaByStepID;
     @ManyToOne
     @JoinColumn(name = "recipeID", referencedColumnName = "recipeID")
     @JsonBackReference(value = "receta-pasos")
@@ -42,18 +42,18 @@ public class Step {
 
         Step paso = (Step) o;
 
-        if (!Objects.equals(idPaso, paso.idPaso)) return false;
+        if (!Objects.equals(stepID, paso.stepID)) return false;
         if (!Objects.equals(recipeID, paso.recipeID)) return false;
-        if (!Objects.equals(nroPaso, paso.nroPaso)) return false;
-        return Objects.equals(texto, paso.texto);
+        if (!Objects.equals(stepNumber, paso.stepNumber)) return false;
+        return Objects.equals(description, paso.description);
     }
 
     @Override
     public int hashCode() {
-        int result = idPaso != null ? idPaso.hashCode() : 0;
+        int result = stepID != null ? stepID.hashCode() : 0;
         result = 31 * result + (recipeID != null ? recipeID.hashCode() : 0);
-        result = 31 * result + (nroPaso != null ? nroPaso.hashCode() : 0);
-        result = 31 * result + (texto != null ? texto.hashCode() : 0);
+        result = 31 * result + (stepNumber != null ? stepNumber.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 }

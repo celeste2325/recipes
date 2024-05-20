@@ -1,6 +1,5 @@
 package com.distribuidas.recipe.controller;
 
-import com.distribuidas.recipe.email.EmailClient;
 import com.distribuidas.recipe.model.entities.Credential;
 import com.distribuidas.recipe.model.entities.User;
 import com.distribuidas.recipe.service.interfaces.CredentialService;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/users")
 
 @CrossOrigin(origins = "*")
 public class UserController {
@@ -36,7 +35,7 @@ public class UserController {
 
 
     // Valida si existe el email
-    @GetMapping(path = "/validarEmail", params = {"email"})
+    @GetMapping(path = "/validateEmail", params = {"email"})
     public ResponseEntity<?> validateEmail(@RequestParam String email) {
         Optional<User> user = userService.findByMail(email);
 
@@ -147,7 +146,7 @@ public class UserController {
 
     // REGISTRO SI ES ALUMNO
 
-    @GetMapping(path = "/validarAlumno", params = {"email"})
+    @GetMapping(path = "/validateStudent", params = {"email"})
     public ResponseEntity<?> validateStudent(@RequestParam String email) {
         Optional<User> user = userService.findByMail(email);
 
@@ -177,8 +176,8 @@ public class UserController {
     }
 
 
-    @GetMapping(path = "/verificarOTP", params = {"email", "code"})
-    public ResponseEntity<?> verificarOTP(@RequestParam String email, @RequestParam String code) {
+    @GetMapping(path = "/checkOTP", params = {"email", "code"})
+    public ResponseEntity<?> checkOTP(@RequestParam String email, @RequestParam String code) {
 
         Optional<User> user = userService.findByMail(email);
         Optional<Credential> credential = credentialService.findByUserID(user.get().getUserID());

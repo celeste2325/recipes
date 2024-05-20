@@ -50,7 +50,7 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipeByRecipeID", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<PhotoInstruction> photosByRecipeID;
+    private Collection<PhotoRecipe> photosByRecipeID;
 
     @OneToMany(mappedBy = "recipeByRecipeID", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

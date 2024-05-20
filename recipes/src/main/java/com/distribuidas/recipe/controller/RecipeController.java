@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/recetas")
+@RequestMapping("/recipes")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class RecipeController {
@@ -78,21 +78,23 @@ public class RecipeController {
         return new ResponseEntity<>(this.recipeService.getRecipesByNameOrderByAntiquity(recipeName, userID), HttpStatus.OK);
     }
 
+    //TODO ok
     @GetMapping()
     public ResponseEntity<List<RecipeResponseDto>> getRecipes(@RequestParam(defaultValue = "0") Integer userID) {
         return new ResponseEntity<>(this.recipeMapper.mapLisToDto(this.recipeService.getRecipes(userID)), HttpStatus.OK);
     }
-
+    //TODO ok
     @GetMapping("/{userID}/{recipeName}")
-    public ResponseEntity<?> recipeByUser(@PathVariable Integer userID, @PathVariable String recipeName) throws ExistingRecipeException {
-        Recipe recipe = this.recipeService.recipeByUser(recipeName, userID);
+    public ResponseEntity<?> recipeByUserAndRecipeName(@PathVariable Integer userID, @PathVariable String recipeName) throws ExistingRecipeException {
+        Recipe recipe = this.recipeService.recipeByUserAndRecipeName(recipeName, userID);
         if (recipe == null) {
-            return new ResponseEntity<>(recipe, HttpStatus.OK);
+            return ResponseEntity.badRequest().body("No recipe for userID and recipe name introduced");
         } else {
-            return ResponseEntity.badRequest().body(recipe);
+            return new ResponseEntity<>(recipe, HttpStatus.OK);
+
         }
     }
-
+    //TODO ok
     @GetMapping("recipeById/{ID}")
     public ResponseEntity<?> getRecipeByID(@PathVariable Integer ID, @RequestParam(defaultValue = "0") Integer userID) {
         try {

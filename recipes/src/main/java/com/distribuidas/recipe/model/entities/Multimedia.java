@@ -17,8 +17,8 @@ public class Multimedia {
     @Column(name = "idContenido")
     private Integer idContenido;
     @Basic
-    @Column(name = "idPaso", insertable = false, updatable = false)
-    private Integer idPaso;
+    @Column(name = "stepID", insertable = false, updatable = false)
+    private Integer stepID;
     @Basic
     @Column(name = "tipo_contenido")
     private String tipoContenido;
@@ -29,9 +29,9 @@ public class Multimedia {
     @Column(name = "urlContenido")
     private String urlContenido;
     @ManyToOne
-    @JoinColumn(name = "idPaso", referencedColumnName = "idPaso", nullable = false)
+    @JoinColumn(name = "stepID", referencedColumnName = "stepID", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Step pasosByIdPaso;
+    private Step stepByStepID;
 
     @Override
     public boolean equals(Object o) {
@@ -41,7 +41,7 @@ public class Multimedia {
         Multimedia that = (Multimedia) o;
 
         if (!Objects.equals(idContenido, that.idContenido)) return false;
-        if (!Objects.equals(idPaso, that.idPaso)) return false;
+        if (!Objects.equals(stepID, that.stepID)) return false;
         if (!Objects.equals(tipoContenido, that.tipoContenido))
             return false;
         if (!Objects.equals(extension, that.extension)) return false;
@@ -51,7 +51,7 @@ public class Multimedia {
     @Override
     public int hashCode() {
         int result = idContenido != null ? idContenido.hashCode() : 0;
-        result = 31 * result + (idPaso != null ? idPaso.hashCode() : 0);
+        result = 31 * result + (stepID != null ? stepID.hashCode() : 0);
         result = 31 * result + (tipoContenido != null ? tipoContenido.hashCode() : 0);
         result = 31 * result + (extension != null ? extension.hashCode() : 0);
         result = 31 * result + (urlContenido != null ? urlContenido.hashCode() : 0);

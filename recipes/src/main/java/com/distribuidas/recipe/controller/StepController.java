@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/pasos")
+@RequestMapping("/steps")
 @AllArgsConstructor
 public class StepController {
     private final StepService stepService;

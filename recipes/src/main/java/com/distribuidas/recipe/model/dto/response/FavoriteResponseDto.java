@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 public class FavoriteResponseDto {
-    private Recipe recipeById;
+    private Recipe recipeByRecipeID;
 }

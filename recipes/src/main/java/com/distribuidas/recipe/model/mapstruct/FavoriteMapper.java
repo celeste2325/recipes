@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface FavoriteMapper {
-    Favorite mapToEntity(FavoriteDto favoritoDto);
+    Favorite mapToEntity(FavoriteDto favoriteDto);
 
-    FavoriteResponseDto mapResponseDto(Favorite favorito);
+    FavoriteResponseDto mapResponseDto(Favorite favorite);
 
-    List<FavoriteResponseDto> mapLisToDto(List<Favorite> favoritos);
+    List<FavoriteResponseDto> mapLisToDto(List<Favorite> favorites);
 }

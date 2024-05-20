@@ -14,10 +14,10 @@ public class RecipeResponseDto {
     private Integer servings;
     private DateOfRecipe dateOfRecipeByRecipeID;
     private Integer numberPeople;
-    private User usersByUserID;
+    private User userByUserID;
     private Category categoriesByCategoryID;
     private String urlPhoto;
-    private Collection<PhotoInstruction> photosByRecipeID;
+    private Collection<PhotoRecipe> photosByRecipeID;
     private List<Step> stepsByRecipeID;
     private List<IngredientUsed> IngredientUsedByRecipeID;
 }

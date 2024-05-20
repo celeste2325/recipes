@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tipos")
+@RequestMapping("/categories")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class CategoryController {
@@ -21,6 +21,7 @@ public class CategoryController {
         return new ResponseEntity<>(this.categoryService.getCategories(), HttpStatus.OK);
     }
 
+    //search a category for partial name > 2 characters
     @GetMapping("partialSearch/{categoryPartialName}")
     public List<Category> getCategoryByPartialName(@PathVariable String categoryPartialName) {
         if (categoryPartialName.length() >= 2) {

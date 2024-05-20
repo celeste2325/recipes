@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/calificaciones")
+@RequestMapping("/ratings")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class RatingController {

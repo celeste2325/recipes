@@ -16,13 +16,13 @@ public class RecipeDto {
     private User usersByUserID;
     private Category categoriesByCategoryID;
     private String urlPhoto;
-    private Collection<PhotoInstruction> photosByRecipeID;
+    private Collection<PhotoRecipe> photosByRecipeID;
     private List<Step> stepsByRecipeID;
     private List<IngredientUsed> IngredientUsedByRecipeID;
 
     private Collection<Rating> calificacionesByIdReceta;
     private Collection<Favorite> favoritosByIdReceta;
-    private Collection<PhotoInstruction> fotosByIdReceta;
+    private Collection<PhotoRecipe> fotosByIdReceta;
 
 
 

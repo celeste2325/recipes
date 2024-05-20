@@ -36,10 +36,10 @@ public class UnitOfMeasurement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UnitOfMeasurement unidad = (UnitOfMeasurement) o;
+        UnitOfMeasurement unit = (UnitOfMeasurement) o;
 
-        if (!Objects.equals(unitID, unidad.unitID)) return false;
-        return Objects.equals(description, unidad.description);
+        if (!Objects.equals(unitID, unit.unitID)) return false;
+        return Objects.equals(description, unit.description);
     }
 
     @Override

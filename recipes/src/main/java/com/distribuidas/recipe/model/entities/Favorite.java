@@ -26,7 +26,7 @@ public class Favorite {
     @JoinColumn(name = "userID", referencedColumnName = "userID", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User usersByUserID;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "recipeID", referencedColumnName = "recipeID", nullable = false)
     private Recipe recipeByRecipeID;
 

@@ -26,7 +26,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe createRecipe(Recipe newRecipe) throws ExistingRecipeException {
-        if (recipeByUser(newRecipe.getName(), newRecipe.getUserByUserID().getUserID()) == null) {
+        if (recipeByUserAndRecipeName(newRecipe.getName(), newRecipe.getUserByUserID().getUserID()) == null) {
             DateOfRecipe dateOfRecipe = new DateOfRecipe();
             dateOfRecipe.setDateCreation(LocalDateTime.now());
             newRecipe.setDateOfRecipeByRecipeID(dateOfRecipe);
@@ -85,7 +85,7 @@ public class RecipeServiceImpl implements RecipeService {
 
             return this.recipeRepository.save(recipeFound.get());
         }
-        throw new RecipeDoesNotExistException("Don't exist receip for this IDNo existe una receta asociada al id ingresado");
+        throw new RecipeDoesNotExistException("Don't exist recipe for this IDNo existe una receta asociada al id ingresado");
     }
 
     @Override
@@ -99,29 +99,30 @@ public class RecipeServiceImpl implements RecipeService {
     }
     //TODO ESTA OK
     @Override
+    @Transactional
     public List<Recipe> getRecipes(Integer userID) {
-        return this.recipeRepository.devolverTodasLasrecetasHabilitadas(userID);
+        return this.recipeRepository.getRecipes(userID);
     }
 
     @Override
-    public Recipe recipeByUser(String recipeName, Integer userID) {
+    public Recipe recipeByUserAndRecipeName(String recipeName, Integer userID) {
         return this.recipeRepository.findByNameAndUserID(recipeName, userID);
     }
 
     //TODO esta ok
     @Override
     public List<Recipe> getRecipesByNameOrderByUserName(String recipeName, Integer userID) {
-        return this.recipeRepository.findByNombreOrderByNombreUser(recipeName, userID);
+        return this.recipeRepository.findByRecipeNameOrderByUserName(recipeName, userID);
     }
     //TODO esta ok
     @Override
     public List<Recipe> getRecipesByNameOrderByAntiquity(String recipeName, Integer userID) {
-        return this.recipeRepository.findByNombreOrderByAntiguedad(recipeName, userID);
+        return this.recipeRepository.findByRecipeNameOrderByAntiquity(recipeName, userID);
     }
     //TODO esta ok
     @Override
     public List<Recipe> getRecipesByParam(String recipeName, Integer typeID, Integer ingredientID, Integer userID, Integer mandatoryUserID) {
-        return this.recipeRepository.recetasByParamQuery(recipeName, typeID, ingredientID, userID, mandatoryUserID);
+        return this.recipeRepository.recipesByParamQuery(recipeName, typeID, ingredientID, userID, mandatoryUserID);
     }
 
     @Transactional
@@ -151,7 +152,7 @@ public class RecipeServiceImpl implements RecipeService {
     //TODO esta ok
     @Override
     public Recipe getRecipeByID(Integer ID, Integer userID) throws RecipeDoesNotExistException {
-        Optional<Recipe> recipe = this.recipeRepository.devuelveRecetasPorId(ID, userID);
+        Optional<Recipe> recipe = this.recipeRepository.getRecipeByID(ID, userID);
         if (recipe.isPresent()) {
             return recipe.get();
         }
@@ -164,19 +165,19 @@ public class RecipeServiceImpl implements RecipeService {
     }
     @Override
     public List<Recipe> getRecipesWithoutIngredientsOrderByName(Integer ingredientID, Integer userID) {
-        return this.recipeRepository.recetasSinIngredientesOrdenadaPorNombre(ingredientID, userID);
+        return this.recipeRepository.recipesWithoutIngredientOrderByRecipeName(ingredientID, userID);
     }
     //TODO ESTA OK
     @Override
     public List<Recipe> getRecipesWithoutIngredientsOrderByUserName(Integer ingredientID, Integer userID) {
-        return this.recipeRepository.recetasSinIngredientesOrdenadaPorNombreUser(ingredientID, userID);
+        return this.recipeRepository.recipesWithoutIngredientOrderByUserName(ingredientID, userID);
     }
 
     //TODO ESTA OK
     @Override
     public List<Recipe> getRecipesByPartialName(String partialRecipeName, Integer userID) {
         if (!Objects.equals(partialRecipeName, "")) {
-            return recipeRepository.findByNombreLikeIgnoreCase(partialRecipeName, userID);
+            return recipeRepository.findByRecipeNameLikeIgnoreCase(partialRecipeName, userID);
         }
         return null;
     }
@@ -184,7 +185,7 @@ public class RecipeServiceImpl implements RecipeService {
     //TODO ESTA OK
     @Override
     public List<Recipe> getThreeRecipesStartApp(Integer userID) {
-        return this.recipeRepository.recetasPorUsuarioOrdenadasPorFecha(userID);
+        return this.recipeRepository.findByUserIdOrderByDate(userID);
     }
 
 }

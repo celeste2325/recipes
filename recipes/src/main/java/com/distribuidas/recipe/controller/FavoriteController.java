@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/favoritos")
+@RequestMapping("/favorites")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class FavoriteController {

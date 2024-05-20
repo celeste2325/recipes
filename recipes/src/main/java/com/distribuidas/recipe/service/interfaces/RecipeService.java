@@ -16,7 +16,7 @@ public interface RecipeService {
 
     List<Recipe> getRecipes(Integer userID);
 
-    Recipe recipeByUser(String recipeName, Integer userID) throws ExistingRecipeException;
+    Recipe recipeByUserAndRecipeName(String recipeName, Integer userID) throws ExistingRecipeException;
 
     Recipe getRecipeByID(Integer ID, Integer userID) throws RecipeDoesNotExistException;
     List<Recipe> getRecipesWithoutIngredientOrderByDate(Integer ingredientID, Integer userID);

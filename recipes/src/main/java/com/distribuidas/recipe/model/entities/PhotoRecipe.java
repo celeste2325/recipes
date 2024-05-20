@@ -10,8 +10,8 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@Table(name = "photosInstruction")
-public class PhotoInstruction {
+@Table(name = "photosRecipes")
+public class PhotoRecipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "photoID")
@@ -35,7 +35,7 @@ public class PhotoInstruction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PhotoInstruction photo = (PhotoInstruction) o;
+        PhotoRecipe photo = (PhotoRecipe) o;
 
         if (!Objects.equals(photoID, photo.photoID)) return false;
         //if (!Objects.equals(idReceta, foto.idReceta)) return false;
